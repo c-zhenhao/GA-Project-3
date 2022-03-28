@@ -31,10 +31,11 @@ Project #3:
 ## User Stories
 
 ```
-- Cross-platform send & receive messages
-- Reply messages in thread
-- Pinned important message to group
-- Delete messages
+1. Create profile (name, age, city, photo)
+2. Match with other profiles
+3. Rate your matches with thumbs up or down
+4. Number of thumbs up and down with be reflected on profile
+5. Thumbs up and down linked to email or phone number. when you sign up with new account it still exists
 ```
 
 ## Planning & Development
