@@ -1,4 +1,4 @@
-<p align="center"> <img src="" border="0" /></p>
+<p align="center"> <img src="https://generalassemb.ly/sites/default/files/styles/ga_unit_card_image/public/2022-02/GALogoForGreenhouse.png?itok=RjbjQG0L" border="0" /></p>
 
 <h2 align="center">
 # GA-Projects -- Projects for General Assembly SEI course --
