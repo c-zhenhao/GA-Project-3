@@ -34,6 +34,7 @@ function App() {
   return (
     <>
       <GlobalStyle height={dimensions.height} width={dimensions.width} />
+      {dimensions.width} x {dimensions.height}
       <main style={{ width: "100%", height: "100%" }}>
         <Container
           className="justify-content-center align-content-center"
