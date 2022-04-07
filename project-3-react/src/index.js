@@ -2,48 +2,46 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import { createStore } from "@reduxjs/toolkit";
 import store from "./components/stores/main";
 
-import "./index.css";
+import "./assets/index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
-const loadState = () => {
-  try {
-    const serializedState = localStorage.getItem("localState");
-    if (serializedState === null) {
-      return undefined;
-    }
-    return JSON.parse(serializedState);
-  } catch (e) {
-    return undefined;
-  }
-};
+// const loadState = () => {
+//   try {
+//     const serializedState = localStorage.getItem("localState");
+//     if (serializedState === null) {
+//       return undefined;
+//     }
+//     return JSON.parse(serializedState);
+//   } catch (e) {
+//     return undefined;
+//   }
+// };
 
-const saveState = (state) => {
-  try {
-    const serializedState = JSON.stringify(state);
-    localStorage.setItem("localState", serializedState);
-  } catch (e) {
-    // Ignore write errors;
-  }
-};
+// const saveState = (state) => {
+//   try {
+//     const serializedState = JSON.stringify(state);
+//     localStorage.setItem("localState", serializedState);
+//   } catch (e) {
+//   }
+// };
 
-const peristedState = loadState();
+// const peristedState = loadState();
 
-store.subscribe(() => {
-  saveState(store.getState());
-});
+// store.subscribe(() => {
+//   saveState(store.getState());
+// });
 
 ReactDOM.render(
-  // <React.StrictMode>
-  //   <Provider store={store}>
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
-  //   </Provider>
-  // </React.StrictMode>,
+  <React.StrictMode>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
+  </React.StrictMode>,
   document.getElementById("root")
 );
 
