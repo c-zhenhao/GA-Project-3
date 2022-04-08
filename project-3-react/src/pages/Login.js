@@ -103,9 +103,9 @@ const Login = () => {
         { username, password: passwordRef.current.value },
         { signal }
       );
-      if (res.status !== 200) {
-        console.log(res.data);
-      }
+      // if (res.status !== 200) {
+      console.log(res.data);
+      // }
     } catch (err) {
       dispatchStore(loaderActions.setError({ name: err.name, message: err.message }));
     }
