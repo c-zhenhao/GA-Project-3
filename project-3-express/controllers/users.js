@@ -41,17 +41,31 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/logout", (req, res) => {
-  req.session.destroy(() => {
-    res.json({ status: "OK", message: "user logged out" });
-  });
+router.get("/logout", async (req, res) => {
+  try {
+    if (req.session.currentUser) {
+      req.session.destroy(() => {
+        res.json({ status: "OK", message: `logout successful` });
+      });
+    } else {
+      res.status(403).json({ status: "error", message: `not logged in` });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ status: "error", message: `unable to logout` });
+  }
 });
 
-router.get("/profile", auth, (req, res) => {
-  if (req.session.currentUser) {
-    res.json({ status: "OK", message: "profile" });
-  } else {
-    res.status(403).json({ status: "error", message: "profile: please log in." });
+router.get("/profile", auth, async (req, res) => {
+  try {
+    if (req.session.currentUser) {
+      res.json(await Users.findById(req.session.userId));
+    } else {
+      res.status(403).json({ status: "error", message: "not logged in" });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ status: "error", message: `unable to complete request` });
   }
 });
 
