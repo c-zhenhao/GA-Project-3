@@ -33,10 +33,10 @@ router.post("/login", async (req, res) => {
   if (result) {
     req.session.currentUser = user.username;
     req.session.userId = user.id;
-    res.send({ status: "OK", message: "user logged in" });
+    res.send({ userId: user.id });
   } else {
-    req.session.currentUser = null;
-    req.session.userId = null;
+    // req.session.currentUser = null;
+    // req.session.userId = null;
     res.status(401).json(usernameOrPasswordError);
   }
 });
@@ -59,7 +59,7 @@ router.get("/logout", async (req, res) => {
 router.get("/profile", auth, async (req, res) => {
   try {
     if (req.session.currentUser) {
-      res.json(await Users.findById(req.session.userId));
+      res.json(await Users.findById(req.session.userId, { _id: 0, passwordHash: 0 }));
     } else {
       res.status(403).json({ status: "error", message: "not logged in" });
     }
