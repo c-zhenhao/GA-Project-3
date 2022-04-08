@@ -2,7 +2,8 @@ import React from "react";
 import TinderCard from "react-tinder-card";
 
 import Container from "@mui/material/Container";
-import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
+import Card from "@mui/material/Card";
 
 const Match = () => {
   const onSwipe = (direction) => {
@@ -15,17 +16,33 @@ const Match = () => {
 
   return (
     <>
+      <div>This is Match View</div>
       <Container>
-        <div>This is Match View</div>
-        <TinderCard
-          onSwipe={onSwipe}
-          onCardLeftScreen={() => onCardLeftScreen("something")}
-          preventSwipe={["up", "down"]}
+        <Grid
+          container
+          spacing={0}
+          alignItems="center"
+          justifyContent="center"
+          direction="column"
         >
-          <Paper elevation={6}>
-            <img src={seedUsers[0].imgUrl} />
-          </Paper>
-        </TinderCard>
+          <TinderCard
+            onSwipe={onSwipe}
+            onCardLeftScreen={() => onCardLeftScreen("something")}
+            preventSwipe={["up", "down"]}
+          >
+            <Card elevation={24} sx={{ borderRadius: 10 }}>
+              <div
+                style={{
+                  background: `no-repeat url(${seedUsers[0].imgUrl}) center/contain`,
+                  height: "400px",
+                  width: "400px",
+                }}
+              >
+                bulba
+              </div>
+            </Card>
+          </TinderCard>
+        </Grid>
       </Container>
     </>
   );
