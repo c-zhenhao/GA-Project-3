@@ -69,31 +69,29 @@ const Match = () => {
     <>
       <div>This is Match View</div>
 
-      <div style={appContainer}>
-        <Container>
-          {Users.map((targets, index) => (
-            <TinderCard
-              ref={childRefs[index]}
-              key={targets.username}
-              onSwipe={(direction) => swiped(direction, targets.name, index)}
-              onCardLeftScreen={() => outOfFrame(targets.name, index)}
-              preventSwipe={["up", "down"]}
-            >
-              <Card elevation={3} sx={{ borderRadius: 15 }} style={swipeStyle}>
-                <div
-                  style={{
-                    background: `no-repeat url(${targets.imgUrl}) center/contain`,
-                    height: "300px",
-                    width: "300px",
-                  }}
-                >
-                  <Typography variant="h2">{targets.displayName}</Typography>
-                </div>
-              </Card>
-            </TinderCard>
-          ))}
-        </Container>
-      </div>
+      <Container>
+        {Users.map((targets, index) => (
+          <TinderCard
+            ref={childRefs[index]}
+            key={targets.username}
+            onSwipe={(direction) => swiped(direction, targets.name, index)}
+            onCardLeftScreen={() => outOfFrame(targets.name, index)}
+            preventSwipe={["up", "down"]}
+          >
+            <Card elevation={3} sx={{ borderRadius: 15 }} style={swipeStyle}>
+              <div
+                style={{
+                  background: `no-repeat url(${targets.imgUrl}) center/contain`,
+                  height: "300px",
+                  width: "300px",
+                }}
+              >
+                <Typography variant="h2">{targets.displayName}</Typography>
+              </div>
+            </Card>
+          </TinderCard>
+        ))}
+      </Container>
 
       <div style={appContainer}>
         <IconButton>
