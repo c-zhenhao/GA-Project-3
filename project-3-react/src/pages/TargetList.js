@@ -1,4 +1,7 @@
 import React from "react";
+import Box from '@mui/material/Box';
+import Rating from '@mui/material/Rating';
+import Typography from '@mui/material/Typography';
 import { Link } from "react-router-dom"; 
 const seed = require ("../components/modals/seed");
 
@@ -9,12 +12,19 @@ const TargetList = () => {
     const targetId = "aye";
 
     return (
-      <li key={i}>
-        {data.displayName}
-        {data.userRating}
+      <ul key={i}>
+        <b>{data.displayName}</b>
+        <Box
+      sx={{
+        '& > legend': { mt: 2 },
+      }}
+    >
+      <Typography component="legend">User Rating</Typography>
+      <Rating name="read-only" value={data.userRating} precision={0.5} size="large" readOnly />
+    </Box>
         <img src={data.imgUrl}/>
-        <Link to={`/${userId}/profile/${targetId}`}> See Profile </Link>
-      </li>
+       <p><Link to={`/${userId}/profile/${targetId}`}> See Profile </Link></p>
+      </ul>
 
       
     )
