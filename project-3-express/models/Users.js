@@ -6,9 +6,7 @@ const UsersSchema = Schema({
   passwordHash: { type: String }, //hash
   displayName: { type: String },
   userRating: { type: Number },
-  userInteracted: [
-    { targetUsername: String, isSwipe: Boolean, targetRating: Number },
-  ],
+  userInteracted: [{ targetUsername: String, isSwipe: Boolean, targetRating: Number }],
   gender: { type: String },
   height: { type: String },
   imgUrl: { type: String },
@@ -18,7 +16,7 @@ const UsersSchema = Schema({
       targetUsername: String,
       eventName: String,
       date: Date,
-      time: TimeRanges,
+      time: String,
       location: String,
       status: String, // cancelled, rejected, tentative, accepted, sent, etc.
       remarks: String,

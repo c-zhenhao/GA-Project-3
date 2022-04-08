@@ -252,8 +252,8 @@ module.exports = [
     interests: ["Ground"],
   },
   {
-    username: "nidoran?",
-    displayName: "Nidoran?",
+    username: "nidoran-f",
+    displayName: "Nidoran",
     userRating: 2.75,
     gender: "male",
     height: "1’04”",
@@ -279,8 +279,8 @@ module.exports = [
     interests: ["Poison", "Ground"],
   },
   {
-    username: "nidoran?",
-    displayName: "Nidoran?",
+    username: "nidoran-m",
+    displayName: "Nidoran",
     userRating: 2.75,
     gender: "female",
     height: "1’08”",
