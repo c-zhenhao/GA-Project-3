@@ -10,7 +10,7 @@
 
 :root,
 body {
-  background-color: whitesmoke;
+  background-color: #4ca7ea;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: flex;
@@ -21,6 +21,10 @@ body {
   position: relative;
   overflow-x: hidden;
   overflow-y: auto;
+}
+
+:root {
+  width: 100%;
 }
 
 .centered {

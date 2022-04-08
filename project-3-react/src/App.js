@@ -12,28 +12,52 @@ import TargetList from "./pages/TargetList";
 import Profile from "./pages/Profile";
 
 const GlobalStyle = createGlobalStyle`
-:root, body {
+:root {
     height:${({ height }) => height}px;
-    width:${({ width }) => width}px;
+}
+
+body {
+  margin: 0 auto;
+  height:${({ height }) => height}px;
+  width:${({ width }) => width};
+  background-color: whitesmoke;
 }`;
 
 function App() {
   const [dimensions, setDimensions] = useState({
     height: window.innerHeight,
-    width: window.innerWidth,
+    width:
+      window.innerWidth > 991
+        ? "960px"
+        : window.innerWidth > 767
+        ? "720px"
+        : window.innerWidth > 575
+        ? "540px"
+        : "100%",
   });
 
   useEffect(() => {
     const handleResize = () => {
-      setDimensions({
-        height: window.innerHeight,
-        width: window.innerWidth,
-      });
+      let newWidth =
+        window.innerWidth > 991
+          ? "960px"
+          : window.innerWidth > 767
+          ? "720px"
+          : window.innerWidth > 575
+          ? "540px"
+          : "100%";
+      if (newWidth !== dimensions.width || window.innerHeight !== dimensions.height)
+        setDimensions({
+          height: window.innerHeight,
+          width: newWidth,
+        });
     };
     window.addEventListener("resize", handleResize);
+    // window.screen.addEventListener("change", handleResize);
 
     return () => {
       window.removeEventListener("resize", handleResize);
+      // window.screen.removeEventListener("change", handleResize);
     };
   }, []);
 
