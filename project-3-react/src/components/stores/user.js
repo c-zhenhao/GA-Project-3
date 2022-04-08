@@ -4,19 +4,18 @@ const userSlice = createSlice({
   name: "user",
   initialState: {
     username: "",
-    login: false,
+    userId: null,
   },
   reducers: {
     usernameChange(state, action) {
       state.username = action.payload.trim();
     },
     login(state, action) {
-      state.username = action.payload;
-      state.login = true;
+      state.userId = action.payload;
     },
     logout(state) {
       state.username = "";
-      state.login = false;
+      state.userId = null;
     },
   },
 });

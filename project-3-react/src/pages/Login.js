@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { authActions } from "../components/stores/auth";
 import { userActions } from "../components/stores/user";
 import { loaderActions } from "../components/stores/loader";
 import { Row, Col, Form, Button } from "react-bootstrap";
@@ -43,12 +42,17 @@ const Login = () => {
   const isLoading = useSelector((state) => state.loader.isLoading);
   const error = useSelector((state) => state.loader.error);
   const username = useSelector((state) => state.user.username);
+  const userId = useSelector((state) => state.user.userId);
 
-  const [seeding, setSeeding] = useState(false);
   const [submit, setSubmit] = useState(false);
   const usernameRef = useRef();
   const passwordRef = useRef();
   const navigate = useNavigate();
+
+  const handleModalOkay = () => {
+    dispatchStore(loaderActions.clearError());
+    // if (error.message !== "Invalid Password") window.location.reload(false);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -59,11 +63,6 @@ const Login = () => {
     }
   };
 
-  const handleModalOkay = () => {
-    dispatchStore(loaderActions.clearError());
-    // if (error.message !== "Invalid Password") window.location.reload(false);
-  };
-
   useEffect(() => {
     const controller = new AbortController();
     if (submit && username) loginFlow(controller.signal);
@@ -72,26 +71,9 @@ const Login = () => {
   }, [submit]);
 
   useEffect(() => {
-    const controller = new AbortController();
-    if (!seeding) seedingFlow(controller.signal);
-    return () => controller.abort();
+    if (userId && username) navigate(`/${userId}/match`, { replace: true });
     //eslint-disable-next-line
-  }, []);
-
-  const seedingFlow = async (signal) => {
-    dispatchStore(loaderActions.setIsLoading());
-    dispatchStore(loaderActions.clearError());
-    const url = `${process.env.REACT_APP_SERVER_DOMAIN}/seed`;
-    try {
-      const res = await axios.post(url, { signal });
-      if (res.status !== 200) {
-        console.log(res.data);
-      } else setSeeding(true);
-    } catch (err) {
-      dispatchStore(loaderActions.setError({ name: err.name, message: err.message }));
-    }
-    dispatchStore(loaderActions.doneLoading());
-  };
+  }, [userId]);
 
   const loginFlow = async (signal) => {
     dispatchStore(loaderActions.setIsLoading());
@@ -101,11 +83,15 @@ const Login = () => {
       const res = await axios.post(
         url,
         { username, password: passwordRef.current.value },
-        { signal }
+        { signal, withCredentials: true }
       );
-      // if (res.status !== 200) {
-      console.log(res.data);
-      // }
+      if (res.status !== 200) {
+        console.log(res);
+        console.log(res.data);
+      } else {
+        dispatchStore(userActions.login(res.data.userId));
+      }
+      setSubmit(false);
     } catch (err) {
       dispatchStore(loaderActions.setError({ name: err.name, message: err.message }));
     }

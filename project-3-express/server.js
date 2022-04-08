@@ -27,7 +27,6 @@ app.post("/seed", async (req, res) => {
   }
   await Users.deleteMany({});
   await Users.create(seed, (err, data) => {
-    console.log(err);
     if (err) res.status(400).json({ status: "error", message: "seeding error" });
     else res.json(data);
   });
