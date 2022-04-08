@@ -2,9 +2,13 @@ import React, { useState, useRef, useMemo } from "react";
 import TinderCard from "react-tinder-card";
 
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
+
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 const Match = () => {
   const [currentIndex, setCurrentIndex] = useState(Users.length - 1);
@@ -56,32 +60,49 @@ const Match = () => {
     left: "35%",
   };
 
+  const appContainer = {
+    display: "flex",
+    border: "2px solid red",
+  };
+
   return (
     <>
       <div>This is Match View</div>
-      <Container>
-        {Users.map((targets, index) => (
-          <TinderCard
-            ref={childRefs[index]}
-            key={targets.username}
-            onSwipe={(direction) => swiped(direction, targets.name, index)}
-            onCardLeftScreen={() => outOfFrame(targets.name, index)}
-            preventSwipe={["up", "down"]}
-          >
-            <Card elevation={0} sx={{ borderRadius: 20 }} style={swipeStyle}>
-              <div
-                style={{
-                  background: `no-repeat url(${targets.imgUrl}) center/contain`,
-                  height: "350px",
-                  width: "350px",
-                }}
-              >
-                <Typography variant="h2">{targets.displayName}</Typography>
-              </div>
-            </Card>
-          </TinderCard>
-        ))}
-      </Container>
+
+      <div style={appContainer}>
+        <Container>
+          {Users.map((targets, index) => (
+            <TinderCard
+              ref={childRefs[index]}
+              key={targets.username}
+              onSwipe={(direction) => swiped(direction, targets.name, index)}
+              onCardLeftScreen={() => outOfFrame(targets.name, index)}
+              preventSwipe={["up", "down"]}
+            >
+              <Card elevation={3} sx={{ borderRadius: 15 }} style={swipeStyle}>
+                <div
+                  style={{
+                    background: `no-repeat url(${targets.imgUrl}) center/contain`,
+                    height: "300px",
+                    width: "300px",
+                  }}
+                >
+                  <Typography variant="h2">{targets.displayName}</Typography>
+                </div>
+              </Card>
+            </TinderCard>
+          ))}
+        </Container>
+      </div>
+
+      <div style={appContainer}>
+        <IconButton>
+          <CloseIcon fontSize="large" />
+        </IconButton>
+        <IconButton>
+          <FavoriteIcon fontSize="large" />
+        </IconButton>
+      </div>
     </>
   );
 };
