@@ -22,14 +22,13 @@ const Profile = () => {
   return (
     <>
     <div>
-      {user === currentUser && <button>Edit</button>}This is Profile View of {user}
-    </div>
-    <div>
       {seed.filter(params.target == seed.id).map(filteredProfile => (
-        <li>
           {filteredProfile}
-        </li>
       ))}
+    </div>
+    
+      <div>
+      {user === currentUser && <button>Edit</button>}This is Profile View of {user}
     </div>
     </>
   );
