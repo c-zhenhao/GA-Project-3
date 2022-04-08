@@ -59,6 +59,7 @@ function App() {
       window.removeEventListener("resize", handleResize);
       // window.screen.removeEventListener("change", handleResize);
     };
+    //eslint-disable-next-line
   }, []);
 
   return (
