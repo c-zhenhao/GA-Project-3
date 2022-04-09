@@ -6,7 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 
-export default function SearchAppBar() {
+export default function NavTop() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">

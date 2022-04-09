@@ -1,4 +1,6 @@
 import * as React from "react";
+import { Link as RouterLink } from "react-router-dom";
+
 import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
@@ -28,17 +30,25 @@ export default function FixedBottomNavigation() {
             label="Profile"
             icon={<AccountCircleIcon />}
             sx={{ color: "#4ca7ea" }}
+            component={RouterLink}
+            to="/:id/profile"
           />
+
           <BottomNavigationAction
             label="Favorites"
             icon={<FavoriteIcon />}
             sx={{ color: "#4ca7ea" }}
+            component={RouterLink}
+            to="/:id/match"
           />
+
           <BottomNavigationAction
             label="Todo List"
             icon={<ViewListIcon />}
             color="secondary"
             sx={{ color: "#4ca7ea" }}
+            component={RouterLink}
+            to="/:id/list"
           />
         </BottomNavigation>
       </Paper>
