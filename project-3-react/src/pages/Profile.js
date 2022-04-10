@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Box from '@mui/material/Box';
+import Rating from '@mui/material/Rating';
+import Typography from '@mui/material/Typography';
 const seed = require ("../components/modals/seed");
 
 const Profile = () => {
@@ -19,17 +22,33 @@ const Profile = () => {
     }
   }, [params.id, params.target]);
 
+  const [targetRating, setTargetValue] = React.useState(""); 
+  
   return (
     <>
+    
     <div>
-      {seed.filter(params.target == seed.id).map(filteredProfile => (
-          {filteredProfile}
-      ))}
+      {JSON.stringify(seed.find( seedUser => user === seedUser.username))}
+      <p>
+      <Box
+      sx={{
+        '& > legend': { mt: 2 },
+      }}
+    >
+      <Typography component="legend">Rate {user}</Typography>
+      <Rating
+        name="Target Rating"
+        targetRating={targetRating}
+        onChange={(event, newValue) => {
+          setTargetValue(newValue);
+        }}
+        precision={0.5}       
+      />
+    </Box>
+      </p>
     </div>
     
-      <div>
-      {user === currentUser && <button>Edit</button>}This is Profile View of {user}
-    </div>
+   
     </>
   );
 };
