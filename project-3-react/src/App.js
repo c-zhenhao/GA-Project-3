@@ -8,8 +8,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/App.css";
 import Login from "./pages/Login";
 import Match from "./pages/Match";
-import TargetList from "./pages/TargetList";
 import Profile from "./pages/Profile";
+import TargetList from "./pages/TargetList";
+import Seed from "./components/Seed";
+import Logout from "./components/Logout";
 
 const GlobalStyle = createGlobalStyle`
 :root {
@@ -59,12 +61,12 @@ function App() {
       window.removeEventListener("resize", handleResize);
       // window.screen.removeEventListener("change", handleResize);
     };
+    //eslint-disable-next-line
   }, []);
 
   return (
     <>
       <GlobalStyle height={dimensions.height} width={dimensions.width} />
-      {dimensions.width} x {dimensions.height}
       <main style={{ width: "100%", height: "100%" }}>
         <Container
           className="justify-content-center align-content-center"
@@ -72,7 +74,9 @@ function App() {
         >
           <Routes>
             <Route path="/" element={<Navigate replace to="/login" />} />
+            <Route path="/seed" element={<Seed />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/logout" element={<Logout />} />
             <Route path="/:id/match" element={<Match />} />
             <Route path="/:id/list" element={<TargetList />} />
             <Route path="/:id/profile" element={<Profile />} />
