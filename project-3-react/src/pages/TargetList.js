@@ -1,15 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
 import { Link } from "react-router-dom"; 
-const seed = require ("../components/modals/seed");
+import { useParams } from "react-router-dom";
+
+//const seed = require ("../components/modals/seed");
 
 const TargetList = () => {
+  //using API to populate seed
+  const [list, setList] = useState(null);
 
-  const seedList = seed.map((data, i)=> {
-    const userId = "zh";
-    const targetId = "aye";
+  useEffect (()=> {
+    fetch('http://localhost:3000/seed')//need to replace with :id right?
+    .then(res => {
+      return res.json();
+    })
+    .then(data => {
+      setList(data);
+    }) 
+  }, []);
+  
+  const params = useParams();
+  const displayList = list.map((data, i)=> {
+    const userId = params.id;
+    const targetId = params.target;
 
     return (
       <ul key={i}>
@@ -32,7 +47,7 @@ const TargetList = () => {
   return (
     <div>
     <h1>This is Target List View.</h1>
-    {seedList} 
+    {displayList} 
     </div>
   )
   
