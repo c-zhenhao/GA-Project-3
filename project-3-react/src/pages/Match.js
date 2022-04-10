@@ -1,49 +1,106 @@
-import React from "react";
+import React, { useState, useRef, useMemo } from "react";
 import TinderCard from "react-tinder-card";
 
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
+import Typography from "@mui/material/Typography";
+
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 const Match = () => {
-  const onSwipe = (direction) => {
-    console.log(`you swiped: ${direction}`);
+  const [currentIndex, setCurrentIndex] = useState(Users.length - 1);
+  const [lastDirection, setLastDirection] = useState();
+  // used for outofFrame closure
+  const currentIndexRef = useRef(currentIndex);
+
+  const childRefs = useMemo(() =>
+    Array(Users.length)
+      .fill(0)
+      .map((i) => React.createRef())
+  );
+
+  const updateCurrentIndex = (value) => {
+    setCurrentIndex(value);
+    currentIndexRef.current = value;
   };
 
-  const onCardLeftScreen = (direction) => {
-    console.log(`targetUser left the screen`);
+  const canSwipe = currentIndex >= 0;
+
+  // set last direction and decrease current index
+  const swiped = (direction, nameToDelete, index) => {
+    setLastDirection(direction);
+    updateCurrentIndex(index - 1);
+  };
+
+  const outOfFrame = (name, index) => {
+    console.log(`${name} ${index} left the screen`, currentIndexRef.current);
+    // currentIndexRef.current >= index && childRefs[index].current.restoreCard();
+  };
+
+  const swipeForButton = async (dir) => {
+    if (canSwipe & (currentIndex < Users.length)) {
+      await childRefs[currentIndex].current.swipe(dir);
+    }
+  };
+
+  // basic feature test
+  // const onSwipe = (direction) => {
+  //   console.log(`you swiped: ${direction}`);
+  // };
+
+  // const onCardLeftScreen = (direction) => {
+  //   console.log(`targetUser left the screen`);
+  // };
+
+  const swipeStyle = {
+    position: "absolute",
+    left: "35%",
+  };
+
+  const appContainer = {
+    display: "flex",
+    border: "2px solid red",
   };
 
   return (
     <>
       <div>This is Match View</div>
+
       <Container>
-        <Grid
-          container
-          spacing={0}
-          alignItems="center"
-          justifyContent="center"
-          direction="column"
-        >
+        {Users.map((targets, index) => (
           <TinderCard
-            onSwipe={onSwipe}
-            onCardLeftScreen={() => onCardLeftScreen("something")}
+            ref={childRefs[index]}
+            key={targets.username}
+            onSwipe={(direction) => swiped(direction, targets.name, index)}
+            onCardLeftScreen={() => outOfFrame(targets.name, index)}
             preventSwipe={["up", "down"]}
           >
-            <Card elevation={24} sx={{ borderRadius: 10 }}>
+            <Card elevation={3} sx={{ borderRadius: 15 }} style={swipeStyle}>
               <div
                 style={{
-                  background: `no-repeat url(${seedUsers[0].imgUrl}) center/contain`,
-                  height: "400px",
-                  width: "400px",
+                  background: `no-repeat url(${targets.imgUrl}) center/contain`,
+                  height: "300px",
+                  width: "300px",
                 }}
               >
-                bulba
+                <Typography variant="h2">{targets.displayName}</Typography>
               </div>
             </Card>
           </TinderCard>
-        </Grid>
+        ))}
       </Container>
+
+      <div style={appContainer}>
+        <IconButton>
+          <CloseIcon fontSize="large" />
+        </IconButton>
+        <IconButton>
+          <FavoriteIcon fontSize="large" />
+        </IconButton>
+      </div>
     </>
   );
 };
@@ -51,7 +108,7 @@ const Match = () => {
 export default Match;
 
 // temp data before api is up
-const seedUsers = [
+const Users = [
   {
     username: "bulbasaur",
     displayName: "Bulbasaur",

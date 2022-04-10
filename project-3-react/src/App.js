@@ -12,6 +12,8 @@ import Profile from "./pages/Profile";
 import TargetList from "./pages/TargetList";
 import Seed from "./components/Seed";
 import Logout from "./components/Logout";
+import NavTop from "./components/navs/NavTop";
+import NavBottom from "./components/navs/NavBottom";
 
 const GlobalStyle = createGlobalStyle`
 :root {
@@ -48,7 +50,10 @@ function App() {
           : window.innerWidth > 575
           ? "540px"
           : "100%";
-      if (newWidth !== dimensions.width || window.innerHeight !== dimensions.height)
+      if (
+        newWidth !== dimensions.width ||
+        window.innerHeight !== dimensions.height
+      )
         setDimensions({
           height: window.innerHeight,
           width: newWidth,
@@ -68,6 +73,7 @@ function App() {
     <>
       <GlobalStyle height={dimensions.height} width={dimensions.width} />
       <main style={{ width: "100%", height: "100%" }}>
+        <NavTop />
         <Container
           className="justify-content-center align-content-center"
           style={{ height: "100%" }}
@@ -83,6 +89,7 @@ function App() {
             <Route path="/:id/profile/:target" element={<Profile />} />
             <Route path="/*" element={<Navigate replace to="/" />} />
           </Routes>
+          <NavBottom />
         </Container>
       </main>
     </>
