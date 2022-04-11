@@ -25,20 +25,20 @@ const Logout = () => {
   const logoutFlow = async (signal) => {
     dispatchStore(loaderActions.setIsLoading());
     dispatchStore(loaderActions.clearError());
-    const url = `${process.env.REACT_APP_SERVER_DOMAIN}/users/logout`;
+    const url = `${process.env.REACT_APP_SERVER_DOMAIN}/profile/logout`;
     try {
       const res = await axios.get(url, { signal, withCredentials: true });
       if (res.status === 200) {
         dispatchStore(userActions.logout(res.data.userId));
         dispatchStore(
           loaderActions.setError({
-            name: "Bye! See ya soon.",
+            title: "Bye! See ya soon.",
             message: "You have been successfully logged out.",
           })
         );
       }
     } catch (err) {
-      dispatchStore(loaderActions.setError({ name: err.name, message: err.message }));
+      dispatchStore(loaderActions.setError({ title: err.name, message: err.message }));
     }
     dispatchStore(loaderActions.doneLoading());
   };
@@ -54,7 +54,7 @@ const Logout = () => {
     <>
       {error && error.message !== "canceled" && (
         <ErrorModal
-          title={error.name}
+          title={error.title}
           message={error.message}
           onClick={handleModalOkay}
         ></ErrorModal>

@@ -15,7 +15,7 @@ const loaderSlice = createSlice({
     },
     setError(state, action) {
       state.error = {};
-      state.error.name = action.payload.name;
+      state.error.title = action.payload.title;
       state.error.message = action.payload.message;
     },
     clearError(state) {

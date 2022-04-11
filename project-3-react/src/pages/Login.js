@@ -65,7 +65,12 @@ const Login = () => {
 
   useEffect(() => {
     const controller = new AbortController();
-    if (submit && username) loginFlow(controller.signal);
+    try {
+      if (submit && username) loginFlow(controller.signal);
+    } catch (err) {
+      console.log(err);
+      console.error(err);
+    }
     return () => controller.abort();
     //eslint-disable-next-line
   }, [submit]);
@@ -79,30 +84,27 @@ const Login = () => {
     dispatchStore(loaderActions.setIsLoading());
     dispatchStore(loaderActions.clearError());
     const url = `${process.env.REACT_APP_SERVER_DOMAIN}/users/login`;
-    try {
-      const res = await axios.post(
-        url,
-        { username, password: passwordRef.current.value },
-        { signal, withCredentials: true }
+    const body = { username, password: passwordRef.current.value };
+    const settings = { signal, withCredentials: true };
+    const res = await axios.post(url, body, settings).catch((err) => {
+      dispatchStore(
+        loaderActions.setError({
+          title: err.response.data.title,
+          message: err.response.data.message,
+        })
       );
-      if (res.status !== 200) {
-        console.log(res);
-        console.log(res.data);
-      } else {
-        dispatchStore(userActions.login(res.data.userId));
-      }
-      setSubmit(false);
-    } catch (err) {
-      dispatchStore(loaderActions.setError({ name: err.name, message: err.message }));
-    }
+    });
+
+    if (res) dispatchStore(userActions.login(res.data.userId));
     dispatchStore(loaderActions.doneLoading());
+    setSubmit(false);
   };
 
   return (
     <>
       {error && error.message !== "canceled" && (
         <ErrorModal
-          title={error.name}
+          title={error.title}
           message={error.message}
           onClick={handleModalOkay}
         ></ErrorModal>

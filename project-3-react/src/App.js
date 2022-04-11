@@ -3,7 +3,7 @@ import { createGlobalStyle } from "styled-components";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import "./assets/normalize.css";
-import "./assets/skeleton.css";
+// import "./assets/skeleton.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/App.css";
 import Login from "./pages/Login";
@@ -50,10 +50,7 @@ function App() {
           : window.innerWidth > 575
           ? "540px"
           : "100%";
-      if (
-        newWidth !== dimensions.width ||
-        window.innerHeight !== dimensions.height
-      )
+      if (newWidth !== dimensions.width || window.innerHeight !== dimensions.height)
         setDimensions({
           height: window.innerHeight,
           width: newWidth,

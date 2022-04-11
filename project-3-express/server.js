@@ -5,11 +5,13 @@ const hbs = require("./src/hbsLoader");
 const path = require("path");
 const bcrypt = require("bcrypt");
 const users = require("./controllers/users");
+const profile = require("./controllers/profile");
 
 const Users = require("./models/Users");
 const seed = require("./models/seed");
 
 app.use("/users", users);
+app.use("/profile", profile);
 
 const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 const randStr = (len) => {
@@ -24,10 +26,11 @@ const randStr = (len) => {
 app.post("/seed", async (req, res) => {
   for (let ea of seed) {
     ea.passwordHash = await bcrypt.hash("password", 12);
+    ea.age = Math.floor(Math.random() * 52) + 18;
   }
   await Users.deleteMany({});
   await Users.create(seed, (err, data) => {
-    if (err) res.status(400).json({ status: "error", message: "seeding error" });
+    if (err) res.status(400).json({ title: "error", message: "seeding error" });
     else res.json(data);
   });
 });
@@ -37,6 +40,6 @@ app.get("/seed", async (req, res) => {
     const data = await Users.find();
     res.json(data);
   } catch (err) {
-    res.status(400).json({ status: "error", message: "unable to complete request" });
+    res.status(400).json({ title: "error", message: "unable to complete request" });
   }
 });
