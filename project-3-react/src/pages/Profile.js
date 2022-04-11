@@ -5,14 +5,35 @@ import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
-const matchURL = `${process.env.REACT_APP_SERVER_DOMAIN}/seed`;
+
+
+// const matchURL = `${process.env.REACT_APP_SERVER_DOMAIN}/profile`;
 
 const Profile = () => {
   const params = useParams();
   const [user, setUser] = useState(null);
   const username = useSelector((state) => state.user.username);
   const userId = useSelector((state) => state.user.userId);
+
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState(2);
+
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     if (params.target) {
@@ -26,18 +47,20 @@ const Profile = () => {
 
   //View profile of target
   //const [allProfiles, setallProfiles] = useState([]);
-  const [targetRating, setTargetValue] = useState(""); 
+  const [targetRating, setTargetRating] = useState(0); 
   const [targetProfile, setTargetProfile] = useState({}); 
 
   useEffect (async () => {
+    if(user){
     try {
-      const response  = await axios.get(matchURL);
-      //setallProfiles(response.data);
-      setTargetProfile(response.data.find( i => user== i._id));
-      console.log(targetProfile)
+      const matchURL = `${process.env.REACT_APP_SERVER_DOMAIN}/profile/${user}`;
+      console.log(matchURL)
+      const response  = await axios.get(matchURL,{withCredentials: true});
+      setTargetProfile(response.data);
+      setTargetRating(response.data.userRating);
   } catch (error) {
     console.log(error);
-  }
+  }}
   }, [user]);
 
 
@@ -45,8 +68,46 @@ const Profile = () => {
   return (
     <>
     <div>
-      {targetProfile && targetProfile.displayName}
-      
+      <b>{targetProfile && targetProfile.displayName}</b>
+      <p>
+      <img src={targetProfile.imgUrl}/>
+      </p>
+      <p>Age: {targetProfile.age} Height: {targetProfile.height} </p>
+      <p>Interests: {targetProfile.interests} </p>
+      <Box
+      sx={{
+        '& > legend': { mt: 2 },
+      }}
+    >
+      <Typography component="legend"></Typography>
+      <Rating name="read-only" value={targetRating} precision={0.5} size="large" readOnly />
+    </Box>
+      <p>
+      {params.target && <button onClick={handleClickOpen}>Rate</button>}
+      {!params.target && <button >Edit</button>}
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Rate User</DialogTitle>
+        <Box
+      sx={{
+        '& > legend': { mt: 2 },
+      }}
+    >
+      <Typography component="legend"></Typography>
+      <Rating
+        name="simple-controlled"
+        value={value}
+        onChange={(event, newValue) => {
+          setValue(newValue);
+        }}
+      />
+    </Box>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose}>Rate</Button>
+        </DialogActions>
+      </Dialog>
+      </p>
+
     </div>
    
     </>
