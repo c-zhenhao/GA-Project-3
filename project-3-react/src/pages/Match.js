@@ -54,8 +54,6 @@ const Match = () => {
     } else if (direction === "left") {
       console.log(username + " disliked " + nameToDelete);
 
-      console.log(username + " liked " + nameToDelete);
-
       const url = `${process.env.REACT_APP_SERVER_DOMAIN}/match`;
       const settings = { withCredentials: true };
       const body = { targetUsername: nameToDelete, swiped: false };
@@ -91,7 +89,7 @@ const Match = () => {
 
   // get all
   const getMatches = async (signal) => {
-    const url = `${process.env.REACT_APP_SERVER_DOMAIN}/seed`;
+    const url = `${process.env.REACT_APP_SERVER_DOMAIN}/match`;
     const settings = { signal, withCredentials: true };
 
     const response = await axios.get(url, settings);
