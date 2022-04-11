@@ -22,7 +22,6 @@ const Profile = () => {
   const [user, setUser] = useState(null);
   const username = useSelector((state) => state.user.username);
   const userId = useSelector((state) => state.user.userId);
-
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(2);
 
@@ -46,7 +45,6 @@ const Profile = () => {
   }, [params.id, params.target]);
 
   //View profile of target
-  //const [allProfiles, setallProfiles] = useState([]);
   const [targetRating, setTargetRating] = useState(0); 
   const [targetProfile, setTargetProfile] = useState({}); 
 
@@ -63,6 +61,24 @@ const Profile = () => {
   }}
   }, [user]);
 
+  //Update target rating
+  const updateRating = () => {
+    const updateRatingURL = `${process.env.REACT_APP_SERVER_DOMAIN}/profile/${params.target}/rate`;
+    const updateTargetRating = () => axios({
+      method: 'post',
+      url: updateRatingURL,
+      data: {
+        targerUsername: targetProfile.username,
+        targetRating: value
+      }
+    });
+    updateTargetRating()
+  }
+
+  const doubleFunction = () => {
+    handleClose();
+    updateRating()
+  }
 
 
   return (
@@ -103,7 +119,7 @@ const Profile = () => {
     </Box>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Rate</Button>
+          <Button onClick={doubleFunction}>Rate</Button>
         </DialogActions>
       </Dialog>
       </p>
