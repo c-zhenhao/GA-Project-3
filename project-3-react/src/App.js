@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { createGlobalStyle } from "styled-components";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import "./assets/normalize.css";
 // import "./assets/skeleton.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -28,6 +29,8 @@ body {
 }`;
 
 function App() {
+  const userId = useSelector((state) => state.user.userId);
+
   const [dimensions, setDimensions] = useState({
     height: window.innerHeight,
     width:
@@ -86,8 +89,8 @@ function App() {
             <Route path="/:id/profile/:target" element={<Profile />} />
             <Route path="/*" element={<Navigate replace to="/" />} />
           </Routes>
-          <NavBottom />
         </Container>
+        {userId && <NavBottom />}
       </main>
     </>
   );
