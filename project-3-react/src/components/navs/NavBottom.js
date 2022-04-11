@@ -16,7 +16,7 @@ export default function FixedBottomNavigation() {
   const ref = React.useRef(null);
 
   // redux store user
-  const username = useSelector((state) => state.user.username);
+  // const username = useSelector((state) => state.user.username);
   const userId = useSelector((state) => state.user.userId);
 
   return (
