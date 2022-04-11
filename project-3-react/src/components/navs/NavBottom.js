@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Link as RouterLink } from "react-router-dom";
 
+import { useSelector } from "react-redux";
+
 import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
@@ -12,6 +14,10 @@ import Paper from "@mui/material/Paper";
 export default function FixedBottomNavigation() {
   const [value, setValue] = React.useState(0);
   const ref = React.useRef(null);
+
+  // redux store user
+  const username = useSelector((state) => state.user.username);
+  const userId = useSelector((state) => state.user.userId);
 
   return (
     <Box sx={{ pb: 0 }} ref={ref}>
@@ -29,26 +35,23 @@ export default function FixedBottomNavigation() {
           <BottomNavigationAction
             label="Profile"
             icon={<AccountCircleIcon />}
-            sx={{ color: "#4ca7ea" }}
             component={RouterLink}
-            to="/:id/profile"
+            to={`/${userId}/profile`}
           />
 
           <BottomNavigationAction
             label="Favorites"
             icon={<FavoriteIcon />}
-            sx={{ color: "#4ca7ea" }}
             component={RouterLink}
-            to="/:id/match"
+            to={`/${userId}/match`}
           />
 
           <BottomNavigationAction
             label="Todo List"
             icon={<ViewListIcon />}
             color="secondary"
-            sx={{ color: "#4ca7ea" }}
             component={RouterLink}
-            to="/:id/list"
+            to={`/${userId}/list`}
           />
         </BottomNavigation>
       </Paper>

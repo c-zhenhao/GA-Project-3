@@ -128,7 +128,9 @@ const Login = () => {
               value={username}
               ref={usernameRef}
               placeholder="username"
-              onChange={(e) => dispatchStore(userActions.usernameChange(e.target.value))}
+              onChange={(e) =>
+                dispatchStore(userActions.usernameChange(e.target.value))
+              }
             />
           </Col>
           <Col sm={12}>
