@@ -3,14 +3,16 @@ import { useParams } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
-const seed = require ("../components/modals/seed");
+import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
+
+const matchURL = `${process.env.REACT_APP_SERVER_DOMAIN}/seed`;
 
 const Profile = () => {
-  console.log("Profile");
-  const currentUser = "zhenhao";//need to link to userID
   const params = useParams();
   const [user, setUser] = useState(null);
-  console.log(params);
+  const username = useSelector((state) => state.user.username);
+  const userId = useSelector((state) => state.user.userId);
 
   useEffect(() => {
     if (params.target) {
@@ -22,32 +24,30 @@ const Profile = () => {
     }
   }, [params.id, params.target]);
 
-  const [targetRating, setTargetValue] = React.useState(""); 
-  
+  //View profile of target
+  //const [allProfiles, setallProfiles] = useState([]);
+  const [targetRating, setTargetValue] = useState(""); 
+  const [targetProfile, setTargetProfile] = useState({}); 
+
+  useEffect (async () => {
+    try {
+      const response  = await axios.get(matchURL);
+      //setallProfiles(response.data);
+      setTargetProfile(response.data.find( i => user== i._id));
+      console.log(targetProfile)
+  } catch (error) {
+    console.log(error);
+  }
+  }, [user]);
+
+
+
   return (
     <>
-    
     <div>
-      {JSON.stringify(seed.find( seedUser => user === seedUser.username))}
-      <p>
-      <Box
-      sx={{
-        '& > legend': { mt: 2 },
-      }}
-    >
-      <Typography component="legend">Rate {user}</Typography>
-      <Rating
-        name="Target Rating"
-        targetRating={targetRating}
-        onChange={(event, newValue) => {
-          setTargetValue(newValue);
-        }}
-        precision={0.5}       
-      />
-    </Box>
-      </p>
+      {targetProfile && targetProfile.displayName}
+      
     </div>
-    
    
     </>
   );
