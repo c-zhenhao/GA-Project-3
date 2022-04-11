@@ -8,6 +8,7 @@ const UsersSchema = Schema({
   userRating: { type: Number },
   userInteracted: [{ targetUsername: String, isSwipe: Boolean, targetRating: Number }],
   gender: { type: String },
+  age: { type: Number },
   height: { type: String },
   imgUrl: { type: String },
   interests: { type: Array }, // stretch goal

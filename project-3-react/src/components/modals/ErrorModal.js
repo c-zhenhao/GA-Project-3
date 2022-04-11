@@ -9,13 +9,16 @@ const Overlay = (props) => {
       <div className={styles.backdrop}>
         <div className={`${styles.board} ${styles.modal}`}>
           <header className={styles.header}>
-            <h2>{props.title}</h2>
+            <h3>{props.title}</h3>
           </header>
           <div className={styles.content}>
             <p>{props.message}</p>
           </div>
           <footer className={styles.actions}>
-            <Button className={`btn ${styles.button}`} onClick={props.onClick}>
+            <Button
+              className={`col-sm-4 btn btn-primary ${styles.btnOptions}`}
+              onClick={props.onClick}
+            >
               Okay
             </Button>
           </footer>

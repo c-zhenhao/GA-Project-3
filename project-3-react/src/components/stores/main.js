@@ -6,14 +6,15 @@ import loaderReducer from "./loader";
 const localStorageMiddleware = ({ getState }) => {
   return (next) => (action) => {
     const result = next(action);
-    localStorage.setItem("onlyFriends", JSON.stringify(getState()));
+    // console.log(getState().user);
+    localStorage.setItem("onlyFriends", JSON.stringify(getState().user));
     return result;
   };
 };
 
 const reStore = () => {
   if (localStorage.getItem("onlyFriends") !== null) {
-    return JSON.parse(localStorage.getItem("onlyFriends"));
+    return { user: JSON.parse(localStorage.getItem("onlyFriends")) };
   }
 };
 
