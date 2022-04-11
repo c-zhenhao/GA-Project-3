@@ -52,7 +52,7 @@ const Profile = () => {
     if(user){
     try {
       const matchURL = `${process.env.REACT_APP_SERVER_DOMAIN}/profile/${user}`;
-      console.log(matchURL)
+
       const response  = await axios.get(matchURL,{withCredentials: true});
       setTargetProfile(response.data);
       setTargetRating(response.data.userRating);
@@ -62,24 +62,22 @@ const Profile = () => {
   }, [user]);
 
   //Update target rating
+  const updateRatingURL = `${process.env.REACT_APP_SERVER_DOMAIN}/profile/${params.target}/rate`;
   const updateRating = () => {
-    const updateRatingURL = `${process.env.REACT_APP_SERVER_DOMAIN}/profile/${params.target}/rate`;
-    const updateTargetRating = () => axios({
-      method: 'post',
-      url: updateRatingURL,
-      data: {
+    try {
+        axios.post(updateRatingURL, {
         targerUsername: targetProfile.username,
         targetRating: value
-      }
     });
-    updateTargetRating()
+  }catch (error) {
+    console.log(error)
   }
-
+  }
+  
   const doubleFunction = () => {
     handleClose();
-    updateRating()
+    updateRating();
   }
-
 
   return (
     <>
