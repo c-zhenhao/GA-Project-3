@@ -6,12 +6,14 @@ const path = require("path");
 const bcrypt = require("bcrypt");
 const users = require("./controllers/users");
 const profile = require("./controllers/profile");
+const match = require("./controllers/match");
 
 const Users = require("./models/Users");
 const seed = require("./models/seed");
 
 app.use("/users", users);
 app.use("/profile", profile);
+app.use("/match", match);
 
 const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 const randStr = (len) => {
@@ -27,12 +29,27 @@ app.post("/seed", async (req, res) => {
   for (let ea of seed) {
     ea.passwordHash = await bcrypt.hash("password", 12);
     ea.age = Math.floor(Math.random() * 52) + 18;
+    const ind = [];
+    for (let i = 0; i < 10; i++) {
+      let x = Math.floor(Math.random() * seed.length);
+      if (!ind.includes(x) && seed.indexOf(ea) !== x) ind.push(x);
+    }
+    console.log(ind);
+    ea.userInteracted = seed.filter((d, i) => ind.includes(i));
+    // console.log(ea.userInteracted);
+    ea.userInteracted = ea.userInteracted.map((d) => ({
+      targetUsername: d.username,
+      swiped: Math.round(Math.random()),
+      targetRating: null,
+    }));
+    console.log(ea.userInteracted);
   }
   await Users.deleteMany({});
   await Users.create(seed, (err, data) => {
     if (err) res.status(400).json({ title: "error", message: "seeding error" });
     else res.json(data);
   });
+  //   res.json();
 });
 
 app.get("/seed", async (req, res) => {

@@ -6,7 +6,7 @@ const UsersSchema = Schema({
   passwordHash: { type: String }, //hash
   displayName: { type: String },
   userRating: { type: Number },
-  userInteracted: [{ targetUsername: String, isSwipe: Boolean, targetRating: Number }],
+  userInteracted: [{ targetUsername: String, swiped: Boolean, targetRating: Number }],
   gender: { type: String },
   age: { type: Number },
   height: { type: String },
