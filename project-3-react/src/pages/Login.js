@@ -87,6 +87,7 @@ const Login = () => {
     const body = { username, password: passwordRef.current.value };
     const settings = { signal, withCredentials: true };
     const res = await axios.post(url, body, settings).catch((err) => {
+      setSubmit(false);
       dispatchStore(
         loaderActions.setError({
           title: err.response.data.title,
@@ -97,7 +98,6 @@ const Login = () => {
 
     if (res) dispatchStore(userActions.login(res.data.userId));
     dispatchStore(loaderActions.doneLoading());
-    setSubmit(false);
   };
 
   return (
@@ -128,9 +128,7 @@ const Login = () => {
               value={username}
               ref={usernameRef}
               placeholder="username"
-              onChange={(e) =>
-                dispatchStore(userActions.usernameChange(e.target.value))
-              }
+              onChange={(e) => dispatchStore(userActions.usernameChange(e.target.value))}
             />
           </Col>
           <Col sm={12}>

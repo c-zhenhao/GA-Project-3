@@ -52,6 +52,21 @@ router.get("/:id", auth, async (req, res) => {
   }
 });
 
+router.post("/:id/rate", auth, async (req, res) => {
+  try {
+    const user = await Users.findById(req.session.userId, { _id: 0, passwordHash: 0 });
+    const userInteracted = user.userInteracted.map((d, i) => {
+      if (d.targetUsername === req.body.targetUsername) d.targetRating = req.body.targetRating;
+      return d;
+    });
+    await Users.findByIdAndUpdate(req.session.userId, { userInteracted });
+    res.json({ title: "OK", message: `rating successful` });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json(dbError);
+  }
+});
+
 router.delete("/", auth, async (req, res) => {
   try {
     const user = await Users.findById(req.session.userId);
