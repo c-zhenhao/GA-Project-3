@@ -11,6 +11,7 @@ import Modal from "@mui/material/Modal";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SendIcon from "@mui/icons-material/Send";
 import Avatar from "@mui/material/Avatar";
+import HandshakeIcon from "@mui/icons-material/Handshake";
 import Stack from "@mui/material/Stack";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
@@ -22,7 +23,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: 420,
   bgcolor: "background.paper",
   // border: "2px solid #000",
   borderRadius: 20,
@@ -33,7 +34,7 @@ const style = {
 const theme = createTheme({
   typography: {
     fontFamily: ["Satisfy", "cursive"].join(","),
-    fontSize: 36,
+    fontSize: 50,
   },
 });
 
@@ -61,31 +62,40 @@ export default function BasicModal(props) {
       >
         <Box sx={style}>
           <ThemeProvider theme={theme}>
-            <Typography id="modal-modal-title" theme={theme}>
+            <Typography id="modal-modal-title" theme={theme} color={"#4ca7ea"}>
               It's a match!
             </Typography>
           </ThemeProvider>
           <Typography id="modal-modal-description" sx={{ mb: 2 }}>
-            You and {props.targetDisplayName} have liked each other
+            You and {props.targetDisplayName} have shown interest in being
+            friends!
           </Typography>
 
-          <Stack direction="row" spacing={3} justifyContent="center">
+          <Stack
+            direction="row"
+            spacing={-5}
+            justifyContent="center"
+            alignItems="center"
+          >
             <Avatar
               alt={userUsername}
               src={userImgUrl}
               sx={{
-                width: 100,
-                height: 100,
+                width: 150,
+                height: 150,
                 border: "1px solid grey",
+                zIndex: -1,
               }}
             />
+            <HandshakeIcon sx={{ fontSize: "150px", color: "#4ca7ea" }} />
             <Avatar
               alt={props.targetUsername}
               src={props.targetImgUrl}
               sx={{
-                width: 100,
-                height: 100,
+                width: 150,
+                height: 150,
                 border: "1px solid grey",
+                zIndex: -1,
               }}
             />
           </Stack>
