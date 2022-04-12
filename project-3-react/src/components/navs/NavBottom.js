@@ -23,7 +23,7 @@ export default function FixedBottomNavigation() {
     <Box sx={{ pb: 0 }} ref={ref}>
       <Paper
         sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
-        elevation={1}
+        elevation={2}
       >
         <BottomNavigation
           showLabels

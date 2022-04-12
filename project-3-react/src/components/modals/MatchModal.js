@@ -1,6 +1,8 @@
 import * as React from "react";
 import { NavLink } from "react-router-dom";
 
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
 import Box from "@mui/material/Box";
 // import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -9,6 +11,7 @@ import Modal from "@mui/material/Modal";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SendIcon from "@mui/icons-material/Send";
 import Avatar from "@mui/material/Avatar";
+import HandshakeIcon from "@mui/icons-material/Handshake";
 import Stack from "@mui/material/Stack";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
@@ -20,7 +23,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: 420,
   bgcolor: "background.paper",
   // border: "2px solid #000",
   borderRadius: 20,
@@ -28,23 +31,21 @@ const style = {
   p: 4,
 };
 
+const theme = createTheme({
+  typography: {
+    fontFamily: ["Satisfy", "cursive"].join(","),
+    fontSize: 50,
+  },
+});
+
 export default function BasicModal(props) {
   console.log(props);
-
-  const [open, setOpen] = React.useState(false);
-
-  // no need option to open
-  //   const handleOpen = () => {
-  //     console.log("trying to open");
-  //     setOpen(true);
-  //   };
 
   const handleClose = () => {
     console.log(props.isMatch);
     console.log(props.setIsMatch);
 
     props.setIsMatch(false);
-    setOpen(false);
   };
 
   // username
@@ -54,42 +55,52 @@ export default function BasicModal(props) {
 
   return (
     <div>
-      {/* <Button onClick={handleOpen}>Open modal</Button> */}
       <Modal
         open={props.isMatch}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            ITS A MATCH
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 0.5, mb: 2 }}>
-            {userUsername} and {props.targetUsername} have liked each other
+          <ThemeProvider theme={theme}>
+            <Typography id="modal-modal-title" theme={theme} color={"#4ca7ea"}>
+              It's a match!
+            </Typography>
+          </ThemeProvider>
+          <Typography id="modal-modal-description" sx={{ mb: 2 }}>
+            You and {props.targetDisplayName} have shown interest in being
+            friends!
           </Typography>
 
-          <Stack direction="row" spacing={3} justifyContent="center">
+          <Stack
+            direction="row"
+            spacing={-5}
+            justifyContent="center"
+            alignItems="center"
+          >
             <Avatar
               alt={userUsername}
               src={userImgUrl}
               sx={{
-                width: 100,
-                height: 100,
-                border: "1px solid black",
+                width: 150,
+                height: 150,
+                border: "1px solid grey",
+                zIndex: -1,
               }}
             />
+            <HandshakeIcon sx={{ fontSize: "150px", color: "#4ca7ea" }} />
             <Avatar
               alt={props.targetUsername}
               src={props.targetImgUrl}
               sx={{
-                width: 100,
-                height: 100,
-                border: "1px solid black",
+                width: 150,
+                height: 150,
+                border: "1px solid grey",
+                zIndex: -1,
               }}
             />
           </Stack>
 
-          <BottomNavigation showLabels>
+          <BottomNavigation showLabels sx={{ mt: 3 }}>
             <BottomNavigationAction
               label="KEEP SWIPING"
               icon={<ArrowBackIcon />}

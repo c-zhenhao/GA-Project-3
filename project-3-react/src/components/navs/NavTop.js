@@ -15,8 +15,8 @@ export default function NavTop() {
   const userId = useSelector((state) => state.user.userId);
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+    <Box sx={{ flexGrow: 0 }}>
+      <AppBar position="static" sx={{ bgcolor: "#4ca7ea" }}>
         <Toolbar>
           {userId && (
             <IconButton
@@ -43,7 +43,7 @@ export default function NavTop() {
           {userId && (
             <IconButton
               size="large"
-              aria-label="show 17 new notifications"
+              aria-label="show 69 new notifications"
               color="inherit"
             >
               <Badge badgeContent={69} color="error">
