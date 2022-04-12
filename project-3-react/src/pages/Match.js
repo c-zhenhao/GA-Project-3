@@ -1,4 +1,5 @@
 import React, { useState, useRef, useMemo, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import { useSelector } from "react-redux";
@@ -17,17 +18,21 @@ import ReplayIcon from "@mui/icons-material/Replay";
 import Switch from "@mui/material/Switch";
 import MatchModal from "../components/modals/MatchModal";
 
-import styled from "styled-components";
+// import styled from "styled-components";
 
 const Match = () => {
   const userUsername = useSelector((state) => state.user.username);
+  const userUserId = useSelector((state) => state.user.userId);
 
   // targets state
   const [targets, setTargets] = useState([]);
 
+  // match status
+  const [isMatch, setIsMatch] = useState(false);
+  const [matchedTarget, setMatchedTarget] = useState({});
+
   // tinder card
   const [currentIndex, setCurrentIndex] = useState(targets.length - 1);
-  const [lastDirection, setLastDirection] = useState(); // for undo (can remove)
   const currentIndexRef = useRef(currentIndex); // to use for outOfFrame closure
 
   const childRefs = useMemo(
@@ -49,7 +54,6 @@ const Match = () => {
   // swiped function
   const swiped = async (direction, nameToDelete, index) => {
     console.log(`removing ${nameToDelete}`);
-    // setLastDirection(direction);
 
     const url = `${process.env.REACT_APP_SERVER_DOMAIN}/match`;
     const settings = { withCredentials: true };
@@ -62,6 +66,11 @@ const Match = () => {
 
       const toMatch = await axios.post(url, body, settings);
       console.log(toMatch);
+      console.log(toMatch.data.matched);
+      setIsMatch(toMatch.data.matched); // modal trigger
+
+      // store matched target
+      setMatchedTarget(targets[index]);
 
       targets.pop();
       console.log(targets);
@@ -72,6 +81,8 @@ const Match = () => {
 
       const toMatch = await axios.post(url, body, settings);
       console.log(toMatch);
+      console.log(toMatch.data.matched);
+      setIsMatch(toMatch.data.matched);
 
       targets.pop();
       console.log(targets);
@@ -80,10 +91,10 @@ const Match = () => {
     }
 
     updateCurrentIndex(index - 1);
-    console.log(currentIndex);
+    console.log(`line 85 ${index}`);
   };
 
-  // emulates the swiping action
+  // emulates the swiping action for buttons -  trying to figure it out later
   const swipe = async (dir) => {
     if (canSwipe && currentIndex < targets.length) {
       await childRefs[currentIndex].current.swipe(dir);
@@ -92,7 +103,6 @@ const Match = () => {
 
   const outOfFrame = (name, index) => {
     console.log(`${name} ${index} left the screen`, currentIndexRef.current);
-    // currentIndexRef.current >= index && childRefs[index].current.restoreCard();
     console.log(targets);
   };
 
@@ -109,37 +119,21 @@ const Match = () => {
     setTargets(splicedResponse);
   };
 
+  const navigate = useNavigate();
+
   // on mount
   useEffect(() => {
+    if (!userUserId && !userUsername) navigate(`/`, { replace: true });
     if (targets.length === 0) {
       getMatches();
     }
   }, [targets]);
 
-  // match status
-  const [isMatch, setIsMatch] = useState(false);
-
-  const handleSwitchChange = () => {
-    if (isMatch === true) {
-      console.log("found a match");
-      setIsMatch(false);
-    } else {
-      setIsMatch(true);
-    }
-  };
-
-  // change to styled components later
   const swipeStyle = {
     position: "fixed",
     left: "50%",
     transform: "translateX(-50%)",
   };
-
-  const StyledTinderCard = styled(TinderCard)`
-     {
-      position: relative;
-    }
-  `;
 
   const buttonContainer = {
     display: "flex",
@@ -153,7 +147,7 @@ const Match = () => {
 
       <Container>
         {targets.map((targets, index) => (
-          <StyledTinderCard
+          <TinderCard
             ref={childRefs[index]}
             key={targets.username}
             onSwipe={(direction) => swiped(direction, targets.username, index)}
@@ -173,7 +167,7 @@ const Match = () => {
                 </Typography>
               </div>
             </Card>
-          </StyledTinderCard>
+          </TinderCard>
         ))}
 
         <Container style={buttonContainer}>
@@ -193,16 +187,16 @@ const Match = () => {
           </IconButton>
         </Container>
 
-        {targets.length && (
+        {isMatch && (
           <MatchModal
             isMatch={isMatch}
             setIsMatch={setIsMatch}
-            targetUsername={targets[9].username}
-            targetImgUrl={targets[9].imgUrl}
-            targetUserId={targets[9]._id}
+            targetUsername={matchedTarget.username}
+            targetImgUrl={matchedTarget.imgUrl}
+            targetUserId={matchedTarget._id}
+            targetDisplayName={matchedTarget.displayName}
           />
         )}
-        <Switch onChange={handleSwitchChange} />
       </Container>
     </>
   );

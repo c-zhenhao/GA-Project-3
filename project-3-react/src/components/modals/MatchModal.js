@@ -1,6 +1,8 @@
 import * as React from "react";
 import { NavLink } from "react-router-dom";
 
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
 import Box from "@mui/material/Box";
 // import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -28,23 +30,21 @@ const style = {
   p: 4,
 };
 
+const theme = createTheme({
+  typography: {
+    fontFamily: ["Satisfy", "cursive"].join(","),
+    fontSize: 36,
+  },
+});
+
 export default function BasicModal(props) {
   console.log(props);
-
-  const [open, setOpen] = React.useState(false);
-
-  // no need option to open
-  //   const handleOpen = () => {
-  //     console.log("trying to open");
-  //     setOpen(true);
-  //   };
 
   const handleClose = () => {
     console.log(props.isMatch);
     console.log(props.setIsMatch);
 
     props.setIsMatch(false);
-    setOpen(false);
   };
 
   // username
@@ -54,18 +54,19 @@ export default function BasicModal(props) {
 
   return (
     <div>
-      {/* <Button onClick={handleOpen}>Open modal</Button> */}
       <Modal
         open={props.isMatch}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            ITS A MATCH
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 0.5, mb: 2 }}>
-            {userUsername} and {props.targetUsername} have liked each other
+          <ThemeProvider theme={theme}>
+            <Typography id="modal-modal-title" theme={theme}>
+              It's a match!
+            </Typography>
+          </ThemeProvider>
+          <Typography id="modal-modal-description" sx={{ mb: 2 }}>
+            You and {props.targetDisplayName} have liked each other
           </Typography>
 
           <Stack direction="row" spacing={3} justifyContent="center">
@@ -75,7 +76,7 @@ export default function BasicModal(props) {
               sx={{
                 width: 100,
                 height: 100,
-                border: "1px solid black",
+                border: "1px solid grey",
               }}
             />
             <Avatar
@@ -84,12 +85,12 @@ export default function BasicModal(props) {
               sx={{
                 width: 100,
                 height: 100,
-                border: "1px solid black",
+                border: "1px solid grey",
               }}
             />
           </Stack>
 
-          <BottomNavigation showLabels>
+          <BottomNavigation showLabels sx={{ mt: 3 }}>
             <BottomNavigationAction
               label="KEEP SWIPING"
               icon={<ArrowBackIcon />}
