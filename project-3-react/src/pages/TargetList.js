@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-const matchURL = `${process.env.REACT_APP_SERVER_DOMAIN}/seed`;
+const matchURL = `${process.env.REACT_APP_SERVER_DOMAIN}/list`;
 
 const TargetList = () => {
   //using API to populate seed
@@ -14,7 +14,7 @@ const TargetList = () => {
 
   useEffect (async ()=> {
   try {
-    const response  = await axios.get(matchURL);
+    const response  = await axios.get(matchURL,{ withCredentials: true } );
   setList(response.data);
 } catch (error) {
   console.log(error)

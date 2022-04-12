@@ -9,16 +9,19 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useNavigate } from "react-router-dom";
+
 
 const Profile = () => {
   const params = useParams();
   const [user, setUser] = useState(null);
   const userId = useSelector((state) => state.user.userId);
+  const username = useSelector((state) => state.user.username);
+
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(2);
+  const navigate = useNavigate();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -29,6 +32,7 @@ const Profile = () => {
   };
 
   useEffect(() => {
+    if (!userId && !username) navigate(`/`, { replace: true });
     if (params.target) {
       //Target Profile
       setUser(params.target);
@@ -42,13 +46,19 @@ const Profile = () => {
   const [targetRating, setTargetRating] = useState(0);
   const [targetProfile, setTargetProfile] = useState({});
 
+  const getAverage = (array) => {
+    return array.reduce((a,b)=> a + b)/array.length;
+  }
+
   useEffect(async () => {
     if (user) {
       try {
         const matchURL = `${process.env.REACT_APP_SERVER_DOMAIN}/profile/${user}`;
         const response = await axios.get(matchURL, { withCredentials: true });
         setTargetProfile(response.data);
-        setTargetRating(response.data.userRating);
+        const averageTargetRating = getAverage(response.data.userRating)
+        setTargetRating(averageTargetRating);
+
       } catch (error) {
         console.log(error);
       }
@@ -79,6 +89,12 @@ const Profile = () => {
     updateRating();
   };
 
+  const redirectEditProfile = () =>{ 
+    let path = `/${params.id}/profile/edit`; 
+    navigate(path);
+  }
+
+
   return (
     <>
       <div>
@@ -100,7 +116,7 @@ const Profile = () => {
         </Box>
         <p>
           {params.target && <button onClick={handleClickOpen}>Rate</button>}
-          {!params.target && <button>Edit</button>}
+          {!params.target && <button onClick={redirectEditProfile}>Edit</button>}
           <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Rate User</DialogTitle>
             <Box

@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "./auth";
+import profileReducer from "./profile";
 import userReducer from "./user";
 import loaderReducer from "./loader";
 
@@ -19,7 +19,7 @@ const reStore = () => {
 };
 
 const store = configureStore({
-  reducer: { user: userReducer, auth: authReducer, loader: loaderReducer },
+  reducer: { user: userReducer, profile: profileReducer, loader: loaderReducer },
   preloadedState: reStore(),
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(localStorageMiddleware),
 });
