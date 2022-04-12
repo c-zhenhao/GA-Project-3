@@ -12,7 +12,7 @@ import ViewListIcon from "@mui/icons-material/ViewList";
 import Paper from "@mui/material/Paper";
 
 export default function FixedBottomNavigation() {
-  const [value, setValue] = React.useState(1); // set it so that the default is the profile lol
+  const [value, setValue] = React.useState(1); // set it so that the default is the match lol
   const ref = React.useRef(null);
 
   // redux store user

@@ -25,6 +25,7 @@ const Match = () => {
 
   // targets state
   const [targets, setTargets] = useState([]);
+  const [noMoreTargets, setNoMoreTargets] = useState(true);
 
   // match status
   const [isMatch, setIsMatch] = useState(false);
@@ -117,15 +118,23 @@ const Match = () => {
 
   // get all
   const getMatches = async () => {
+    console.log(noMoreTargets);
+    setNoMoreTargets(false);
+
     const url = `${process.env.REACT_APP_SERVER_DOMAIN}/match`;
     const settings = { withCredentials: true };
 
     const response = await axios.get(url, settings);
     console.log(response.data);
 
-    const splicedResponse = response.data.slice(0, 10);
-    console.log(splicedResponse);
-    setTargets(splicedResponse);
+    if (response.data !== false) {
+      const splicedResponse = response.data.slice(0, 10);
+      console.log(splicedResponse);
+      setTargets(splicedResponse);
+    } else {
+      setNoMoreTargets(true);
+      console.log(noMoreTargets);
+    }
   };
 
   const navigate = useNavigate();
@@ -133,10 +142,11 @@ const Match = () => {
   // on mount
   useEffect(() => {
     if (!userUserId && !userUsername) navigate(`/`, { replace: true });
+
     if (targets.length === 0) {
       getMatches();
     }
-  }, [targets]);
+  }, [noMoreTargets]);
 
   const swipeStyle = {
     position: "fixed",
@@ -190,10 +200,18 @@ const Match = () => {
         </Container>
 
         <Container style={buttonContainer}>
-          {targets.length === 0 && (
-            <IconButton onClick={getMatches}>
-              <ReplayIcon fontSize="large" />
-            </IconButton>
+          {!noMoreTargets ? (
+            <div>
+              <p>no more matches.. try again later!</p>
+            </div>
+          ) : (
+            <div>
+              {targets.length === 0 && (
+                <IconButton onClick={getMatches}>
+                  <ReplayIcon fontSize="large" />
+                </IconButton>
+              )}
+            </div>
           )}
         </Container>
 
