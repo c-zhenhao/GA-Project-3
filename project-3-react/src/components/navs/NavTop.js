@@ -51,7 +51,7 @@ export default function NavTop() {
                 component={RouterLink}
                 to={`/filter`}
               >
-                <FilterListIcon></FilterListIcon>
+                <FilterListIcon />
               </IconButton>
 
               <IconButton
