@@ -103,7 +103,7 @@ const Login = () => {
       );
     });
     console.log(res);
-    if (res) dispatchStore(userActions.login(res.data.userId));
+    if (res) dispatchStore(userActions.login({ userId: res.data.userId, imgUrl: res.data.imgUrl }));
     dispatchStore(loaderActions.doneLoading());
   };
 
