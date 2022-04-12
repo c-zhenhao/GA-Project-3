@@ -139,7 +139,7 @@ const Match = () => {
 
   const navigate = useNavigate();
 
-  // on mount
+  // on view mount
   useEffect(() => {
     if (!userUserId && !userUsername) navigate(`/`, { replace: true });
 
