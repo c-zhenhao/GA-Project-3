@@ -20,7 +20,7 @@ import MatchModal from "../components/modals/MatchModal";
 import styled from "styled-components";
 
 const Match = () => {
-  const username = useSelector((state) => state.user.username);
+  const userUsername = useSelector((state) => state.user.username);
 
   // targets state
   const [targets, setTargets] = useState([]);
@@ -56,7 +56,7 @@ const Match = () => {
     const body = { targetUsername: nameToDelete };
 
     if (direction === "right") {
-      console.log(username + " liked " + nameToDelete);
+      console.log(userUsername + " liked " + nameToDelete);
 
       body.swiped = true;
 
@@ -66,7 +66,7 @@ const Match = () => {
       targets.pop();
       console.log(targets);
     } else if (direction === "left") {
-      console.log(username + " disliked " + nameToDelete);
+      console.log(userUsername + " disliked " + nameToDelete);
 
       body.swiped = false;
 
