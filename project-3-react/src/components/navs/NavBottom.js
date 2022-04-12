@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import { useSelector } from "react-redux";
 
@@ -12,7 +12,7 @@ import ViewListIcon from "@mui/icons-material/ViewList";
 import Paper from "@mui/material/Paper";
 
 export default function FixedBottomNavigation() {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(1); // set it so that the default is the profile lol
   const ref = React.useRef(null);
 
   // redux store user
@@ -35,14 +35,14 @@ export default function FixedBottomNavigation() {
           <BottomNavigationAction
             label="Profile"
             icon={<AccountCircleIcon />}
-            component={RouterLink}
+            component={NavLink}
             to={`/${userId}/profile`}
           />
 
           <BottomNavigationAction
             label="Favorites"
             icon={<FavoriteIcon />}
-            component={RouterLink}
+            component={NavLink}
             to={`/${userId}/match`}
           />
 
@@ -50,7 +50,7 @@ export default function FixedBottomNavigation() {
             label="Todo List"
             icon={<ViewListIcon />}
             color="secondary"
-            component={RouterLink}
+            component={NavLink}
             to={`/${userId}/list`}
           />
         </BottomNavigation>
