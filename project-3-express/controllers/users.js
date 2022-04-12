@@ -1,6 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const router = express.Router();
+const auth = require("../middleware/auth");
 const Users = require("../models/Users");
 
 const usernameOrPasswordError = {
@@ -38,8 +39,19 @@ router.post("/login", async (req, res) => {
       res.status(401).json(usernameOrPasswordError);
     }
   } catch (err) {
-    // console.error(err);
+    console.error(err);
     res.status(400).json({ title: "error", message: `unable to login` });
+  }
+});
+
+router.get("/logout", auth, async (req, res) => {
+  try {
+    req.session.destroy(() => {
+      res.json({ title: "OK", message: `logout successful` });
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ title: "error", message: `unable to logout` });
   }
 });
 

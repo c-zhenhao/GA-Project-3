@@ -14,17 +14,6 @@ const dbError = {
   message: "unable to complete request",
 };
 
-router.get("/logout", auth, async (req, res) => {
-  try {
-    req.session.destroy(() => {
-      res.json({ title: "OK", message: `logout successful` });
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(400).json({ title: "error", message: `unable to logout` });
-  }
-});
-
 router.patch("/", auth, async (req, res) => {
   try {
     res.json(await Users.findById(req.session.userId, { _id: 0, passwordHash: 0 }));
