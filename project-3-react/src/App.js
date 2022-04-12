@@ -15,6 +15,7 @@ import Seed from "./components/Seed";
 import Logout from "./components/Logout";
 import NavTop from "./components/navs/NavTop";
 import NavBottom from "./components/navs/NavBottom";
+import EditProfile from "./pages/EditProfile";
 
 const GlobalStyle = createGlobalStyle`
 :root {
@@ -90,6 +91,7 @@ function App() {
             <Route path="/:id/match" element={<Match />} />
             <Route path="/:id/list" element={<TargetList />} />
             <Route path="/:id/profile" element={<Profile />} />
+            <Route path="/:id/profile/edit" element={<EditProfile />} />
             <Route path="/:id/profile/:target" element={<Profile />} />
             <Route path="/*" element={<Navigate replace to="/" />} />
           </Routes>
