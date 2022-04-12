@@ -22,7 +22,6 @@ const Profile = () => {
   const [user, setUser] = useState(null);
   const username = useSelector((state) => state.user.username);
   const userId = useSelector((state) => state.user.userId);
-
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(2);
 
@@ -46,7 +45,6 @@ const Profile = () => {
   }, [params.id, params.target]);
 
   //View profile of target
-  //const [allProfiles, setallProfiles] = useState([]);
   const [targetRating, setTargetRating] = useState(0); 
   const [targetProfile, setTargetProfile] = useState({}); 
 
@@ -54,7 +52,7 @@ const Profile = () => {
     if(user){
     try {
       const matchURL = `${process.env.REACT_APP_SERVER_DOMAIN}/profile/${user}`;
-      console.log(matchURL)
+
       const response  = await axios.get(matchURL,{withCredentials: true});
       setTargetProfile(response.data);
       setTargetRating(response.data.userRating);
@@ -63,7 +61,23 @@ const Profile = () => {
   }}
   }, [user]);
 
-
+  //Update target rating
+  const updateRatingURL = `${process.env.REACT_APP_SERVER_DOMAIN}/profile/${params.target}/rate`;
+  const updateRating = () => {
+    try {
+        axios.post(updateRatingURL, {
+        targerUsername: targetProfile.username,
+        targetRating: value
+    });
+  }catch (error) {
+    console.log(error)
+  }
+  }
+  
+  const doubleFunction = () => {
+    handleClose();
+    updateRating();
+  }
 
   return (
     <>
@@ -103,7 +117,7 @@ const Profile = () => {
     </Box>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Rate</Button>
+          <Button onClick={doubleFunction}>Rate</Button>
         </DialogActions>
       </Dialog>
       </p>
