@@ -9,10 +9,10 @@ import LoadingSpinner from "../components/modals/LoadingSpinner";
 import ErrorModal from "../components/modals/ErrorModal";
 import styled from "styled-components";
 
-const StyledH1 = styled.h1`
-  color: rgb(79, 120, 181);
-  font-weight: 700;
-`;
+// const StyledH1 = styled.h1`
+//   color: rgb(79, 120, 181);
+//   font-weight: 700;
+// `;
 
 const Input = styled(Form.Control)`
   width: 90%;

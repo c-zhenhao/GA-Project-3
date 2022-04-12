@@ -7,6 +7,7 @@ const bcrypt = require("bcrypt");
 const users = require("./controllers/users");
 const profile = require("./controllers/profile");
 const match = require("./controllers/match");
+const list = require("./controllers/list");
 
 const Users = require("./models/Users");
 const seed = require("./models/seed");
@@ -14,6 +15,7 @@ const seed = require("./models/seed");
 app.use("/users", users);
 app.use("/profile", profile);
 app.use("/match", match);
+app.use("/list", list);
 
 const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 const randStr = (len) => {
