@@ -34,6 +34,9 @@ const Match = () => {
   const [currentIndex, setCurrentIndex] = useState(targets.length);
   const currentIndexRef = useRef(currentIndex); // to use for outOfFrame closure
 
+  console.log(typeof targets);
+  console.log(targets.length);
+
   const childRefs = useMemo(
     () =>
       Array(targets.length)
@@ -104,8 +107,9 @@ const Match = () => {
 
   // emulates the swiping action for buttons -  trying to figure it out later
   const swipe = async (dir) => {
-    console.log(dir);
-    console.log(canSwipe);
+    console.log(
+      `line110 inside swipe fn: direction is ${dir}, canSwipe is ${canSwipe}, currentIndex is ${currentIndex}, targets.length is ${targets.length}`
+    );
     if (canSwipe && currentIndex < targets.length) {
       await childRefs[currentIndex].current.swipe(dir);
     }
@@ -180,13 +184,17 @@ const Match = () => {
             <CloseIcon fontSize="large" />
           </IconButton>
 
-          <IconButton onClick={getMatches}>
-            <ReplayIcon fontSize="large" />
-          </IconButton>
-
           <IconButton onClick={() => swipe("right")}>
             <FavoriteIcon fontSize="large" />
           </IconButton>
+        </Container>
+
+        <Container style={buttonContainer}>
+          {targets.length === 0 && (
+            <IconButton onClick={getMatches}>
+              <ReplayIcon fontSize="large" />
+            </IconButton>
+          )}
         </Container>
 
         {isMatch && (

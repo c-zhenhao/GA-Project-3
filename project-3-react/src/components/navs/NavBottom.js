@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import HandshakeIcon from "@mui/icons-material/Handshake";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import Paper from "@mui/material/Paper";
 
@@ -40,14 +40,14 @@ export default function FixedBottomNavigation() {
           />
 
           <BottomNavigationAction
-            label="Favorites"
-            icon={<FavoriteIcon />}
+            label="Match"
+            icon={<HandshakeIcon />}
             component={NavLink}
             to={`/${userUserId}/match`}
           />
 
           <BottomNavigationAction
-            label="Todo List"
+            label="List"
             icon={<ViewListIcon />}
             color="secondary"
             component={NavLink}
