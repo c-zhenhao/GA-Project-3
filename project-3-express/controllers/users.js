@@ -34,7 +34,7 @@ router.post("/login", async (req, res) => {
     if (result) {
       req.session.currentUser = user.username;
       req.session.userId = user.id;
-      res.json({ userId: user.id });
+      res.json({ userId: user.id, imgUrl: user.imgUrl });
     } else {
       res.status(401).json(usernameOrPasswordError);
     }
