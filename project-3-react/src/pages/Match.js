@@ -15,7 +15,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ReplayIcon from "@mui/icons-material/Replay";
 
-import Switch from "@mui/material/Switch";
 import MatchModal from "../components/modals/MatchModal";
 
 // import styled from "styled-components";
@@ -32,7 +31,7 @@ const Match = () => {
   const [matchedTarget, setMatchedTarget] = useState({});
 
   // tinder card
-  const [currentIndex, setCurrentIndex] = useState(targets.length - 1);
+  const [currentIndex, setCurrentIndex] = useState(targets.length);
   const currentIndexRef = useRef(currentIndex); // to use for outOfFrame closure
 
   const childRefs = useMemo(
@@ -44,12 +43,15 @@ const Match = () => {
   );
 
   const updateCurrentIndex = (value) => {
+    console.log(value);
     setCurrentIndex(value);
     currentIndexRef.current = value;
+    console.log(currentIndex);
   };
 
   // enables swiping feature
   const canSwipe = currentIndex >= 0;
+  console.log(canSwipe);
 
   // swiped function
   const swiped = async (direction, nameToDelete, index) => {
@@ -71,6 +73,7 @@ const Match = () => {
 
       // store matched target
       setMatchedTarget(targets[index]);
+      console.log(matchedTarget);
 
       targets.pop();
       console.log(targets);
@@ -91,19 +94,21 @@ const Match = () => {
     }
 
     updateCurrentIndex(index - 1);
-    console.log(`line 85 ${index}`);
-  };
-
-  // emulates the swiping action for buttons -  trying to figure it out later
-  const swipe = async (dir) => {
-    if (canSwipe && currentIndex < targets.length) {
-      await childRefs[currentIndex].current.swipe(dir);
-    }
+    console.log(`line 93 ${index}`);
   };
 
   const outOfFrame = (name, index) => {
     console.log(`${name} ${index} left the screen`, currentIndexRef.current);
     console.log(targets);
+  };
+
+  // emulates the swiping action for buttons -  trying to figure it out later
+  const swipe = async (dir) => {
+    console.log(dir);
+    console.log(canSwipe);
+    if (canSwipe && currentIndex < targets.length) {
+      await childRefs[currentIndex].current.swipe(dir);
+    }
   };
 
   // get all
@@ -171,10 +176,7 @@ const Match = () => {
         ))}
 
         <Container style={buttonContainer}>
-          <IconButton
-            onClick={() => swipe("left")}
-            onTouchStart={() => swipe("left")}
-          >
+          <IconButton onClick={() => swipe("left")}>
             <CloseIcon fontSize="large" />
           </IconButton>
 
