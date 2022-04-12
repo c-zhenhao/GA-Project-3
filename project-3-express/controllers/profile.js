@@ -14,17 +14,6 @@ const dbError = {
   message: "unable to complete request",
 };
 
-router.get("/logout", auth, async (req, res) => {
-  try {
-    req.session.destroy(() => {
-      res.json({ title: "OK", message: `logout successful` });
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(400).json({ title: "error", message: `unable to logout` });
-  }
-});
-
 router.patch("/", auth, async (req, res) => {
   try {
     res.json(await Users.findById(req.session.userId, { _id: 0, passwordHash: 0 }));
@@ -46,6 +35,21 @@ router.get("/", auth, async (req, res) => {
 router.get("/:id", auth, async (req, res) => {
   try {
     res.json(await Users.findById(req.params.id, { _id: 0, passwordHash: 0 }));
+  } catch (err) {
+    console.error(err);
+    res.status(400).json(dbError);
+  }
+});
+
+router.post("/:id/rate", auth, async (req, res) => {
+  try {
+    const user = await Users.findById(req.session.userId, { _id: 0, passwordHash: 0 });
+    const userInteracted = user.userInteracted.map((d, i) => {
+      if (d.targetUsername === req.body.targetUsername) d.targetRating = req.body.targetRating;
+      return d;
+    });
+    await Users.findByIdAndUpdate(req.session.userId, { userInteracted });
+    res.json({ title: "OK", message: `rating successful` });
   } catch (err) {
     console.error(err);
     res.status(400).json(dbError);

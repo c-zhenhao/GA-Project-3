@@ -5,7 +5,7 @@ const UsersSchema = Schema({
   username: { type: String, unique: true, required: true },
   passwordHash: { type: String }, //hash
   displayName: { type: String },
-  userRating: { type: Number },
+  userRating: [{ type: Number }],
   userInteracted: [{ targetUsername: String, swiped: Boolean, targetRating: Number }],
   gender: { type: String },
   age: { type: Number },

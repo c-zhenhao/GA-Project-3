@@ -85,7 +85,14 @@ const Login = () => {
     dispatchStore(loaderActions.clearError());
     const url = `${process.env.REACT_APP_SERVER_DOMAIN}/users/login`;
     const body = { username, password: passwordRef.current.value };
-    const settings = { signal, withCredentials: true };
+    const settings = {
+      signal,
+      withCredentials: true,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+      },
+    };
     const res = await axios.post(url, body, settings).catch((err) => {
       setSubmit(false);
       dispatchStore(
@@ -95,7 +102,7 @@ const Login = () => {
         })
       );
     });
-
+    console.log(res);
     if (res) dispatchStore(userActions.login(res.data.userId));
     dispatchStore(loaderActions.doneLoading());
   };
@@ -110,16 +117,16 @@ const Login = () => {
         ></ErrorModal>
       )}
       {isLoading && <LoadingSpinner show={isLoading} />}
-      <Row className="align-content-center">
+      <Row className="mt-5 mb-5 align-content-center">
         <Col sm={12}>
           <img src="./logo192.png" alt="LOGO" />
         </Col>
       </Row>
-      <Row className="align-content-center">
+      {/* <Row className="align-content-center">
         <Col sm={12}>
           <StyledH1>OnlyFriends</StyledH1>
         </Col>
-      </Row>
+      </Row> */}
       <Form onSubmit={handleSubmit} style={{ marginBottom: "30vh" }}>
         <Row className="d-flex flex-row justify-content-center align-content-center">
           <Col sm={12}>

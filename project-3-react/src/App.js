@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import { useSelector } from "react-redux";
@@ -27,6 +27,12 @@ body {
   width:${({ width }) => width};
   background-color: whitesmoke;
 }`;
+
+const MainContainer = styled(Container)`
+   {
+    height: calc(100% - 120px);
+  }
+`;
 
 function App() {
   const userId = useSelector((state) => state.user.userId);
@@ -60,6 +66,7 @@ function App() {
         });
     };
     window.addEventListener("resize", handleResize);
+    window.scrollTo(0, 1);
     // window.screen.addEventListener("change", handleResize);
 
     return () => {
@@ -74,10 +81,7 @@ function App() {
       <GlobalStyle height={dimensions.height} width={dimensions.width} />
       <main style={{ width: "100%", height: "100%" }}>
         <NavTop />
-        <Container
-          className="justify-content-center align-content-center"
-          style={{ height: "100%" }}
-        >
+        <MainContainer className="justify-content-center align-content-center">
           <Routes>
             <Route path="/" element={<Navigate replace to="/login" />} />
             <Route path="/seed" element={<Seed />} />
@@ -89,7 +93,7 @@ function App() {
             <Route path="/:id/profile/:target" element={<Profile />} />
             <Route path="/*" element={<Navigate replace to="/" />} />
           </Routes>
-        </Container>
+        </MainContainer>
         {userId && <NavBottom />}
       </main>
     </>

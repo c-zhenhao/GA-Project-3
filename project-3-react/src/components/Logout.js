@@ -25,9 +25,16 @@ const Logout = () => {
   const logoutFlow = async (signal) => {
     dispatchStore(loaderActions.setIsLoading());
     dispatchStore(loaderActions.clearError());
-    const url = `${process.env.REACT_APP_SERVER_DOMAIN}/profile/logout`;
+    const url = `${process.env.REACT_APP_SERVER_DOMAIN}/users/logout`;
     try {
-      const res = await axios.get(url, { signal, withCredentials: true });
+      const res = await axios.get(url, {
+        signal,
+        withCredentials: true,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json",
+        },
+      });
       if (res.status === 200) {
         dispatchStore(userActions.logout(res.data.userId));
         dispatchStore(

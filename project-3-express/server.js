@@ -34,15 +34,15 @@ app.post("/seed", async (req, res) => {
       let x = Math.floor(Math.random() * seed.length);
       if (!ind.includes(x) && seed.indexOf(ea) !== x) ind.push(x);
     }
-    console.log(ind);
+    if (ea.userRating > 5) ea.userRating = [5];
+    else if (ea.userRating < 0) ea.userRating = [0];
+    else ea.userRating = [ea.userRating];
     ea.userInteracted = seed.filter((d, i) => ind.includes(i));
-    // console.log(ea.userInteracted);
     ea.userInteracted = ea.userInteracted.map((d) => ({
       targetUsername: d.username,
       swiped: Math.round(Math.random()),
       targetRating: null,
     }));
-    console.log(ea.userInteracted);
   }
   await Users.deleteMany({});
   await Users.create(seed, (err, data) => {
