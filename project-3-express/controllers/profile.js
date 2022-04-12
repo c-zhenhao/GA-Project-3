@@ -49,6 +49,13 @@ router.post("/:id/rate", auth, async (req, res) => {
       return d;
     });
     await Users.findByIdAndUpdate(req.session.userId, { userInteracted });
+
+    const target = await Users.findOne({ username: req.body.targetUsername });
+    const userRating = target.userRating;
+    userRating.push(parseFloat(req.body.targetRating));
+    console.log(target, target.id, userRating);
+    await Users.findByIdAndUpdate(target.id, { userRating });
+
     res.json({ title: "OK", message: `rating successful` });
   } catch (err) {
     console.error(err);

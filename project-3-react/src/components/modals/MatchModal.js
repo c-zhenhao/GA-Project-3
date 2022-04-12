@@ -6,12 +6,10 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 
-import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SendIcon from "@mui/icons-material/Send";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
-
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 
@@ -22,9 +20,10 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 500,
+  width: 400,
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  // border: "2px solid #000",
+  borderRadius: 20,
   boxShadow: 24,
   p: 4,
 };
@@ -49,8 +48,9 @@ export default function BasicModal(props) {
   };
 
   // username
-  const username = useSelector((state) => state.user.username);
-  const userId = useSelector((state) => state.user.userId);
+  const userUsername = useSelector((state) => state.user.username);
+  const userUserId = useSelector((state) => state.user.userId);
+  const userImgUrl = useSelector((state) => state.user.imgUrl);
 
   return (
     <div>
@@ -64,26 +64,29 @@ export default function BasicModal(props) {
           <Typography id="modal-modal-title" variant="h6" component="h2">
             ITS A MATCH
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 0.5 }}>
-            hello
+          <Typography id="modal-modal-description" sx={{ mt: 0.5, mb: 2 }}>
+            {userUsername} and {props.targetUsername} have liked each other
           </Typography>
 
           <Stack direction="row" spacing={3} justifyContent="center">
             <Avatar
-              alt={username}
-              src={username}
-              sx={{ width: 100, height: 100 }}
+              alt={userUsername}
+              src={userImgUrl}
+              sx={{
+                width: 100,
+                height: 100,
+                border: "1px solid black",
+              }}
             />
             <Avatar
               alt={props.targetUsername}
               src={props.targetImgUrl}
-              sx={{ width: 100, height: 100 }}
+              sx={{
+                width: 100,
+                height: 100,
+                border: "1px solid black",
+              }}
             />
-          </Stack>
-
-          <Stack direction="row" spacing={3} justifyContent="space-evenly">
-            <Typography>{username}</Typography>
-            <Typography>{props.targetUsername}</Typography>
           </Stack>
 
           <BottomNavigation showLabels>
@@ -97,7 +100,7 @@ export default function BasicModal(props) {
               label="RATE"
               icon={<SendIcon />}
               component={NavLink}
-              to={`/${userId}/list`}
+              to={`/${userUserId}/list`}
             />
           </BottomNavigation>
         </Box>
