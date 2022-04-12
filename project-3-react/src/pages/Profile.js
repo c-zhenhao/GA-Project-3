@@ -13,10 +13,6 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-
-
-// const matchURL = `${process.env.REACT_APP_SERVER_DOMAIN}/profile`;
-
 const Profile = () => {
   const params = useParams();
   const [user, setUser] = useState(null);
@@ -68,7 +64,7 @@ const Profile = () => {
         axios.post(updateRatingURL, {
         targerUsername: targetProfile.username,
         targetRating: value
-    });
+    }, {withCredentials: true});
   }catch (error) {
     console.log(error)
   }
@@ -110,8 +106,8 @@ const Profile = () => {
       <Rating
         name="simple-controlled"
         value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);
+        onChange={(event) => {
+          setValue(parseFloat(event.target.value));
         }}
       />
     </Box>
