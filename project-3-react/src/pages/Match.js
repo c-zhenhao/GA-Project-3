@@ -14,6 +14,9 @@ import CloseIcon from "@mui/icons-material/Close";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ReplayIcon from "@mui/icons-material/Replay";
 
+import Switch from "@mui/material/Switch";
+import MatchModal from "../components/modals/MatchModal";
+
 import styled from "styled-components";
 
 const Match = () => {
@@ -24,7 +27,7 @@ const Match = () => {
 
   // tinder card
   const [currentIndex, setCurrentIndex] = useState(targets.length - 1);
-  const [lastDirection, setLastDirection] = useState(); // for undo
+  const [lastDirection, setLastDirection] = useState(); // for undo (can remove)
   const currentIndexRef = useRef(currentIndex); // to use for outOfFrame closure
 
   const childRefs = useMemo(
@@ -77,6 +80,14 @@ const Match = () => {
     }
 
     updateCurrentIndex(index - 1);
+    console.log(currentIndex);
+  };
+
+  // emulates the swiping action
+  const swipe = async (dir) => {
+    if (canSwipe && currentIndex < targets.length) {
+      await childRefs[currentIndex].current.swipe(dir);
+    }
   };
 
   const outOfFrame = (name, index) => {
@@ -104,6 +115,18 @@ const Match = () => {
       getMatches();
     }
   }, [targets]);
+
+  // match status
+  const [isMatch, setIsMatch] = useState(false);
+
+  const handleSwitchChange = () => {
+    if (isMatch === true) {
+      console.log("found a match");
+      setIsMatch(false);
+    } else {
+      setIsMatch(true);
+    }
+  };
 
   // change to styled components later
   const swipeStyle = {
@@ -154,7 +177,10 @@ const Match = () => {
         ))}
 
         <Container style={buttonContainer}>
-          <IconButton>
+          <IconButton
+            onClick={() => swipe("left")}
+            onTouchStart={() => swipe("left")}
+          >
             <CloseIcon fontSize="large" />
           </IconButton>
 
@@ -162,10 +188,21 @@ const Match = () => {
             <ReplayIcon fontSize="large" />
           </IconButton>
 
-          <IconButton>
+          <IconButton onClick={() => swipe("right")}>
             <FavoriteIcon fontSize="large" />
           </IconButton>
         </Container>
+
+        {targets.length && (
+          <MatchModal
+            isMatch={isMatch}
+            setIsMatch={setIsMatch}
+            targetUsername={targets[9].username}
+            targetImgUrl={targets[9].imgUrl}
+            targetUserId={targets[9]._id}
+          />
+        )}
+        <Switch onChange={handleSwitchChange} />
       </Container>
     </>
   );
