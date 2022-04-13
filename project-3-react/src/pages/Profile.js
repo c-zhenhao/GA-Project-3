@@ -93,6 +93,24 @@ const Profile = () => {
     let path = `/${params.id}/profile/edit`; 
     navigate(path);
   }
+//Check user rating history
+  const [userRatingHistory, setuserRatingHistory] = useState(null);
+  const checkRating = (array) => {
+    array.filter((item) => item.targetUsername == targetProfile.username).map(({targetRating})=> ({targetRating}));
+  }
+
+  useEffect(async () => {
+    if (user) {
+      try {
+        const profileURL = `${process.env.REACT_APP_SERVER_DOMAIN}/profile/${params.target}`;
+        const response = await axios.get(profileURL, { withCredentials: true });
+        const ratingNullorRated = checkRating(response.data.userInteracted)
+        setuserRatingHistory(ratingNullorRated);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [user]);
 
 
   return (
@@ -115,7 +133,7 @@ const Profile = () => {
           <Rating name="read-only" value={targetRating} precision={0.5} size="large" readOnly />
         </Box>
         <p>
-          {params.target && <button onClick={handleClickOpen}>Rate</button>}
+          {!userRatingHistory && params.target && <button onClick={handleClickOpen}>Rate</button>}
           {!params.target && <button onClick={redirectEditProfile}>Edit</button>}
           <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Rate User</DialogTitle>
