@@ -15,7 +15,7 @@ import Seed from "./components/Seed";
 import Logout from "./components/Logout";
 import NavTop from "./components/navs/NavTop";
 import NavBottom from "./components/navs/NavBottom";
-import EditProfile from "./pages/editProfile";
+import EditProfile from "./pages/EditProfile";
 import Filter from "./pages/Filter";
 
 const GlobalStyle = createGlobalStyle`
