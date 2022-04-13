@@ -16,6 +16,7 @@ import Logout from "./components/Logout";
 import NavTop from "./components/navs/NavTop";
 import NavBottom from "./components/navs/NavBottom";
 import EditProfile from "./pages/editProfile";
+import Filter from "./pages/Filter";
 
 const GlobalStyle = createGlobalStyle`
 :root {
@@ -91,6 +92,7 @@ function App() {
             <Route path="/seed" element={<Seed />} />
             <Route path="/login" element={<Login />} />
             <Route path="/logout" element={<Logout />} />
+            <Route path="/:id/filter" element={<Filter />} />
             <Route path="/:id/match" element={<Match />} />
             <Route path="/:id/list" element={<TargetList />} />
             <Route path="/:id/profile" element={<Profile />} />

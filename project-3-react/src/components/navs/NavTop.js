@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import Badge from "@mui/material/Badge";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import LogoutIcon from "@mui/icons-material/Logout";
+import FilterListIcon from "@mui/icons-material/FilterList";
 
 export default function NavTop() {
   const userId = useSelector((state) => state.user.userId);
@@ -41,15 +42,29 @@ export default function NavTop() {
           </Typography>
 
           {userId && (
-            <IconButton
-              size="large"
-              aria-label="show 69 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={69} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+            <>
+              <IconButton
+                size="large"
+                edge="end"
+                color="inherit"
+                aria-label="logout"
+                component={RouterLink}
+                to={`/:id/filter`}
+              >
+                <FilterListIcon />
+              </IconButton>
+
+              <IconButton
+                size="large"
+                edge="end"
+                aria-label="show 69 new notifications"
+                color="inherit"
+              >
+                <Badge badgeContent={69} color="error">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+            </>
           )}
         </Toolbar>
       </AppBar>
