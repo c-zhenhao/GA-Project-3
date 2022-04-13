@@ -7,7 +7,7 @@ const Overlay = (props) => {
   return (
     <>
       <div className={styles.backdrop} onClick={props.onClick}>
-        <div className={`${styles.board} ${styles.modal}`}>
+        <div className={`${styles.board} ${styles.modal} ${styles.signup}`}>
           <header className={`${styles.header} ${styles.msgOptions}`}>{props.children}</header>
           <div className={styles.content}>
             <Button
@@ -15,11 +15,9 @@ const Overlay = (props) => {
               xs={8}
               id="reply"
               className={`btn ${styles.btnOptions}`}
-              onClick={(e) => {
-                props.onClick(e.target.id, props.id);
-              }}
+              onClick={() => props.onCancel(false)}
             >
-              Reply
+              Cancel
             </Button>
             <Button
               as={Col}
@@ -27,24 +25,22 @@ const Overlay = (props) => {
               id="pin"
               variant="success"
               className={`btn ${styles.btnOptions}`}
-              onClick={(e) => {
-                props.onClick(e.target.id, props.id);
-              }}
+              onClick={props.onSubmit}
             >
-              Pin Message
+              Submit
             </Button>
-            <Button
-              as={Col}
-              xs={8}
-              id="delete"
-              variant="danger"
-              className={`btn ${styles.btnOptions}`}
-              onClick={(e) => {
-                props.onClick(e.target.id, props.id);
-              }}
-            >
-              Delete
-            </Button>
+            {props.edit && (
+              <Button
+                as={Col}
+                xs={8}
+                id="delete"
+                variant="danger"
+                className={`btn ${styles.btnOptions}`}
+                onClick={props.onDelete}
+              >
+                Delete
+              </Button>
+            )}
           </div>
           {/* <footer className={styles.actions}></footer> */}
         </div>
@@ -53,10 +49,10 @@ const Overlay = (props) => {
   );
 };
 
-const OptionsModal = (props) => {
+const ProfileModal = (props) => {
   return (
     <>{ReactDOM.createPortal(<Overlay {...props} />, document.querySelector("#modal-root"))}</>
   );
 };
 
-export default OptionsModal;
+export default ProfileModal;

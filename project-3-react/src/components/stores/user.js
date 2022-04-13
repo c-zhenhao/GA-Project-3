@@ -5,20 +5,17 @@ const userSlice = createSlice({
   initialState: {
     username: "",
     userId: null,
-    imgUrl: null,
   },
   reducers: {
     usernameChange(state, action) {
       state.username = action.payload.trim();
     },
     login(state, action) {
-      state.userId = action.payload.userId;
-      state.imgUrl = action.payload.imgUrl;
+      state.userId = action.payload;
     },
     logout(state) {
       state.username = "";
       state.userId = null;
-      state.imgUrl = null;
     },
   },
 });

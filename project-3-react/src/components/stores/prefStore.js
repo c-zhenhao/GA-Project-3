@@ -17,6 +17,15 @@ const prefStoreSlice = createSlice({
     setinterestedPref(state, action) {
       state.interestedPref = action.payload;
     },
+    setAllPref(state, action) {
+      console.log(action.payload);
+      state.genderPref = action.payload.gender ? action.payload.gender : "both";
+      state.agePref =
+        action.payload.ageMin && action.payload.ageMax
+          ? [action.payload.ageMin, action.payload.ageMax]
+          : [24, 46];
+      state.interestedPref = action.payload.interested ? action.payload.interested : [];
+    },
   },
 });
 
