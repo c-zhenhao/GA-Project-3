@@ -6,12 +6,14 @@ const UsersSchema = Schema({
   passwordHash: { type: String }, //hash
   displayName: { type: String },
   userRating: [{ type: Number }],
-  userInteracted: [{ targetUsername: String, swiped: Boolean, targetRating: Number }],
+  userInteracted: [
+    { targetUsername: String, swiped: Boolean, targetRating: Number },
+  ],
   gender: { type: String },
   age: { type: Number },
   height: { type: String },
   imgUrl: { type: String },
-  interests: { type: Array }, // stretch goal
+  interests: { type: Array },
   events: [
     {
       targetUsername: String,
@@ -21,6 +23,15 @@ const UsersSchema = Schema({
       location: String,
       status: String, // cancelled, rejected, tentative, accepted, sent, etc.
       remarks: String,
+    },
+  ],
+  userPreference: [
+    {
+      male: Boolean,
+      female: Boolean,
+      ageMin: Number,
+      ageMax: Number,
+      interested: Array,
     },
   ],
 });

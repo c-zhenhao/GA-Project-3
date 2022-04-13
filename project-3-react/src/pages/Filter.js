@@ -178,3 +178,15 @@ export default function Filter() {
     </>
   );
 }
+
+// body to send into the user's userPreference
+// body : {
+//  userPreference:
+//   [
+//     male: true,
+//     female: true,
+//     ageMin: 18,
+//     ageMax: 20,
+//     interested: ["fire", "grass", "water", "electric"]
+//   ]
+// }
