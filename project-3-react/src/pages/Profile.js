@@ -11,6 +11,8 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useNavigate } from "react-router-dom";
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
 
 const Profile = () => {
   const params = useParams();
@@ -31,6 +33,7 @@ const Profile = () => {
   };
 
   useEffect(() => {
+    console.log(typeof targetProfile.interests);
     if (!userId && !username) navigate(`/`, { replace: true });
     if (params.target) {
       //Target Profile
@@ -113,15 +116,16 @@ const Profile = () => {
 
   return (
     <>
-      <div>
-        <b>{targetProfile && targetProfile.displayName}</b>
-        <p>
-          <img src={targetProfile.imgUrl} />
-        </p>
-        <p>
-          Age: {targetProfile.age} Height: {targetProfile.height}{" "}
-        </p>
-        <p>Interests: {targetProfile.interests} </p>
+      <div className = "row mt-5">
+   
+        <Stack direction="row" spacing={1} className = "row justify-content-center">
+        <Avatar className = "col-sm-6"
+        alt={targetProfile.displayName}
+        src={targetProfile.imgUrl}
+        sx={{ width: 255, height: 255 }}
+        />
+        </Stack>
+      
         <Box
           sx={{
             "& > legend": { mt: 2 },
@@ -130,11 +134,17 @@ const Profile = () => {
           <Typography component="legend"></Typography>
           <Rating name="read-only" value={targetRating} precision={0.5} size="large" readOnly />
         </Box>
+
+        <h1>{targetProfile && targetProfile.displayName}</h1>
+        <p>Age: {targetProfile.age} , Height: {targetProfile.height}{" "}</p>
+        <p><b>My interests are</b></p>
+        <p>{targetProfile.interests && targetProfile.interests.join(" | ")}</p>
+          
         <p>
-          {!userRatingHistory && params.target && <button onClick={handleClickOpen}>Rate</button>}
-          {!params.target && <button onClick={redirectEditProfile}>Edit</button>}
+          {!userRatingHistory && params.target && <Button variant="contained" onClick={handleClickOpen}>Rate me</Button>}
+          {!params.target && <Button variant="contained" onClick={redirectEditProfile}>Edit my Profile</Button>}
           <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>Rate User</DialogTitle>
+            <DialogTitle>(Ugly) 0 to 5 (Attractive)</DialogTitle>
             <Box
               sx={{
                 "& > legend": { mt: 2 },
@@ -151,7 +161,7 @@ const Profile = () => {
             </Box>
             <DialogActions>
               <Button onClick={handleClose}>Cancel</Button>
-              <Button onClick={doubleFunction}>Rate</Button>
+              <Button onClick={doubleFunction}>Submit Rating</Button>
             </DialogActions>
           </Dialog>
         </p>
