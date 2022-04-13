@@ -169,7 +169,7 @@ const ProfileForm = (props) => {
       );
     });
     if (res) {
-      props.onClick();
+      props.onCancel(false);
     }
     dispatchStore(loaderActions.doneLoading());
   };
@@ -184,7 +184,7 @@ const ProfileForm = (props) => {
   }, [submit]);
 
   useEffect(() => {
-    if (userId && username) navigate(`/${username}/match`, { replace: true });
+    if (userId && username && !props.edit) navigate(`/${username}/match`, { replace: true });
     //eslint-disable-next-line
   }, [userId]);
 
