@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import { useSelector } from "react-redux";
+import { Container, Row, Col } from "react-bootstrap";
 
 import TinderCard from "react-tinder-card";
 
-import Container from "@mui/material/Container";
+// import Container from "@mui/material/Container";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 
@@ -148,84 +149,109 @@ const Match = () => {
     }
   }, [noMoreTargets]);
 
-  const swipeStyle = {
-    position: "fixed",
-    left: "50%",
-    transform: "translateX(-50%)",
-  };
+  // const swipeStyle = {
+  //   position: "fixed",
+  //   left: "50%",
+  //   transform: "translateX(-50%)",
+  // };
 
-  const buttonContainer = {
-    display: "flex",
-    border: "2px solid red",
-    justifyContent: "space-evenly",
-  };
+  // const buttonContainer = {
+  //   display: "flex",
+  //   border: "2px solid red",
+  //   justifyContent: "space-evenly",
+  // };
 
   return (
     <>
-      <div>This is Match View</div>
-
-      <Container>
-        {targets.map((targets, index) => (
-          <TinderCard
-            ref={childRefs[index]}
-            key={targets.username}
-            onSwipe={(direction) => swiped(direction, targets.username, index)}
-            onCardLeftScreen={() => outOfFrame(targets.username, index)}
-            preventSwipe={["up", "down"]}
-          >
-            <Card elevation={3} sx={{ borderRadius: 15 }} style={swipeStyle}>
-              <div
-                style={{
-                  background: `no-repeat url(${targets.imgUrl}) center/contain`,
-                  height: "300px",
-                  width: "300px",
-                }}
+      <Row className="pt-4 justify-content-center align-content-start" style={{ height: "78vh" }}>
+        <Col xs={10} style={{ position: "relative" }}>
+          {targets.map((targets, index) => (
+            <TinderCard
+              className="row justify-content-center align-content-end"
+              ref={childRefs[index]}
+              key={targets.username}
+              onSwipe={(direction) => swiped(direction, targets.username, index)}
+              onCardLeftScreen={() => outOfFrame(targets.username, index)}
+              preventSwipe={["up", "down"]}
+            >
+              <Card
+                className="col-xs-10"
+                elevation={3}
+                sx={{ borderRadius: 5, height: "75vh", position: "absolute", top: 0 }}
               >
-                <Typography variant="h2">
-                  {targets.displayName} {targets.gender} {targets.age}
-                </Typography>
-              </div>
-            </Card>
-          </TinderCard>
-        ))}
-
-        <Container style={buttonContainer}>
+                <Row
+                  style={{
+                    background: `no-repeat url(${targets.imgUrl}) center/contain`,
+                    height: "80%",
+                    width: "100%",
+                    margin: 0,
+                    padding: "10px",
+                  }}
+                ></Row>
+                <Row className="justify-content-center align-content-start">
+                  <Col xs={8}>
+                    <Typography variant="h3" sx={{ padding: "10px" }}>
+                      {targets.displayName}
+                    </Typography>
+                  </Col>
+                </Row>
+                <Row className="justify-content-center align-content-start">
+                  <Col xs={8}>
+                    <Typography variant="h5" sx={{ padding: "0" }}>
+                      Gender: {targets.gender}
+                    </Typography>
+                  </Col>
+                  <Col xs={4}>
+                    <Typography variant="h5" sx={{ padding: "0" }}>
+                      Age: {targets.age}
+                    </Typography>
+                  </Col>
+                </Row>
+              </Card>
+            </TinderCard>
+          ))}
+        </Col>
+      </Row>
+      <Row className="justify-content-center align-content-center">
+        <Col xs={5}>
           <IconButton onClick={() => swipe("left")}>
             <CloseIcon fontSize="large" />
           </IconButton>
+        </Col>
 
+        <Col xs={5}>
           <IconButton onClick={() => swipe("right")}>
             <FavoriteIcon fontSize="large" />
           </IconButton>
-        </Container>
+        </Col>
+      </Row>
 
-        <Container style={buttonContainer}>
-          {!noMoreTargets ? (
-            <div>
-              <p>no more matches.. try again later!</p>
-            </div>
-          ) : (
-            <div>
-              {targets.length === 0 && (
-                <IconButton onClick={getMatches}>
-                  <ReplayIcon fontSize="large" />
-                </IconButton>
-              )}
-            </div>
-          )}
-        </Container>
-
-        {isMatch && (
-          <MatchModal
-            isMatch={isMatch}
-            setIsMatch={setIsMatch}
-            targetUsername={matchedTarget.username}
-            targetImgUrl={matchedTarget.imgUrl}
-            targetUserId={matchedTarget._id}
-            targetDisplayName={matchedTarget.displayName}
-          />
+      <Row className="row justify-content-center align-content-center">
+        {!noMoreTargets ? (
+          <>
+            <p>no more matches.. try again later!</p>
+          </>
+        ) : (
+          <>
+            {targets.length === 0 && (
+              <IconButton onClick={getMatches}>
+                <ReplayIcon fontSize="large" />
+              </IconButton>
+            )}
+          </>
         )}
-      </Container>
+      </Row>
+
+      {isMatch && (
+        <MatchModal
+          isMatch={isMatch}
+          setIsMatch={setIsMatch}
+          targetUsername={matchedTarget.username}
+          targetImgUrl={matchedTarget.imgUrl}
+          targetUserId={matchedTarget._id}
+          targetDisplayName={matchedTarget.displayName}
+        />
+      )}
     </>
   );
 };
