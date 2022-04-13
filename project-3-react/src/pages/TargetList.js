@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { userActions } from "../components/stores/user";
 import { loaderActions } from "../components/stores/loader";
 import LoadingSpinner from "../components/modals/LoadingSpinner";
 import ErrorModal from "../components/modals/ErrorModal";
@@ -44,12 +45,15 @@ const TargetList = () => {
 
   const handleModalOkay = () => {
     dispatchStore(loaderActions.clearError());
-    // if (error.message !== "Invalid Password") window.location.reload(false);
+    if (error.message === "not logged in") dispatchStore(userActions.logout());
+    if (!userId && !username) navigate(`/`, { replace: true });
+    else window.location.reload(false);
   };
 
-  useEffect(async () => {
+  useEffect(() => {
     if (!loginUserId && !username) navigate(`/`, { replace: true });
     getMatchedList();
+    //eslint-disable-next-line
   }, []);
 
   const params = useParams();
@@ -75,7 +79,7 @@ const TargetList = () => {
             readOnly
           />
         </Box>
-        <img src={data.imgUrl} />
+        <img src={data.imgUrl} alt="profile" />
         <p>
           <Link to={`/${userId}/profile/${data.id}`}> See Profile </Link>
         </p>
