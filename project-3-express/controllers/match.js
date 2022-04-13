@@ -11,10 +11,24 @@ const dbError = {
 
 router.get("/", auth, async (req, res) => {
   try {
-    const { userInteracted } = await Users.findById(req.session.userId);
+    const { userInteracted, userPreference } = await Users.findById(req.session.userId);
+    let { gender, ageMax, ageMin, interested } = userPreference;
+    console.log(interested);
+    if (gender === "both") gender = ["male", "female"];
     const filter = userInteracted.map(({ targetUsername }) => targetUsername);
     filter.push(req.session.currentUser);
-    res.json(await Users.find({ username: { $nin: filter } }, { passwordHash: 0 }));
+    res.json(
+      await Users.find(
+        {
+          username: { $nin: filter },
+          gender,
+          age: { $gte: ageMin },
+          age: { $lte: ageMax },
+          interests: { $elemMatch: { $in: interested } },
+        },
+        { passwordHash: 0 }
+      ).collation({ locale: "en", strength: 2 })
+    );
   } catch (err) {
     // console.error(err);
     res.status(400).json(dbError);
