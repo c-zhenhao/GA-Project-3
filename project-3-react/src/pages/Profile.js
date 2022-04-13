@@ -96,13 +96,13 @@ const Profile = () => {
 //Check user rating history
   const [userRatingHistory, setuserRatingHistory] = useState(null);
   const checkRating = (array) => {
-    array.filter((item) => item.targetUsername == targetProfile.username).map(({targetRating})=> ({targetRating}));
+    return array.filter((item) => item.targetUsername == targetProfile.username).targetRating;
   }
 
   useEffect(async () => {
     if (user) {
       try {
-        const profileURL = `${process.env.REACT_APP_SERVER_DOMAIN}/profile/${params.target}`;
+        const profileURL = `${process.env.REACT_APP_SERVER_DOMAIN}/profile`;
         const response = await axios.get(profileURL, { withCredentials: true });
         const ratingNullorRated = checkRating(response.data.userInteracted)
         setuserRatingHistory(ratingNullorRated);
