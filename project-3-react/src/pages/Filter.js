@@ -193,7 +193,10 @@ export default function Filter() {
           <Typography variant="h6">Gender</Typography>
         </Stack>
 
-        <Card elevation={0} sx={{ borderRadius: 3, mb: 0.5, p: 1 }}>
+        <Card
+          elevation={0}
+          sx={{ borderRadius: 3, mb: 0.5, p: 0.5, pl: 3, pr: 3 }}
+        >
           <Stack direction="row" style={tempBorder}>
             <FormControl>
               <RadioGroup
@@ -226,7 +229,7 @@ export default function Filter() {
           <Typography variant="h6">Age</Typography>
         </Stack>
 
-        <Card elevation={0} sx={{ borderRadius: 3, mb: 1, p: 1 }}>
+        <Card elevation={0} sx={{ borderRadius: 3, mb: 1, p: 1, pl: 3, pr: 3 }}>
           <Stack direction="row" style={tempBorder}>
             <Box sx={{ width: 400 }} style={tempBorder}>
               <Slider
@@ -237,7 +240,7 @@ export default function Filter() {
                 valueLabelDisplay="on"
                 getAriaValueText={valuetext}
                 min={18}
-                max={69}
+                max={70}
                 style={tempBorder}
               />
             </Box>
@@ -252,7 +255,7 @@ export default function Filter() {
           <Typography variant="h6">Interested in...</Typography>
         </Stack>
 
-        <Card elevation={0} sx={{ borderRadius: 3, mb: 1, p: 1 }}>
+        <Card elevation={0} sx={{ borderRadius: 3, mb: 1, p: 1, pl: 3, pr: 3 }}>
           <Stack style={tempBorderInterests}>
             <FormControl sx={{ m: 1, minWidth: 200, maxWidth: "100%" }}>
               <InputLabel id="demo-multiple-chip-label">Selected</InputLabel>
