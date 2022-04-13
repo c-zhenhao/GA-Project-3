@@ -5,10 +5,8 @@ const UsersSchema = Schema({
   username: { type: String, unique: true, required: true },
   passwordHash: { type: String }, //hash
   displayName: { type: String },
-  userRating: [{ type: Number }],
-  userInteracted: [
-    { targetUsername: String, swiped: Boolean, targetRating: Number },
-  ],
+  userRating: { type: [Number] },
+  userInteracted: [{ targetUsername: String, swiped: Boolean, targetRating: Number }],
   gender: { type: String },
   age: { type: Number },
   height: { type: String },
@@ -27,8 +25,7 @@ const UsersSchema = Schema({
   ],
   userPreference: [
     {
-      male: Boolean,
-      female: Boolean,
+      gender: String,
       ageMin: Number,
       ageMax: Number,
       interested: Array,
