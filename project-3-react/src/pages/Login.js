@@ -2,12 +2,15 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { userActions } from "../components/stores/user";
+import { profileActions } from "../components/stores/profile";
+import { prefStoreActions } from "../components/stores/prefStore";
 import { loaderActions } from "../components/stores/loader";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import axios from "axios";
 import LoadingSpinner from "../components/modals/LoadingSpinner";
 import ErrorModal from "../components/modals/ErrorModal";
 import styled from "styled-components";
+import ProfileForm from "../components/ProfileForm";
 
 // const StyledH1 = styled.h1`
 //   color: rgb(79, 120, 181);
@@ -45,6 +48,7 @@ const Login = () => {
   const userId = useSelector((state) => state.user.userId);
 
   const [submit, setSubmit] = useState(false);
+  const [signup, setSignup] = useState(false);
   const usernameRef = useRef();
   const passwordRef = useRef();
   const navigate = useNavigate();
@@ -68,7 +72,6 @@ const Login = () => {
     try {
       if (submit && username) loginFlow(controller.signal);
     } catch (err) {
-      console.log(err);
       console.error(err);
     }
     return () => controller.abort();
@@ -103,7 +106,11 @@ const Login = () => {
       );
     });
     console.log(res);
-    if (res) dispatchStore(userActions.login({ userId: res.data.userId, imgUrl: res.data.imgUrl }));
+    if (res) {
+      dispatchStore(userActions.login(res.data.userId));
+      dispatchStore(profileActions.allChange(res.data.profile));
+      dispatchStore(prefStoreActions.setAllPref(res.data.profile.userPreference));
+    }
     dispatchStore(loaderActions.doneLoading());
   };
 
@@ -146,8 +153,19 @@ const Login = () => {
               LOGIN
             </StyledButton>
           </Col>
+          <Col sm={12}>
+            <StyledButton
+              variant="success"
+              onClick={() => {
+                setSignup(true);
+              }}
+            >
+              SIGN UP
+            </StyledButton>
+          </Col>
         </Row>
       </Form>
+      {signup && <ProfileForm edit={false} onCancel={setSignup} />}
     </>
   );
 };

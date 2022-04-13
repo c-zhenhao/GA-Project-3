@@ -9,15 +9,18 @@ const usernameOrPasswordError = {
   message: "username or password error",
 };
 
-router.post("/signup", async (req, res) => {
+router.put("/signup", async (req, res) => {
   try {
+    req.body.userRating = [0];
+    req.body.userInteracted = [];
+    req.body.interests = req.body.interests ? req.body.interests : [];
     req.body.passwordHash = await bcrypt.hash(req.body.password, 12);
     const createdUser = await Users.create(req.body);
     console.log("created user is: ", createdUser);
     if (createdUser) {
       req.session.currentUser = createdUser.username;
       req.session.userId = createdUser.id;
-      res.json({ title: "OK", message: "new user created" });
+      res.json({ userId: createdUser.id, profile: createdUser });
     } else {
       res.status(401).json({ title: "error", message: `unable to create user` });
     }
@@ -40,7 +43,7 @@ router.post("/login", async (req, res) => {
     if (result) {
       req.session.currentUser = user.username;
       req.session.userId = user.id;
-      res.json({ userId: user.id, imgUrl: user.imgUrl });
+      res.json({ userId: user.id, profile: user });
     } else {
       res.status(401).json(usernameOrPasswordError);
     }
