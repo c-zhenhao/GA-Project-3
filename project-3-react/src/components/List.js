@@ -103,78 +103,87 @@ function List(props) {
 
   const userUsername = useSelector((state) => state.user.username);
 
-  const displayList = list.map((data, i) => {
-    return (
-      <ThemeProvider theme={theme}>
-        <Container sx={{ overflowY: "auto" }}>
-          <Card style={cardTheme} sx={{ p: 1.25 }} elevation={0}>
-            <CardActionArea
-              component={NavLink}
-              to={`/${userUsername}/profile/${data.id}`}
-            >
-              <Grid container spacing={2}>
-                <Grid item>
-                  <StyledBadge
-                    overlap="circular"
-                    anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                    variant="dot"
-                  >
-                    <Avatar
-                      alt={data.id}
-                      src={data.imgUrl}
-                      sx={{
-                        width: 125,
-                        height: 125,
-                        border: "1px solid #f0f0f0",
-                        p: 0.5,
-                        ml: 1,
-                      }}
-                    />
-                  </StyledBadge>
-                </Grid>
+  const displayList = list
+    .slice(0)
+    .reverse()
+    .map((data, i) => {
+      return (
+        <ThemeProvider theme={theme}>
+          <Container sx={{ overflowY: "auto" }}>
+            <Card style={cardTheme} sx={{ p: 1.25 }} elevation={0}>
+              <CardActionArea
+                component={NavLink}
+                to={`/${userUsername}/profile/${data.id}`}
+              >
+                <Grid container spacing={2}>
+                  <Grid item>
+                    <StyledBadge
+                      overlap="circular"
+                      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                      variant="dot"
+                    >
+                      <Avatar
+                        alt={data.id}
+                        src={data.imgUrl}
+                        sx={{
+                          width: 125,
+                          height: 125,
+                          border: "1px solid #f0f0f0",
+                          p: 0.5,
+                          ml: 1,
+                        }}
+                      />
+                    </StyledBadge>
+                  </Grid>
 
-                <Grid item xs={12} sm container>
-                  <Grid item xs container direction="column" spacing={2}>
-                    <Grid item xs>
-                      <Box sx={{ display: "flex" }}>
-                        <Typography variant="h3">{data.displayName}</Typography>
-                      </Box>
+                  <Grid item xs={12} sm container>
+                    <Grid item xs container direction="column" spacing={2}>
+                      <Grid item xs>
+                        <Box sx={{ display: "flex" }}>
+                          <Typography variant="h3">
+                            {data.displayName}
+                          </Typography>
+                        </Box>
 
-                      <Box
-                        sx={{ display: "flex", ml: 1.15, alignItems: "center" }}
-                      >
-                        <Typography variant="h4">User Rating:</Typography>
-                        <Rating
-                          name="read-only"
-                          size="large"
-                          readOnly
-                          precision={0.5}
-                          value={data.userRating
-                            .map((v) => Number(v))
-                            .reduce(
-                              (a, c, i, arr) => (
-                                (a += c),
-                                i === arr.length - 1 ? (a /= arr.length) : a
-                              )
-                            )}
-                        />
-                      </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            ml: 1.15,
+                            alignItems: "center",
+                          }}
+                        >
+                          <Typography variant="h4">User Rating:</Typography>
+                          <Rating
+                            name="read-only"
+                            size="large"
+                            readOnly
+                            precision={0.5}
+                            value={data.userRating
+                              .map((v) => Number(v))
+                              .reduce(
+                                (a, c, i, arr) => (
+                                  (a += c),
+                                  i === arr.length - 1 ? (a /= arr.length) : a
+                                )
+                              )}
+                          />
+                        </Box>
+                      </Grid>
                     </Grid>
                   </Grid>
-                </Grid>
 
-                <Grid item>
-                  <Box sx={{ mt: 1, mr: 1, ml: 1 }}>
-                    <Typography variant="h5">See Profile</Typography>
-                  </Box>
+                  <Grid item>
+                    <Box sx={{ mt: 1, mr: 1, ml: 1 }}>
+                      <Typography variant="h5">See Profile</Typography>
+                    </Box>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </CardActionArea>
-          </Card>
-        </Container>
-      </ThemeProvider>
-    );
-  });
+              </CardActionArea>
+            </Card>
+          </Container>
+        </ThemeProvider>
+      );
+    });
 
   return displayList;
 }

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { NavLink, Route } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import { useSelector } from "react-redux";
 
@@ -15,9 +15,7 @@ export default function FixedBottomNavigation() {
   const [value, setValue] = React.useState(1); // set it so that the default is the match lol
   const ref = React.useRef(null);
 
-  // redux store user
-  // const username = useSelector((state) => state.user.username);
-  const userUserId = useSelector((state) => state.user.userId);
+  // redux store username
   const userUsername = useSelector((state) => state.user.username);
 
   return (

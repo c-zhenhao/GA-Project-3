@@ -51,7 +51,7 @@ export default function BasicModal(props) {
   // username
   const userUsername = useSelector((state) => state.user.username);
   const userUserId = useSelector((state) => state.user.userId);
-  const userImgUrl = useSelector((state) => state.user.imgUrl);
+  const userImgUrl = useSelector((state) => state.profile.imgUrl);
 
   return (
     <div>
