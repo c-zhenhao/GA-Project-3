@@ -49,7 +49,7 @@ export default function NavTop() {
                 color="inherit"
                 aria-label="logout"
                 component={RouterLink}
-                to={`/:id/filter`}
+                to={`/${userId}/filter`}
               >
                 <FilterListIcon />
               </IconButton>
