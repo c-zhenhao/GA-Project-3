@@ -24,7 +24,7 @@
 }
 
 .header {
-  background: red;
+  background: #ea5a4d;
   padding: 0;
 }
 
@@ -69,8 +69,8 @@
   height: 64px;
   margin: 8px;
   border-radius: 50%;
-  border: 6px solid green;
-  border-color: green transparent green transparent;
+  border: 6px solid #4ca7ea;
+  border-color: #4ca7ea transparent #4ca7ea transparent;
   animation: spinner 1.2s linear infinite;
 }
 
@@ -85,8 +85,8 @@
 
 .button {
   font: inherit;
-  border: 1px solid darkblue;
-  background: darkblue;
+  border: 1px solid #4ca7ea;
+  background: #4ca7ea;
   color: white;
   padding: 0.25rem 0.5rem;
   cursor: pointer;
@@ -94,8 +94,8 @@
 
 .button:hover,
 .button:active {
-  background: blue;
-  border-color: blue;
+  background: #4ca7ea;
+  border-color: #4ca7ea;
 }
 
 .button:focus {

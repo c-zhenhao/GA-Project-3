@@ -217,7 +217,7 @@ const Match = () => {
                     <Row className="justify-content-center align-content-start">
                       <Col xs={8}>
                         <Typography variant="h5" sx={{ padding: "0", mt: 1 }}>
-                          {targets.interests}
+                          {targets.interests && targets.interests.join(" | ")}
                         </Typography>
                       </Col>
                     </Row>
@@ -234,7 +234,7 @@ const Match = () => {
                   onClick={() => swipe("left")}
                   sx={{ backgroundColor: "#ffffff" }}
                 >
-                  <CloseIcon fontSize="large" sx={{ color: "red" }} />
+                  <CloseIcon fontSize="large" sx={{ color: "#EA5A4D" }} />
                 </IconButton>
               </Col>
 
