@@ -14,11 +14,11 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 
 export default function NavTop() {
   const userId = useSelector((state) => state.user.userId);
-  const userUsername = useSelector((state) => state.user.userUsername);
+  const userUsername = useSelector((state) => state.user.username);
 
   return (
     <Box sx={{ flexGrow: 0 }}>
-      <AppBar position="static" sx={{ bgcolor: "#4ca7ea" }}>
+      <AppBar position="relative" sx={{ bgcolor: "#4ca7ea" }}>
         <Toolbar>
           {userId && (
             <IconButton
@@ -37,7 +37,11 @@ export default function NavTop() {
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            sx={{
+              flexGrow: 1,
+              display: { xs: "flex", sm: "flex" },
+              justifyContent: "center",
+            }}
           >
             OnlyFriends
           </Typography>
