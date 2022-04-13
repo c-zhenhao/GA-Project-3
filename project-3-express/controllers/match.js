@@ -15,7 +15,7 @@ router.get("/", auth, async (req, res) => {
     let { gender, ageMax, ageMin, interested } = userPreference;
     if (gender === "both") gender = ["male", "female"];
     if (interested.length) interested = { $elemMatch: { $in: interested } };
-    else interested = { $elemMatch: { $nin: interested } };
+    else interested = { $elemMatch: { $nin: [""] } };
     const filter = userInteracted.map(({ targetUsername }) => targetUsername);
     filter.push(req.session.currentUser);
     res.json(
