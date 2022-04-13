@@ -1,4 +1,4 @@
-import React, { createRef, useState, useRef, useMemo, useEffect } from "react";
+import React, { useState, useRef, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -13,7 +13,8 @@ import Typography from "@mui/material/Typography";
 
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ReplayIcon from "@mui/icons-material/Replay";
 
 import MatchModal from "../components/modals/MatchModal";
 
@@ -25,14 +26,14 @@ const Match = () => {
 
   // targets state
   const [targets, setTargets] = useState([]);
-  const [noMoreTargets, setNoMoreTargets] = useState(false);
+  const [noMoreTargets, setNoMoreTargets] = useState(true);
 
   // match status
   const [isMatch, setIsMatch] = useState(false);
   const [matchedTarget, setMatchedTarget] = useState({});
 
   // tinder card
-  const [currentIndex, setCurrentIndex] = useState(targets.length - 1);
+  const [currentIndex, setCurrentIndex] = useState(targets.length);
   const currentIndexRef = useRef(currentIndex); // to use for outOfFrame closure
 
   console.log(typeof targets);
@@ -40,9 +41,9 @@ const Match = () => {
 
   const childRefs = useMemo(
     () =>
-      Array(10)
+      Array(targets.length)
         .fill(0)
-        .map((i) => createRef()),
+        .map((i) => React.createRef()),
     []
   );
 
@@ -52,6 +53,10 @@ const Match = () => {
     currentIndexRef.current = value;
     console.log(currentIndex);
   };
+
+  // enables swiping feature
+  const canSwipe = currentIndex >= 0;
+  console.log(canSwipe);
 
   // swiped function
   const swiped = async (direction, nameToDelete, index) => {
@@ -75,10 +80,7 @@ const Match = () => {
       setMatchedTarget(targets[index]);
       console.log(matchedTarget);
 
-      setTargets((prevState) => {
-        prevState.pop();
-        return [...prevState];
-      });
+      targets.pop();
       console.log(targets);
     } else if (direction === "left") {
       console.log(userUsername + " disliked " + nameToDelete);
@@ -90,10 +92,7 @@ const Match = () => {
       console.log(toMatch.data.matched);
       setIsMatch(toMatch.data.matched);
 
-      setTargets((prevState) => {
-        prevState.pop();
-        return [...prevState];
-      });
+      targets.pop();
       console.log(targets);
     } else {
       console.log("NOTHING HAPPENING");
@@ -111,24 +110,17 @@ const Match = () => {
   // emulates the swiping action for buttons -  trying to figure it out later
   const swipe = async (dir) => {
     console.log(
-      `swipe fn: direction is ${dir}, currentIndex is ${currentIndex}, targets.length is ${targets.length}`
+      `line110 inside swipe fn: direction is ${dir}, canSwipe is ${canSwipe}, currentIndex is ${currentIndex}, targets.length is ${targets.length}`
     );
-    console.log(currentIndex);
-
-    if (currentIndex >= 0 && currentIndex < targets.length) {
-      try {
-        await childRefs[currentIndex].current.swipe(dir);
-      } catch (error) {
-        console.log(error);
-      }
+    if (canSwipe && currentIndex < targets.length) {
+      await childRefs[currentIndex].current.swipe(dir);
     }
   };
 
   // get all
   const getMatches = async () => {
     console.log(noMoreTargets);
-    // if noMoreTargets is false, then stop getMatch
-    setNoMoreTargets(true);
+    setNoMoreTargets(false);
 
     const url = `${process.env.REACT_APP_SERVER_DOMAIN}/match`;
     const settings = { withCredentials: true };
@@ -136,16 +128,13 @@ const Match = () => {
     const response = await axios.get(url, settings);
     console.log(response.data);
 
-    if (response.data.length !== 0) {
-      setNoMoreTargets(false);
-
+    if (response.data !== false) {
       const splicedResponse = response.data.slice(0, 10);
       console.log(splicedResponse);
-
       setTargets(splicedResponse);
-      setCurrentIndex(splicedResponse.length - 1);
     } else {
       setNoMoreTargets(true);
+      console.log(noMoreTargets);
     }
   };
 
@@ -155,11 +144,10 @@ const Match = () => {
   useEffect(() => {
     if (!userUserId && !userUsername) navigate(`/`, { replace: true });
 
-    console.log(noMoreTargets);
-    if (targets.length === 0 && !noMoreTargets) {
+    if (targets.length === 0) {
       getMatches();
     }
-  }, [targets]);
+  }, [noMoreTargets]);
 
   // const swipeStyle = {
   //   position: "fixed",
@@ -175,108 +163,84 @@ const Match = () => {
 
   return (
     <>
-      {noMoreTargets ? (
-        <p>no more matches.. try again later!</p>
-      ) : (
-        <>
-          <Row
-            className="pt-5 justify-content-center align-content-start"
-            style={{ height: "70vh" }}
-          >
-            <Col xs={10} style={{ position: "relative" }}>
-              {targets.map((targets, index) => (
-                <TinderCard
-                  className="swipe row justify-content-center align-content-end"
-                  ref={childRefs[index]}
-                  key={targets.username}
-                  onSwipe={(direction) =>
-                    swiped(direction, targets.username, index)
-                  }
-                  onCardLeftScreen={() => outOfFrame(targets.username, index)}
-                  preventSwipe={["up", "down"]}
-                >
-                  <Card
-                    className="col-xs-10"
-                    elevation={3}
-                    sx={{
-                      borderRadius: 4,
-                      height: "60vh",
-                      position: "absolute",
-                      top: 0,
-                    }}
-                  >
-                    <Row
-                      style={{
-                        height: "75%",
-                        padding: "30px",
-                      }}
-                    >
-                      <Col
-                        xs={10}
-                        style={{
-                          background: `no-repeat url(${targets.imgUrl}) center/contain`,
-                          height: "100%",
-                          width: "100%",
-                          margin: 0,
-                          padding: "10px",
-                        }}
-                      ></Col>
-                    </Row>
+      <Row className="pt-4 justify-content-center align-content-start" style={{ height: "78vh" }}>
+        <Col xs={10} style={{ position: "relative" }}>
+          {targets.map((targets, index) => (
+            <TinderCard
+              className="row justify-content-center align-content-end"
+              ref={childRefs[index]}
+              key={targets.username}
+              onSwipe={(direction) => swiped(direction, targets.username, index)}
+              onCardLeftScreen={() => outOfFrame(targets.username, index)}
+              preventSwipe={["up", "down"]}
+            >
+              <Card
+                className="col-xs-10"
+                elevation={3}
+                sx={{ borderRadius: 5, height: "75vh", position: "absolute", top: 0 }}
+              >
+                <Row
+                  style={{
+                    background: `no-repeat url(${targets.imgUrl}) center/contain`,
+                    height: "80%",
+                    width: "100%",
+                    margin: 0,
+                    padding: "10px",
+                  }}
+                ></Row>
+                <Row className="justify-content-center align-content-start">
+                  <Col xs={8}>
+                    <Typography variant="h3" sx={{ padding: "10px" }}>
+                      {targets.displayName}
+                    </Typography>
+                  </Col>
+                </Row>
+                <Row className="justify-content-center align-content-start">
+                  <Col xs={8}>
+                    <Typography variant="h5" sx={{ padding: "0" }}>
+                      Gender: {targets.gender}
+                    </Typography>
+                  </Col>
+                  <Col xs={4}>
+                    <Typography variant="h5" sx={{ padding: "0" }}>
+                      Age: {targets.age}
+                    </Typography>
+                  </Col>
+                </Row>
+              </Card>
+            </TinderCard>
+          ))}
+        </Col>
+      </Row>
+      <Row className="justify-content-center align-content-center">
+        <Col xs={5}>
+          <IconButton onClick={() => swipe("left")}>
+            <CloseIcon fontSize="large" />
+          </IconButton>
+        </Col>
 
-                    <Row className="justify-content-center align-content-start">
-                      <Col xs={12}>
-                        <Typography
-                          variant="h3"
-                          sx={{ padding: "10px" }}
-                          display="inline"
-                        >
-                          {targets.displayName}
-                          <Typography
-                            style={{ fontSize: "0.69em" }}
-                            display="inline"
-                          >
-                            {targets.age} / {targets.gender}
-                          </Typography>
-                        </Typography>
-                      </Col>
-                    </Row>
+        <Col xs={5}>
+          <IconButton onClick={() => swipe("right")}>
+            <FavoriteIcon fontSize="large" />
+          </IconButton>
+        </Col>
+      </Row>
 
-                    <Row className="justify-content-center align-content-start">
-                      <Col xs={8}>
-                        <Typography variant="h5" sx={{ padding: "0", mt: 1 }}>
-                          {targets.interests}
-                        </Typography>
-                      </Col>
-                    </Row>
-                  </Card>
-                </TinderCard>
-              ))}
-            </Col>
-          </Row>
-
-          <Row className="row justify-content-center align-content-center">
-            <Row className="justify-content-center align-content-center">
-              <Col xs={5}>
-                <IconButton
-                  onClick={() => swipe("left")}
-                  sx={{ backgroundColor: "#ffffff" }}
-                >
-                  <CloseIcon fontSize="large" sx={{ color: "red" }} />
-                </IconButton>
-              </Col>
-
-              <Col xs={5}>
-                <IconButton
-                  onClick={() => swipe("right")}
-                  sx={{ backgroundColor: "white" }}
-                >
-                  <ThumbUpIcon fontSize="large" sx={{ color: "#4ca7ea" }} />
-                </IconButton>
-              </Col>
-            </Row>
-          </Row>
-        </>
-      )}
+      <Row className="row justify-content-center align-content-center">
+        {!noMoreTargets ? (
+          <>
+            <p>no more matches.. try again later!</p>
+          </>
+        ) : (
+          <>
+            {targets.length === 0 && (
+              <IconButton onClick={getMatches}>
+                <ReplayIcon fontSize="large" />
+              </IconButton>
+            )}
+          </>
+        )}
+      </Row>
 
       {isMatch && (
         <MatchModal

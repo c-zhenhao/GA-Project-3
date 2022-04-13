@@ -105,9 +105,9 @@ export default function Filter() {
   const userUserId = useSelector((state) => state.user.userId);
 
   // react states
-  const [genderPref, setGenderPref] = useState("both");
+  const [genderPref, setGenderPref] = useState("");
   const [agePref, setAgePref] = useState([24, 46]);
-  const [interestedPref, setinterestedPref] = useState(["Normal"]);
+  const [interestedPref, setinterestedPref] = useState([]);
 
   // handlers
   // gender handle
@@ -204,7 +204,6 @@ export default function Filter() {
                 aria-labelledby="demo-row-radio-buttons-group-label"
                 name="row-radio-buttons-group"
                 onChange={handleGenderChange}
-                value={genderPref}
               >
                 <FormControlLabel
                   value="female"
@@ -232,10 +231,9 @@ export default function Filter() {
 
         <Card elevation={0} sx={{ borderRadius: 3, mb: 1, p: 1, pl: 3, pr: 3 }}>
           <Stack direction="row" style={tempBorder}>
-            <Box sx={{ width: "100%" }} style={tempBorder}>
+            <Box sx={{ width: 400 }} style={tempBorder}>
               <Slider
-                size="large"
-                sx={{ mt: 4, mx: 2 }}
+                sx={{ mt: 4 }}
                 getAriaLabel={() => "age range"}
                 value={agePref}
                 onChange={handleAgeChange}
