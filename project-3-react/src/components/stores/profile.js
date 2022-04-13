@@ -27,7 +27,7 @@ const profileSlice = createSlice({
       state.height = action.payload;
     },
     interestsChange(state, action) {
-      state.interestsChange = action.payload;
+      state.interests = action.payload;
     },
     allChange(state, action) {
       state.displayName = action.payload.displayName ? action.payload.displayName : "";
@@ -35,7 +35,7 @@ const profileSlice = createSlice({
       state.gender = action.payload.gender ? action.payload.gender : "";
       state.age = action.payload.age ? action.payload.age : "";
       state.height = action.payload.height ? action.payload.height : "";
-      state.interests = action.payload.interests ? action.payload.interests : "";
+      state.interests = action.payload.interests ? action.payload.interests : [];
     },
   },
 });

@@ -11,7 +11,7 @@ const usernameOrPasswordError = {
 
 router.put("/signup", async (req, res) => {
   try {
-    req.body.userRating = [0];
+    req.body.userRating = [2.5];
     req.body.userInteracted = [];
     req.body.interests = req.body.interests ? req.body.interests : [];
     req.body.passwordHash = await bcrypt.hash(req.body.password, 12);
