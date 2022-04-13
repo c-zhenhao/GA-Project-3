@@ -23,14 +23,12 @@ const UsersSchema = Schema({
       remarks: String,
     },
   ],
-  userPreference: [
-    {
-      gender: String,
-      ageMin: Number,
-      ageMax: Number,
-      interested: Array,
-    },
-  ],
+  userPreference: {
+    gender: String,
+    ageMin: Number,
+    ageMax: Number,
+    interested: Array,
+  },
 });
 const Users = mongoose.model("Users", UsersSchema);
 module.exports = Users;
