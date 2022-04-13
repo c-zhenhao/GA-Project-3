@@ -8,6 +8,7 @@ import Slider from "@mui/material/Slider";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import Card from "@mui/material/Card";
 
 import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
@@ -185,12 +186,14 @@ export default function Filter() {
         </Stack>
 
         <Stack direction="row" style={tempBorderHeader} sx={{ ml: -1.25 }}>
-          <Typography variant="h4">Show me...</Typography>
+          <Typography variant="h4">Match me with...</Typography>
         </Stack>
 
-        <Stack direction="row" style={tempBorder}>
+        <Stack direction="row" style={tempBorder} sx={{ mb: -1 }}>
           <Typography variant="h6">Gender</Typography>
+        </Stack>
 
+        <Card elevation={0} sx={{ borderRadius: 3, mb: 0.5, p: 1 }}>
           <Stack direction="row" style={tempBorder}>
             <FormControl>
               <RadioGroup
@@ -217,62 +220,72 @@ export default function Filter() {
               </RadioGroup>
             </FormControl>
           </Stack>
-        </Stack>
+        </Card>
 
-        <Stack direction="row" style={tempBorder}>
+        <Stack direction="row" style={tempBorder} sx={{ mb: -1 }}>
           <Typography variant="h6">Age</Typography>
-
-          <Box sx={{ width: 400 }} style={tempBorder}>
-            <Slider
-              sx={{ mt: 4 }}
-              getAriaLabel={() => "age range"}
-              value={agePref}
-              onChange={handleAgeChange}
-              valueLabelDisplay="on"
-              getAriaValueText={valuetext}
-              min={18}
-              max={69}
-              style={tempBorder}
-            />
-          </Box>
         </Stack>
 
-        <Stack style={tempBorder} direction="row" sx={{ minWidth: 200 }}>
+        <Card elevation={0} sx={{ borderRadius: 3, mb: 1, p: 1 }}>
+          <Stack direction="row" style={tempBorder}>
+            <Box sx={{ width: 400 }} style={tempBorder}>
+              <Slider
+                sx={{ mt: 4 }}
+                getAriaLabel={() => "age range"}
+                value={agePref}
+                onChange={handleAgeChange}
+                valueLabelDisplay="on"
+                getAriaValueText={valuetext}
+                min={18}
+                max={69}
+                style={tempBorder}
+              />
+            </Box>
+          </Stack>
+        </Card>
+
+        <Stack
+          style={tempBorder}
+          direction="row"
+          sx={{ minWidth: 200, mb: -1 }}
+        >
           <Typography variant="h6">Interested in...</Typography>
         </Stack>
 
-        <Stack style={tempBorderInterests}>
-          <FormControl sx={{ m: 1, minWidth: 200, maxWidth: "100%" }}>
-            <InputLabel id="demo-multiple-chip-label">Selected</InputLabel>
+        <Card elevation={0} sx={{ borderRadius: 3, mb: 1, p: 1 }}>
+          <Stack style={tempBorderInterests}>
+            <FormControl sx={{ m: 1, minWidth: 200, maxWidth: "100%" }}>
+              <InputLabel id="demo-multiple-chip-label">Selected</InputLabel>
 
-            <Select
-              labelId="demo-multiple-chip-label"
-              id="demo-multiple-chip"
-              multiple
-              value={interestedPref}
-              onChange={handleInterestedChange}
-              input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-              renderValue={(selected) => (
-                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                  {selected.map((value) => (
-                    <Chip key={value} label={value} />
-                  ))}
-                </Box>
-              )}
-              MenuProps={MenuProps}
-            >
-              {interestedSelection.map((name) => (
-                <MenuItem
-                  key={name}
-                  value={name}
-                  style={getStyles(name, interestedPref, theme)}
-                >
-                  {name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Stack>
+              <Select
+                labelId="demo-multiple-chip-label"
+                id="demo-multiple-chip"
+                multiple
+                value={interestedPref}
+                onChange={handleInterestedChange}
+                input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+                renderValue={(selected) => (
+                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                    {selected.map((value) => (
+                      <Chip key={value} label={value} />
+                    ))}
+                  </Box>
+                )}
+                MenuProps={MenuProps}
+              >
+                {interestedSelection.map((name) => (
+                  <MenuItem
+                    key={name}
+                    value={name}
+                    style={getStyles(name, interestedPref, theme)}
+                  >
+                    {name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Stack>
+        </Card>
       </Container>
     </>
   );
