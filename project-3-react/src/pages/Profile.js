@@ -12,7 +12,6 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useNavigate } from "react-router-dom";
 
-
 const Profile = () => {
   const params = useParams();
   const [user, setUser] = useState(null);
@@ -47,8 +46,8 @@ const Profile = () => {
   const [targetProfile, setTargetProfile] = useState({});
 
   const getAverage = (array) => {
-    return array.reduce((a,b)=> a + b)/array.length;
-  }
+    return array.reduce((a, b) => a + b) / array.length;
+  };
 
   useEffect(async () => {
     if (user) {
@@ -56,9 +55,8 @@ const Profile = () => {
         const matchURL = `${process.env.REACT_APP_SERVER_DOMAIN}/profile/${user}`;
         const response = await axios.get(matchURL, { withCredentials: true });
         setTargetProfile(response.data);
-        const averageTargetRating = getAverage(response.data.userRating)
+        const averageTargetRating = getAverage(response.data.userRating);
         setTargetRating(averageTargetRating);
-
       } catch (error) {
         console.log(error);
       }
@@ -89,29 +87,29 @@ const Profile = () => {
     updateRating();
   };
 
-  const redirectEditProfile = () =>{ 
-    let path = `/${params.id}/profile/edit`; 
+  const redirectEditProfile = () => {
+    let path = `/${params.id}/profile/edit`;
     navigate(path);
-  }
-//Check user rating history
+  };
+  //Check user rating history
   const [userRatingHistory, setuserRatingHistory] = useState(null);
   const checkRating = (array) => {
-    return array.filter((item) => item.targetUsername == targetProfile.username).targetRating;
-  }
+    return array.find((item) => item.targetUsername == targetProfile.username).targetRating;
+  };
 
   useEffect(async () => {
-    if (user) {
+    if (targetProfile) {
       try {
         const profileURL = `${process.env.REACT_APP_SERVER_DOMAIN}/profile`;
         const response = await axios.get(profileURL, { withCredentials: true });
-        const ratingNullorRated = checkRating(response.data.userInteracted)
+        const ratingNullorRated = checkRating(response.data.userInteracted);
         setuserRatingHistory(ratingNullorRated);
+        console.log(ratingNullorRated);
       } catch (error) {
         console.log(error);
       }
     }
-  }, [user]);
-
+  }, [targetProfile]);
 
   return (
     <>
