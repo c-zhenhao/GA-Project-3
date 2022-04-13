@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { Col } from "react-bootstrap";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
@@ -27,8 +28,8 @@ const Profile = () => {
   const isLoading = useSelector((state) => state.loader.isLoading);
   const error = useSelector((state) => state.loader.error);
 
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState(2);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(5);
   const navigate = useNavigate();
 
   const handleClickOpen = () => {
@@ -42,8 +43,7 @@ const Profile = () => {
   const handleModalOkay = () => {
     dispatchStore(loaderActions.clearError());
     if (error.message === "not logged in") dispatchStore(userActions.logout());
-    if (!userId && !username) navigate(`/`, { replace: true });
-    else window.location.reload(false);
+    else if (!userId && !username) navigate(`/`, { replace: true });
   };
 
   useEffect(() => {
@@ -107,6 +107,8 @@ const Profile = () => {
         { withCredentials: true }
       );
       console.log(res);
+
+      if (res.data) window.location.reload(false);
     } catch (error) {
       console.log(error);
       dispatchStore(loaderActions.setError({ title: error.name, message: error.message }));
@@ -126,7 +128,10 @@ const Profile = () => {
   //Check user rating history
   const [userRatingHistory, setuserRatingHistory] = useState(null);
   const checkRating = (array) => {
-    return array.find((item) => item.targetUsername === targetProfile.username).targetRating;
+    // try {
+    const { targetRating } = array.find((item) => item.targetUsername === targetProfile.username);
+    // } catch (err) {}
+    return targetRating;
   };
 
   const isTargetRated = async () => {
@@ -135,18 +140,17 @@ const Profile = () => {
     try {
       const profileURL = `${process.env.REACT_APP_SERVER_DOMAIN}/profile`;
       const response = await axios.get(profileURL, { withCredentials: true });
-      const ratingNullorRated = checkRating(response.data.userInteracted);
-      setuserRatingHistory(ratingNullorRated);
-      console.log(ratingNullorRated);
+      if (response.data && response.data.userInteracted.length)
+        setuserRatingHistory(checkRating(response.data.userInteracted));
     } catch (error) {
-      console.log(error);
-      dispatchStore(loaderActions.setError({ title: error.name, message: error.message }));
+      // console.log(error);
+      // dispatchStore(loaderActions.setError({ title: error.name, message: error.message }));
     }
     dispatchStore(loaderActions.doneLoading());
   };
 
   useEffect(() => {
-    if (targetProfile) {
+    if (targetProfile && params.target) {
       isTargetRated();
     }
     //eslint-disable-next-line
@@ -201,13 +205,23 @@ const Profile = () => {
               Edit my Profile
             </Button>
           )}
-          <Dialog open={open} onClose={handleClose}>
-            <DialogTitle>(Ugly) 0 to 5 (Attractive)</DialogTitle>
-            <Box
-              sx={{
-                "& > legend": { mt: 2 },
-              }}
-            >
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            sx={{ "& > div > div": { borderRadius: "12px !important" } }}
+          >
+            <DialogTitle className="row justify-content-center align-content-center">
+              <Col xs={2} style={{ paddingLeft: "9px", paddingTop: "5px" }}>
+                😈
+              </Col>
+              <Col xs={8} style={{ fontSize: "0.8em", lineHeight: "2.5em" }}>
+                PERSONALITY
+              </Col>
+              <Col xs={2} style={{ paddingLeft: "9px", paddingTop: "5px" }}>
+                😇
+              </Col>
+            </DialogTitle>
+            <Box style={{ width: "30vh", margin: "0 auto", left: "50%" }}>
               <Typography component="legend"></Typography>
               <Rating
                 name="simple-controlled"
@@ -217,9 +231,13 @@ const Profile = () => {
                 }}
               />
             </Box>
-            <DialogActions>
-              <Button onClick={handleClose}>Cancel</Button>
-              <Button onClick={updateRating}>Submit Rating</Button>
+            <DialogActions className="row justify-content-center align-content-center">
+              <Button className="col-sm-4" onClick={handleClose}>
+                Cancel
+              </Button>
+              <Button className="col-sm-6" onClick={updateRating}>
+                Submit Rating
+              </Button>
             </DialogActions>
           </Dialog>
         </p>

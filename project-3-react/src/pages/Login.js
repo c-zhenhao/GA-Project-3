@@ -76,7 +76,7 @@ const Login = () => {
   }, [submit]);
 
   useEffect(() => {
-    if (userId && username) navigate(`/${userId}/match`, { replace: true });
+    if (userId && username) navigate(`/${username}/match`, { replace: true });
     //eslint-disable-next-line
   }, [userId]);
 
