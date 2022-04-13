@@ -16,7 +16,8 @@ const dbError = {
 
 router.patch("/", auth, async (req, res) => {
   try {
-    res.json(await Users.findById(req.session.userId, { _id: 0, passwordHash: 0 }));
+    await Users.findByIdAndUpdate(req.session.userId, req.body);
+    res.json({ title: "OK", message: "profile updated" });
   } catch (err) {
     console.error(err);
     res.status(400).json(dbError);
