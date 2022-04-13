@@ -14,21 +14,22 @@ router.get("/", auth, async (req, res) => {
     const { userInteracted, userPreference } = await Users.findById(req.session.userId);
     let { gender, ageMax, ageMin, interested } = userPreference;
     if (gender === "both") gender = ["male", "female"];
-    if (interested.length) interested = { $elemMatch: { $in: interested } };
-    else interested = { $elemMatch: { $nin: [""] } };
+
+    // if (interested.length) interested = { $elemMatch: { $in: interested } };
+    // else interested = { $elemMatch: { $nin: [""] } };
+
     const filter = userInteracted.map(({ targetUsername }) => targetUsername);
     filter.push(req.session.currentUser);
+
+    const toFind = { username: { $nin: filter } };
+    if (gender) toFind.gender = gender;
+    if (ageMin && ageMax) toFind.$and = [{ age: { $gte: ageMin } }, { age: { $lte: ageMax } }];
+    if (interested.length) toFind.interests = { $elemMatch: { $in: interested } };
+
+    console.log(toFind);
+
     res.json(
-      await Users.find(
-        {
-          username: { $nin: filter },
-          gender,
-          age: { $gte: ageMin },
-          age: { $lte: ageMax },
-          interests: interested,
-        },
-        { passwordHash: 0 }
-      ).collation({ locale: "en", strength: 2 })
+      await Users.find({ ...toFind }, { passwordHash: 0 }).collation({ locale: "en", strength: 2 })
     );
   } catch (err) {
     // console.error(err);
