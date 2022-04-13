@@ -17,6 +17,7 @@ import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import LoadingSpinner from "../components/modals/LoadingSpinner";
 import ErrorModal from "../components/modals/ErrorModal";
+import ProfileForm from "../components/ProfileForm";
 
 const Profile = () => {
   const params = useParams();
@@ -28,6 +29,7 @@ const Profile = () => {
   const isLoading = useSelector((state) => state.loader.isLoading);
   const error = useSelector((state) => state.loader.error);
 
+  const [signup, setSignup] = useState(false);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(5);
   const navigate = useNavigate();
@@ -121,10 +123,10 @@ const Profile = () => {
   //   updateRating();
   // };
 
-  const redirectEditProfile = () => {
-    let path = `/${params.id}/profile/edit`;
-    navigate(path);
-  };
+  // const redirectEditProfile = () => {
+  //   let path = `/${params.id}/profile/edit`;
+  //   navigate(path);
+  // };
   //Check user rating history
   const [userRatingHistory, setuserRatingHistory] = useState(null);
   const checkRating = (array) => {
@@ -201,7 +203,12 @@ const Profile = () => {
             </Button>
           )}
           {!params.target && (
-            <Button variant="contained" onClick={redirectEditProfile}>
+            <Button
+              variant="contained"
+              onClick={() => {
+                setSignup(true);
+              }}
+            >
               Edit my Profile
             </Button>
           )}
@@ -242,6 +249,7 @@ const Profile = () => {
           </Dialog>
         </p>
       </div>
+      {signup && <ProfileForm edit={true} onCancel={setSignup} />}
     </>
   );
 };
