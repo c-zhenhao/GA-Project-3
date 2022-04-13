@@ -19,8 +19,7 @@ const Logout = () => {
   const handleModalOkay = () => {
     dispatchStore(loaderActions.clearError());
     if (error.message === "not logged in") dispatchStore(userActions.logout());
-    if (!userId && !username) navigate(`/`, { replace: true });
-    else window.location.reload(false);
+    else if (!userId && !username) navigate(`/`, { replace: true });
   };
 
   const logoutFlow = async (signal) => {
