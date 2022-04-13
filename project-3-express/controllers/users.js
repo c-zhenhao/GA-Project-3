@@ -14,10 +14,16 @@ router.post("/signup", async (req, res) => {
     req.body.passwordHash = await bcrypt.hash(req.body.password, 12);
     const createdUser = await Users.create(req.body);
     console.log("created user is: ", createdUser);
-    res.json({ title: "OK", message: "user created" });
+    if (createdUser) {
+      req.session.currentUser = createdUser.username;
+      req.session.userId = createdUser.id;
+      res.json({ title: "OK", message: "new user created" });
+    } else {
+      res.status(401).json({ title: "error", message: `unable to create user` });
+    }
   } catch (err) {
     console.error(err);
-    res.status(401).json(usernameOrPasswordError);
+    res.status(400).json({ title: "error", message: `unable to complete request` });
   }
 });
 
