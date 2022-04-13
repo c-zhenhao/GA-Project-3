@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { prefStoreActions } from "../components/stores/prefStore";
 import { NavLink } from "react-router-dom";
 
 import Box from "@mui/material/Box";
@@ -104,22 +105,28 @@ export default function Filter() {
   // redux
   const userUserId = useSelector((state) => state.user.userId);
 
-  // react states
-  const [genderPref, setGenderPref] = useState("");
-  const [agePref, setAgePref] = useState([24, 46]);
-  const [interestedPref, setinterestedPref] = useState([]);
+  // redux store
+  const dispatchStore = useDispatch();
+  const genderPref = useSelector((state) => state.prefStore.genderPref);
+  const agePref = useSelector((state) => state.prefStore.agePref);
+  const interestedPref = useSelector((state) => state.prefStore.interestedPref);
+
+  // // react states
+  // const [genderPref, setGenderPref] = useState("");
+  // const [agePref, setAgePref] = useState([24, 46]);
+  // const [interestedPref, setinterestedPref] = useState([]);
 
   // handlers
   // gender handle
   const handleGenderChange = (event) => {
     console.log(event.target.value);
-    setGenderPref(event.target.value);
+    dispatchStore(prefStoreActions.setGenderPref(event.target.value));
   };
 
   // age handle
   const handleAgeChange = (event) => {
     console.log(event.target.value);
-    setAgePref(event.target.value);
+    dispatchStore(prefStoreActions.setAgePref(event.target.value));
   };
 
   // interest handle
@@ -130,9 +137,11 @@ export default function Filter() {
 
     console.log(event.target.value);
 
-    setinterestedPref(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
+    dispatchStore(
+      prefStoreActions.setinterestedPref(
+        // On autofill we get a stringified value.
+        typeof value === "string" ? value.split(",") : value
+      )
     );
   };
 
@@ -153,11 +162,9 @@ export default function Filter() {
     const url = `${process.env.REACT_APP_SERVER_DOMAIN}/match/filters`;
     const settings = { withCredentials: true };
 
-    const patchFilter = await axios
-      .patch(url, sendFilter, settings)
-      .catch((error) => {
-        console.log(error);
-      });
+    const patchFilter = await axios.patch(url, sendFilter, settings).catch((error) => {
+      console.log(error);
+    });
     console.log(patchFilter);
   };
 
@@ -165,12 +172,7 @@ export default function Filter() {
     <>
       <Container>
         <Stack direction="row" style={tempBorderNavigation} sx={{ mt: 3 }}>
-          <Button
-            style={tempBorder}
-            size="large"
-            component={NavLink}
-            to={`/${userUserId}/match`}
-          >
+          <Button style={tempBorder} size="large" component={NavLink} to={`/${userUserId}/match`}>
             <ArrowBackIosIcon />
             Back
           </Button>
@@ -193,10 +195,7 @@ export default function Filter() {
           <Typography variant="h6">Gender</Typography>
         </Stack>
 
-        <Card
-          elevation={0}
-          sx={{ borderRadius: 3, mb: 0.5, p: 0.5, pl: 3, pr: 3 }}
-        >
+        <Card elevation={0} sx={{ borderRadius: 3, mb: 0.5, p: 0.5, pl: 3, pr: 3 }}>
           <Stack direction="row" style={tempBorder}>
             <FormControl>
               <RadioGroup
@@ -204,22 +203,11 @@ export default function Filter() {
                 aria-labelledby="demo-row-radio-buttons-group-label"
                 name="row-radio-buttons-group"
                 onChange={handleGenderChange}
+                value={genderPref}
               >
-                <FormControlLabel
-                  value="female"
-                  control={<Radio />}
-                  label="Female"
-                />
-                <FormControlLabel
-                  value="male"
-                  control={<Radio />}
-                  label="Male"
-                />
-                <FormControlLabel
-                  value="both"
-                  control={<Radio />}
-                  label="Both"
-                />
+                <FormControlLabel value="female" control={<Radio />} label="Female" />
+                <FormControlLabel value="male" control={<Radio />} label="Male" />
+                <FormControlLabel value="both" control={<Radio />} label="Both" />
               </RadioGroup>
             </FormControl>
           </Stack>
@@ -247,11 +235,7 @@ export default function Filter() {
           </Stack>
         </Card>
 
-        <Stack
-          style={tempBorder}
-          direction="row"
-          sx={{ minWidth: 200, mb: -1 }}
-        >
+        <Stack style={tempBorder} direction="row" sx={{ minWidth: 200, mb: -1 }}>
           <Typography variant="h6">Interested in...</Typography>
         </Stack>
 
@@ -277,11 +261,7 @@ export default function Filter() {
                 MenuProps={MenuProps}
               >
                 {interestedSelection.map((name) => (
-                  <MenuItem
-                    key={name}
-                    value={name}
-                    style={getStyles(name, interestedPref, theme)}
-                  >
+                  <MenuItem key={name} value={name} style={getStyles(name, interestedPref, theme)}>
                     {name}
                   </MenuItem>
                 ))}
