@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import { useSelector } from "react-redux";
-import { Container, Row, Col } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 
 import TinderCard from "react-tinder-card";
 
@@ -123,8 +123,13 @@ const Match = () => {
   useEffect(() => {
     console.log(targets.length, currentIndex, currentIndexRef.current);
     if (!userUserId && !userUsername) navigate(`/`, { replace: true });
-    if (currentIndex < 0 && !noMoreTargets) {
-      console.log("getMatches", targets.length, currentIndex, currentIndexRef.current);
+    if ((targets.length === 0 || currentIndex < 0) && !noMoreTargets) {
+      console.log(
+        "getMatches",
+        targets.length,
+        currentIndex,
+        currentIndexRef.current
+      );
       getMatches();
     }
   }, [targets, currentIndex]);
@@ -157,7 +162,9 @@ const Match = () => {
                   className="swipe row justify-content-center align-content-end"
                   ref={childRefs[index]}
                   key={targets.username}
-                  onSwipe={(direction) => swiped(direction, targets.username, index)}
+                  onSwipe={(direction) =>
+                    swiped(direction, targets.username, index)
+                  }
                   onCardLeftScreen={() => outOfFrame(targets.username, index)}
                   preventSwipe={["up", "down"]}
                 >
@@ -191,9 +198,16 @@ const Match = () => {
 
                     <Row className="justify-content-center align-content-start">
                       <Col xs={12}>
-                        <Typography variant="h3" sx={{ padding: "10px" }} display="inline">
+                        <Typography
+                          variant="h3"
+                          sx={{ padding: "10px" }}
+                          display="inline"
+                        >
                           {targets.displayName}
-                          <Typography style={{ fontSize: "0.69em" }} display="inline">
+                          <Typography
+                            style={{ fontSize: "0.69em" }}
+                            display="inline"
+                          >
                             {targets.age} / {targets.gender}
                           </Typography>
                         </Typography>
@@ -216,13 +230,19 @@ const Match = () => {
           <Row className="row justify-content-center align-content-center">
             <Row className="justify-content-center align-content-center">
               <Col xs={5}>
-                <IconButton onClick={() => swipe("left")} sx={{ backgroundColor: "#ffffff" }}>
+                <IconButton
+                  onClick={() => swipe("left")}
+                  sx={{ backgroundColor: "#ffffff" }}
+                >
                   <CloseIcon fontSize="large" sx={{ color: "red" }} />
                 </IconButton>
               </Col>
 
               <Col xs={5}>
-                <IconButton onClick={() => swipe("right")} sx={{ backgroundColor: "white" }}>
+                <IconButton
+                  onClick={() => swipe("right")}
+                  sx={{ backgroundColor: "white" }}
+                >
                   <ThumbUpIcon fontSize="large" sx={{ color: "#4ca7ea" }} />
                 </IconButton>
               </Col>

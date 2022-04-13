@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { prefStoreActions } from "../components/stores/prefStore";
 import { NavLink } from "react-router-dom";
@@ -162,9 +162,11 @@ export default function Filter() {
     const url = `${process.env.REACT_APP_SERVER_DOMAIN}/match/filters`;
     const settings = { withCredentials: true };
 
-    const patchFilter = await axios.patch(url, sendFilter, settings).catch((error) => {
-      console.log(error);
-    });
+    const patchFilter = await axios
+      .patch(url, sendFilter, settings)
+      .catch((error) => {
+        console.log(error);
+      });
     console.log(patchFilter);
   };
 
@@ -172,7 +174,12 @@ export default function Filter() {
     <>
       <Container>
         <Stack direction="row" style={tempBorderNavigation} sx={{ mt: 3 }}>
-          <Button style={tempBorder} size="large" component={NavLink} to={`/${userUserId}/match`}>
+          <Button
+            style={tempBorder}
+            size="large"
+            component={NavLink}
+            to={`/${userUserId}/match`}
+          >
             <ArrowBackIosIcon />
             Back
           </Button>
@@ -195,7 +202,10 @@ export default function Filter() {
           <Typography variant="h6">Gender</Typography>
         </Stack>
 
-        <Card elevation={0} sx={{ borderRadius: 3, mb: 0.5, p: 0.5, pl: 3, pr: 3 }}>
+        <Card
+          elevation={0}
+          sx={{ borderRadius: 3, mb: 0.5, p: 0.5, pl: 3, pr: 3 }}
+        >
           <Stack direction="row" style={tempBorder}>
             <FormControl>
               <RadioGroup
@@ -205,9 +215,21 @@ export default function Filter() {
                 onChange={handleGenderChange}
                 value={genderPref}
               >
-                <FormControlLabel value="female" control={<Radio />} label="Female" />
-                <FormControlLabel value="male" control={<Radio />} label="Male" />
-                <FormControlLabel value="both" control={<Radio />} label="Both" />
+                <FormControlLabel
+                  value="female"
+                  control={<Radio />}
+                  label="Female"
+                />
+                <FormControlLabel
+                  value="male"
+                  control={<Radio />}
+                  label="Male"
+                />
+                <FormControlLabel
+                  value="both"
+                  control={<Radio />}
+                  label="Both"
+                />
               </RadioGroup>
             </FormControl>
           </Stack>
@@ -219,7 +241,7 @@ export default function Filter() {
 
         <Card elevation={0} sx={{ borderRadius: 3, mb: 1, p: 1, pl: 3, pr: 3 }}>
           <Stack direction="row" style={tempBorder}>
-            <Box sx={{ width: 400 }} style={tempBorder}>
+            <Box sx={{ width: "100%" }} style={tempBorder}>
               <Slider
                 sx={{ mt: 4 }}
                 getAriaLabel={() => "age range"}
@@ -235,7 +257,11 @@ export default function Filter() {
           </Stack>
         </Card>
 
-        <Stack style={tempBorder} direction="row" sx={{ minWidth: 200, mb: -1 }}>
+        <Stack
+          style={tempBorder}
+          direction="row"
+          sx={{ minWidth: 200, mb: -1 }}
+        >
           <Typography variant="h6">Interested in...</Typography>
         </Stack>
 
@@ -261,7 +287,11 @@ export default function Filter() {
                 MenuProps={MenuProps}
               >
                 {interestedSelection.map((name) => (
-                  <MenuItem key={name} value={name} style={getStyles(name, interestedPref, theme)}>
+                  <MenuItem
+                    key={name}
+                    value={name}
+                    style={getStyles(name, interestedPref, theme)}
+                  >
                     {name}
                   </MenuItem>
                 ))}
