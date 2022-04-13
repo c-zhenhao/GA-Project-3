@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { loaderActions } from "../components/stores/loader";
+import LoadingSpinner from "../components/modals/LoadingSpinner";
+import ErrorModal from "../components/modals/ErrorModal";
 import axios from "axios";
 
 const matchURL = `${process.env.REACT_APP_SERVER_DOMAIN}/list`;
@@ -12,13 +17,39 @@ const TargetList = () => {
   //using API to populate seed
   const [list, setList] = useState([]);
 
-  useEffect(async () => {
+  const dispatchStore = useDispatch();
+  const isLoading = useSelector((state) => state.loader.isLoading);
+  const error = useSelector((state) => state.loader.error);
+  const username = useSelector((state) => state.user.username);
+  const loginUserId = useSelector((state) => state.user.userId);
+  const navigate = useNavigate();
+
+  const getMatchedList = async () => {
+    dispatchStore(loaderActions.setIsLoading());
+    dispatchStore(loaderActions.clearError());
     try {
       const response = await axios.get(matchURL, { withCredentials: true });
       setList(response.data);
     } catch (error) {
       console.log(error);
+      dispatchStore(
+        loaderActions.setError({
+          title: error.response.data.title,
+          message: error.response.data.message,
+        })
+      );
     }
+    dispatchStore(loaderActions.doneLoading());
+  };
+
+  const handleModalOkay = () => {
+    dispatchStore(loaderActions.clearError());
+    // if (error.message !== "Invalid Password") window.location.reload(false);
+  };
+
+  useEffect(async () => {
+    if (!loginUserId && !username) navigate(`/`, { replace: true });
+    getMatchedList();
   }, []);
 
   const params = useParams();
@@ -52,10 +83,20 @@ const TargetList = () => {
     );
   });
   return (
-    <div>
-      <h1>Your matches</h1>
-      {displayList}
-    </div>
+    <>
+      {error && error.message !== "canceled" && (
+        <ErrorModal
+          title={error.title}
+          message={error.message}
+          onClick={handleModalOkay}
+        ></ErrorModal>
+      )}
+      {isLoading && <LoadingSpinner show={isLoading} />}
+      <div>
+        <h1>Your matches</h1>
+        {displayList}
+      </div>
+    </>
   );
 };
 
