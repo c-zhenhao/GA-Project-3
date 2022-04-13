@@ -36,7 +36,7 @@ const TargetList = () => {
           <Typography component="legend">User Rating</Typography>
           <Rating
             name="read-only"
-            value={data.userRating.split(',').map(v => Number(v)).reduce((a, c, i, arr) => ((a += c), ((i === arr.length - 1) ? (a /= arr.length) : a))) }
+            value={data.userRating.map(v => Number(v)).reduce((a, c, i, arr) => ((a += c), ((i === arr.length - 1) ? (a /= arr.length) : a))) }
             precision={0.5}
             size="large"
             readOnly
