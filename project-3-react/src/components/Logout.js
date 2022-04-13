@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { userActions } from "./stores/user";
+import { profileActions } from "../components/stores/profile";
+import { prefStoreActions } from "../components/stores/prefStore";
 import { loaderActions } from "./stores/loader";
 import axios from "axios";
 import LoadingSpinner from "./modals/LoadingSpinner";
@@ -36,7 +38,9 @@ const Logout = () => {
         },
       });
       if (res.status === 200) {
-        dispatchStore(userActions.logout(res.data.userId));
+        dispatchStore(userActions.logout());
+        dispatchStore(profileActions.allChange({}));
+        dispatchStore(prefStoreActions.setAllPref({ userPreference: {} }));
         dispatchStore(
           loaderActions.setError({
             title: "Bye! See ya soon.",
