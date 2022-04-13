@@ -1,18 +1,75 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import Box from "@mui/material/Box";
-import Rating from "@mui/material/Rating";
-import Typography from "@mui/material/Typography";
-import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
+
 import { useSelector, useDispatch } from "react-redux";
 import { userActions } from "../components/stores/user";
 import { loaderActions } from "../components/stores/loader";
+
 import LoadingSpinner from "../components/modals/LoadingSpinner";
 import ErrorModal from "../components/modals/ErrorModal";
+
+import List from "../components/List";
+
 import axios from "axios";
 
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+
+import Typography from "@mui/material/Typography";
+import Stack from "@mui/material/Stack";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
 const matchURL = `${process.env.REACT_APP_SERVER_DOMAIN}/list`;
+
+const tempBorder = {
+  display: "flex",
+  //   border: "2px solid blue",
+  marginTop: "3px",
+  alignContent: "center",
+  alignItems: "center",
+  justifyContent: "space-between",
+};
+
+const theme = createTheme({
+  components: {
+    MuiTypography: {
+      variants: [
+        {
+          props: {
+            variant: "h2",
+          },
+          style: {
+            fontSize: 24,
+          },
+        },
+        {
+          props: {
+            variant: "h3",
+          },
+          style: {
+            fontSize: 30,
+            fontWeight: "bolder",
+          },
+        },
+        {
+          props: {
+            variant: "h4",
+          },
+          style: {
+            fontSize: 18,
+          },
+        },
+        {
+          props: {
+            variant: "h5",
+          },
+          style: {
+            fontSize: 16,
+          },
+        },
+      ],
+    },
+  },
+});
 
 const TargetList = () => {
   //using API to populate seed
@@ -59,33 +116,6 @@ const TargetList = () => {
   const params = useParams();
   const userId = params.id;
 
-  const displayList = list.map((data, i) => {
-    return (
-      <ul key={i}>
-        <b>{data.displayName}</b>
-        <Box
-          sx={{
-            "& > legend": { mt: 2 },
-          }}
-        >
-          <Typography component="legend">User Rating</Typography>
-          <Rating
-            name="read-only"
-            value={data.userRating
-              .map((v) => Number(v))
-              .reduce((a, c, i, arr) => ((a += c), i === arr.length - 1 ? (a /= arr.length) : a))}
-            precision={0.5}
-            size="large"
-            readOnly
-          />
-        </Box>
-        <img src={data.imgUrl} alt="profile" />
-        <p>
-          <Link to={`/${userId}/profile/${data.id}`}> See Profile </Link>
-        </p>
-      </ul>
-    );
-  });
   return (
     <>
       {error && error.message !== "canceled" && (
@@ -96,9 +126,15 @@ const TargetList = () => {
         ></ErrorModal>
       )}
       {isLoading && <LoadingSpinner show={isLoading} />}
-      <div>
-        <h1>Your matches</h1>
-        {displayList}
+      <div style={{ overflowY: "auto", height: "100%" }}>
+        <ThemeProvider theme={theme}>
+          <Stack direction="row" style={tempBorder}>
+            <Typography variant="h2" sx={{ ml: 2 }}>
+              Your matches
+            </Typography>
+          </Stack>
+        </ThemeProvider>
+        <List list={list} />
       </div>
     </>
   );

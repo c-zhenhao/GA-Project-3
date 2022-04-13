@@ -14,6 +14,7 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 
 export default function NavTop() {
   const userId = useSelector((state) => state.user.userId);
+  const userUsername = useSelector((state) => state.user.userUsername);
 
   return (
     <Box sx={{ flexGrow: 0 }}>
@@ -49,7 +50,7 @@ export default function NavTop() {
                 color="inherit"
                 aria-label="logout"
                 component={RouterLink}
-                to={`/${userId}/filter`}
+                to={`/${userUsername}/filter`}
               >
                 <FilterListIcon />
               </IconButton>

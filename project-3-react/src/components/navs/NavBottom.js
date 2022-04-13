@@ -18,6 +18,7 @@ export default function FixedBottomNavigation() {
   // redux store user
   // const username = useSelector((state) => state.user.username);
   const userUserId = useSelector((state) => state.user.userId);
+  const userUsername = useSelector((state) => state.user.username);
 
   return (
     <Box sx={{ pb: 0 }} ref={ref}>
@@ -36,14 +37,14 @@ export default function FixedBottomNavigation() {
             label="Profile"
             icon={<AccountCircleIcon />}
             component={NavLink}
-            to={`/${userUserId}/profile`}
+            to={`/${userUsername}/profile`}
           />
 
           <BottomNavigationAction
             label="Match"
             icon={<HandshakeIcon />}
             component={NavLink}
-            to={`/${userUserId}/match`}
+            to={`/${userUsername}/match`}
           />
 
           <BottomNavigationAction
@@ -51,7 +52,7 @@ export default function FixedBottomNavigation() {
             icon={<ViewListIcon />}
             color="secondary"
             component={NavLink}
-            to={`/${userUserId}/list`}
+            to={`/${userUsername}/list`}
           />
         </BottomNavigation>
       </Paper>
