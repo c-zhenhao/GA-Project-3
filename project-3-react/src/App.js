@@ -15,7 +15,7 @@ import Seed from "./components/Seed";
 import Logout from "./components/Logout";
 import NavTop from "./components/navs/NavTop";
 import NavBottom from "./components/navs/NavBottom";
-import EditProfile from "./pages/EditProfile";
+import EditProfile from "./pages/editProfile";
 
 const GlobalStyle = createGlobalStyle`
 :root {
@@ -60,7 +60,10 @@ function App() {
           : window.innerWidth > 575
           ? "540px"
           : "100%";
-      if (newWidth !== dimensions.width || window.innerHeight !== dimensions.height)
+      if (
+        newWidth !== dimensions.width ||
+        window.innerHeight !== dimensions.height
+      )
         setDimensions({
           height: window.innerHeight,
           width: newWidth,
