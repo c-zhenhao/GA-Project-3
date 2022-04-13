@@ -119,13 +119,13 @@ export default function Filter() {
   // handlers
   // gender handle
   const handleGenderChange = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     dispatchStore(prefStoreActions.setGenderPref(event.target.value));
   };
 
   // age handle
   const handleAgeChange = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     dispatchStore(prefStoreActions.setAgePref(event.target.value));
   };
 
