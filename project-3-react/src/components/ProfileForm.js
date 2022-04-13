@@ -9,6 +9,17 @@ import { useNavigate } from "react-router-dom";
 import ProfileModal from "./modals/ProfileModal";
 import styled from "styled-components";
 
+import { useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Card from "@mui/material/Card";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import Chip from "@mui/material/Chip";
+
 const Input = styled(Form.Control)`
   width: 90%;
   min-height: 42px;
@@ -21,7 +32,48 @@ const Input = styled(Form.Control)`
   box-shadow: inset 0 0 5px 1px rgba(0, 0, 0, 0.2);
 `;
 
+function getStyles(n, interests, theme) {
+  return {
+    fontWeight:
+      interests.indexOf(n) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+const interestedSelection = [
+  "Normal",
+  "Fire",
+  "Water",
+  "Electric",
+  "Grass",
+  "Ice",
+  "Fighting",
+  "Poison",
+  "Ground",
+  "Flying",
+  "Psychic",
+  "Bug",
+  "Rock",
+  "Dragon",
+  "Dark",
+  "Steel",
+  "Fairy",
+];
+
 const ProfileForm = (props) => {
+  const theme = useTheme();
   const dispatchStore = useDispatch();
   const navigate = useNavigate();
 
@@ -41,6 +93,19 @@ const ProfileForm = (props) => {
     else {
       setSubmit(true);
     }
+  };
+
+  const handleInterestedChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+
+    dispatchStore(
+      profileActions.interestsChange(
+        // On autofill we get a stringified value.
+        typeof value === "string" ? value.split(",") : value
+      )
+    );
   };
 
   const signupFlow = async (signal) => {
@@ -194,15 +259,36 @@ const ProfileForm = (props) => {
             />
           </Col>
           <Col sm={12}>
-            <Input
-              type="text"
-              value={interests}
-              name="interests"
-              placeholder="Interests"
-              onChange={(e) =>
-                dispatchStore(profileActions.interestsChange(e.target.value.split[","]))
-              }
-            />
+            <Card elevation={0} sx={{ borderRadius: 3, mb: 1, p: 1, pl: 3, pr: 3 }}>
+              <Stack>
+                <FormControl sx={{ m: 1, minWidth: 200, maxWidth: "100%" }}>
+                  <InputLabel id="demo-multiple-chip-label">Selected</InputLabel>
+
+                  <Select
+                    labelId="demo-multiple-chip-label"
+                    id="demo-multiple-chip"
+                    multiple
+                    value={interests}
+                    onChange={handleInterestedChange}
+                    input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+                    renderValue={(selected) => (
+                      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                        {selected.map((value) => (
+                          <Chip key={value} label={value} />
+                        ))}
+                      </Box>
+                    )}
+                    MenuProps={MenuProps}
+                  >
+                    {interestedSelection.map((n) => (
+                      <MenuItem key={n} value={n} style={getStyles(n, interests, theme)}>
+                        {n}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Stack>
+            </Card>
           </Col>
         </Row>
       </Form>
