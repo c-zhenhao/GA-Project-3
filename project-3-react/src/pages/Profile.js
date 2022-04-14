@@ -18,6 +18,8 @@ import Stack from "@mui/material/Stack";
 import LoadingSpinner from "../components/modals/LoadingSpinner";
 import ErrorModal from "../components/modals/ErrorModal";
 import ProfileForm from "../components/ProfileForm";
+import DeleteProfileModal from "../components/modals/DeleteProfileModal";
+import Grid from "@mui/material/Grid";
 
 const Profile = () => {
   const params = useParams();
@@ -80,7 +82,9 @@ const Profile = () => {
       setTargetRating(averageTargetRating);
     } catch (error) {
       console.log(error);
-      dispatchStore(loaderActions.setError({ title: error.name, message: error.message }));
+      dispatchStore(
+        loaderActions.setError({ title: error.name, message: error.message })
+      );
     }
     dispatchStore(loaderActions.doneLoading());
   };
@@ -113,7 +117,9 @@ const Profile = () => {
       if (res.data) window.location.reload(false);
     } catch (error) {
       console.log(error);
-      dispatchStore(loaderActions.setError({ title: error.name, message: error.message }));
+      dispatchStore(
+        loaderActions.setError({ title: error.name, message: error.message })
+      );
     }
     dispatchStore(loaderActions.doneLoading());
   };
@@ -131,7 +137,9 @@ const Profile = () => {
   const [userRatingHistory, setuserRatingHistory] = useState(null);
   const checkRating = (array) => {
     // try {
-    const { targetRating } = array.find((item) => item.targetUsername === targetProfile.username);
+    const { targetRating } = array.find(
+      (item) => item.targetUsername === targetProfile.username
+    );
     // } catch (err) {}
     return targetRating;
   };
@@ -169,7 +177,11 @@ const Profile = () => {
       )}
       {isLoading && <LoadingSpinner show={isLoading} />}
       <div className="row mt-5">
-        <Stack direction="row" spacing={1} className="row justify-content-center">
+        <Stack
+          direction="row"
+          spacing={1}
+          className="row justify-content-center"
+        >
           <Avatar
             className="col-sm-6"
             alt={targetProfile.displayName}
@@ -184,7 +196,13 @@ const Profile = () => {
           }}
         >
           <Typography component="legend"></Typography>
-          <Rating name="read-only" value={targetRating} precision={0.5} size="large" readOnly />
+          <Rating
+            name="read-only"
+            value={targetRating}
+            precision={0.5}
+            size="large"
+            readOnly
+          />
         </Box>
 
         <h1>{targetProfile && targetProfile.displayName}</h1>
@@ -203,14 +221,38 @@ const Profile = () => {
             </Button>
           )}
           {!params.target && (
-            <Button
-              variant="contained"
-              onClick={() => {
-                setSignup(true);
-              }}
-            >
-              Edit my Profile
-            </Button>
+            <Grid container columns={16} spacing={2}>
+              <Grid
+                item
+                xs={8}
+                style={{
+                  border: "2px solid transparent",
+                  display: "flex",
+                  justifyContent: "flex-end",
+                }}
+              >
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    setSignup(true);
+                  }}
+                >
+                  Edit my Profile
+                </Button>
+              </Grid>
+
+              <Grid
+                item
+                xs={8}
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-start",
+                  border: "2px solid transparent",
+                }}
+              >
+                <DeleteProfileModal />
+              </Grid>
+            </Grid>
           )}
           <Dialog
             open={open}

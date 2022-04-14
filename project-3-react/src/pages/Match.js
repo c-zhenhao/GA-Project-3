@@ -111,7 +111,7 @@ const Match = () => {
       setNoMoreTargets(false);
       const splicedResponse = response.data.slice(0, 10);
       setTargets(splicedResponse);
-      updateCurrentIndex(9);
+      updateCurrentIndex(splicedResponse.length - 1);
     } else {
       setNoMoreTargets(true);
     }
