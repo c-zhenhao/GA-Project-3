@@ -54,7 +54,7 @@ router.post("/:id/rate", auth, async (req, res) => {
     const target = await Users.findOne({ username: req.body.targetUsername });
     const userRating = target.userRating;
     userRating.push(parseFloat(req.body.targetRating));
-    console.log(target, target.id, userRating);
+    // console.log(target, target.id, userRating);
     await Users.findByIdAndUpdate(target.id, { userRating });
 
     res.json({ title: "OK", message: `rating successful` });
@@ -64,18 +64,17 @@ router.post("/:id/rate", auth, async (req, res) => {
   }
 });
 
-router.delete("/", auth, async (req, res) => {
+router.delete("/", async (req, res) => {
   try {
-    const user = await Users.findById(req.session.userId);
-    // console.log(req.body.password, user.username, user._id, user.id);
+    const user = await Users.findById(req.body.userId);
     const result = await bcrypt.compare(req.body.password, user.passwordHash);
     if (result) {
       const targetList = await Users.find({
-        userInteracted: { $elemMatch: { targetUsername: req.session.currentUser } },
+        userInteracted: { $elemMatch: { targetUsername: req.body.username } },
       });
       for (let target of targetList) {
         let userInteracted = target.userInteracted.filter(
-          (ea) => ea.targetUsername !== req.session.currentUser
+          (ea) => ea.targetUsername !== req.body.username
         );
         const check = await Users.findByIdAndUpdate(target.id, { userInteracted });
       }
@@ -88,37 +87,6 @@ router.delete("/", auth, async (req, res) => {
     } else {
       res.status(401).json(usernameOrPasswordError);
     }
-  } catch (err) {
-    console.error(err);
-    res.status(400).json(dbError);
-  }
-});
-
-router.patch("/delete", async (req, res) => {
-  try {
-    // const user = await Users.findById(req.session.userId);
-    // console.log(req.body.password, user.username, user._id, user.id);
-    // const result = await bcrypt.compare(req.body.password, user.passwordHash);
-    // if (result) {
-    console.log(req.body);
-    const targetList = await Users.find({
-      userInteracted: { $elemMatch: { targetUsername: req.body.username } },
-    });
-    for (let target of targetList) {
-      let userInteracted = target.userInteracted.filter(
-        (ea) => ea.targetUsername !== req.body.username
-      );
-      const check = await Users.findByIdAndUpdate(target.id, { userInteracted });
-    }
-    const done = await Users.deleteOne({ username: req.body.username });
-    if (done.deletedCount === 1) {
-      res.json({ title: "OK", message: `profile deleted` });
-    } else {
-      res.json({ title: "error", message: `unable to delete profile` });
-    }
-    // } else {
-    //   res.status(401).json(usernameOrPasswordError);
-    // }
   } catch (err) {
     console.error(err);
     res.status(400).json(dbError);

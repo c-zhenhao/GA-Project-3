@@ -134,6 +134,7 @@ const TargetList = () => {
             </Typography>
           </Stack>
         </ThemeProvider>
+        {/* eslint-disable-next-line */}
         <List list={list} />
       </div>
     </>

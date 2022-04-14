@@ -111,10 +111,7 @@ function List(props) {
         <ThemeProvider theme={theme}>
           <Container sx={{ overflowY: "auto" }}>
             <Card style={cardTheme} sx={{ p: 1.25 }} elevation={0}>
-              <CardActionArea
-                component={NavLink}
-                to={`/${userUsername}/profile/${data.id}`}
-              >
+              <CardActionArea component={NavLink} to={`/${userUsername}/profile/${data.id}`}>
                 <Grid container spacing={2}>
                   <Grid item>
                     <StyledBadge
@@ -140,9 +137,7 @@ function List(props) {
                     <Grid item xs container direction="column" spacing={2}>
                       <Grid item xs>
                         <Box sx={{ display: "flex" }}>
-                          <Typography variant="h3">
-                            {data.displayName}
-                          </Typography>
+                          <Typography variant="h3">{data.displayName}</Typography>
                         </Box>
 
                         <Box
@@ -162,8 +157,8 @@ function List(props) {
                               .map((v) => Number(v))
                               .reduce(
                                 (a, c, i, arr) => (
-                                  (a += c),
-                                  i === arr.length - 1 ? (a /= arr.length) : a
+                                  //eslint-disable-next-line
+                                  (a += c), i === arr.length - 1 ? (a /= arr.length) : a
                                 )
                               )}
                           />

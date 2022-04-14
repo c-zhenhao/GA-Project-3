@@ -29,7 +29,7 @@ const Overlay = (props) => {
             >
               Submit
             </Button>
-            {/* {props.edit && (
+            {props.edit && (
               <Button
                 as={Col}
                 xs={8}
@@ -40,7 +40,7 @@ const Overlay = (props) => {
               >
                 Delete
               </Button>
-            )} */}
+            )}
           </div>
           {/* <footer className={styles.actions}></footer> */}
         </div>

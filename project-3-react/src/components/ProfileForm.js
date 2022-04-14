@@ -178,24 +178,11 @@ const ProfileForm = (props) => {
   const handleDelete = async (signal) => {
     dispatchStore(loaderActions.setIsLoading());
     dispatchStore(loaderActions.clearError());
-    const url = `${process.env.REACT_APP_SERVER_DOMAIN}/profile/delete`;
-    const body = { username };
+    const url = `${process.env.REACT_APP_SERVER_DOMAIN}/profile`;
     const settings = {
-      signal,
-      withCredentials: true,
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Content-Type": "application/json",
-      },
+      data: { username, userId, password: passwordRef.current.value },
     };
-
-    // props.onCancel(false);
-    // dispatchStore(userActions.logout());
-    // dispatchStore(profileActions.allChange({}));
-    // dispatchStore(prefStoreActions.setAllPref({ userPreference: {} }));
-    // navigate(`/`, { replace: true });
-
-    const res = await axios.patch(url, body, settings).catch((err) => {
+    const res = await axios.delete(url, settings).catch((err) => {
       setSubmit(false);
       dispatchStore(
         loaderActions.setError({
