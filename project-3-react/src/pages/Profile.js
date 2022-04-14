@@ -18,8 +18,8 @@ import Stack from "@mui/material/Stack";
 import LoadingSpinner from "../components/modals/LoadingSpinner";
 import ErrorModal from "../components/modals/ErrorModal";
 import ProfileForm from "../components/ProfileForm";
-import DeleteProfileModal from "../components/modals/DeleteProfileModal";
-import Grid from "@mui/material/Grid";
+// import DeleteProfileModal from "../components/modals/DeleteProfileModal";
+// import Grid from "@mui/material/Grid";
 
 const Profile = () => {
   const params = useParams();
@@ -205,38 +205,46 @@ const Profile = () => {
             </Button>
           )}
           {!params.target && (
-            <Grid container columns={16} spacing={2}>
-              <Grid
-                item
-                xs={10}
-                style={{
-                  border: "2px solid transparent",
-                  display: "flex",
-                  justifyContent: "flex-end",
-                }}
-              >
-                <Button
-                  variant="contained"
-                  onClick={() => {
-                    setSignup(true);
-                  }}
-                >
-                  Edit my Profile
-                </Button>
-              </Grid>
+            <Button
+              variant="contained"
+              onClick={() => {
+                setSignup(true);
+              }}
+            >
+              Edit my Profile
+            </Button>
+            // <Grid container columns={16} spacing={2}>
+            //   <Grid
+            //     item
+            //     xs={8}
+            //     style={{
+            //       border: "2px solid transparent",
+            //       display: "flex",
+            //       justifyContent: "flex-end",
+            //     }}
+            //   >
+            //     <Button
+            //       variant="contained"
+            //       onClick={() => {
+            //         setSignup(true);
+            //       }}
+            //     >
+            //       Edit my Profile
+            //     </Button>
+            //   </Grid>
 
-              <Grid
-                item
-                xs={8}
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-start",
-                  border: "2px solid transparent",
-                }}
-              >
-                {/* <DeleteProfileModal /> */}
-              </Grid>
-            </Grid>
+            //   <Grid
+            //     item
+            //     xs={8}
+            //     style={{
+            //       display: "flex",
+            //       justifyContent: "flex-start",
+            //       border: "2px solid transparent",
+            //     }}
+            //   >
+            //     {/* <DeleteProfileModal /> */}
+            //   </Grid>
+            // </Grid>
           )}
           <Dialog
             open={open}

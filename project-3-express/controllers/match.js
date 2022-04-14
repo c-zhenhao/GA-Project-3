@@ -26,13 +26,11 @@ router.get("/", auth, async (req, res) => {
     if (ageMin && ageMax) toFind.$and = [{ age: { $gte: ageMin } }, { age: { $lte: ageMax } }];
     if (interested.length) toFind.interests = { $elemMatch: { $in: interested } };
 
-    console.log(toFind);
-
     res.json(
       await Users.find({ ...toFind }, { passwordHash: 0 }).collation({ locale: "en", strength: 2 })
     );
   } catch (err) {
-    // console.error(err);
+    console.error(err);
     res.status(400).json(dbError);
   }
 });
@@ -54,7 +52,7 @@ router.post("/", auth, async (req, res) => {
       res.json({ title: "OK", message: "swiped successful" });
     }
   } catch (err) {
-    // console.error(err);
+    console.error(err);
     res.status(400).json(dbError);
   }
 });
