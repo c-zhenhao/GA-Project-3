@@ -26,9 +26,7 @@ router.patch("/", auth, async (req, res) => {
 
 router.get("/", auth, async (req, res) => {
   try {
-    res.json(
-      await Users.findById(req.session.userId, { _id: 0, passwordHash: 0 })
-    );
+    res.json(await Users.findById(req.session.userId, { _id: 0, passwordHash: 0 }));
   } catch (err) {
     console.error(err);
     res.status(400).json(dbError);
@@ -46,13 +44,9 @@ router.get("/:id", auth, async (req, res) => {
 
 router.post("/:id/rate", auth, async (req, res) => {
   try {
-    const user = await Users.findById(req.session.userId, {
-      _id: 0,
-      passwordHash: 0,
-    });
+    const user = await Users.findById(req.session.userId, { _id: 0, passwordHash: 0 });
     const userInteracted = user.userInteracted.map((d, i) => {
-      if (d.targetUsername === req.body.targetUsername)
-        d.targetRating = req.body.targetRating;
+      if (d.targetUsername === req.body.targetUsername) d.targetRating = req.body.targetRating;
       return d;
     });
     await Users.findByIdAndUpdate(req.session.userId, { userInteracted });
@@ -77,7 +71,7 @@ router.delete("/", auth, async (req, res) => {
     const result = await bcrypt.compare(req.body.password, user.passwordHash);
     if (result) {
       const done = await Users.deleteOne({ _id: user._id });
-      console.log(`line 74 ${done}`);
+      console.log(done);
       if (done.deletedCount === 1) {
         res.json({ title: "OK", message: `profile deleted` });
       } else {
