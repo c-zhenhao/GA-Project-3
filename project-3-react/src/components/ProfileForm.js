@@ -3,6 +3,7 @@ import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { userActions } from "../components/stores/user";
 import { profileActions } from "./stores/profile";
+import { prefStoreActions } from "../components/stores/prefStore";
 import { loaderActions } from "../components/stores/loader";
 import { Row, Col, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -174,6 +175,45 @@ const ProfileForm = (props) => {
     dispatchStore(loaderActions.doneLoading());
   };
 
+  const handleDelete = async (signal) => {
+    dispatchStore(loaderActions.setIsLoading());
+    dispatchStore(loaderActions.clearError());
+    const url = `${process.env.REACT_APP_SERVER_DOMAIN}/profile/delete`;
+    const body = { username };
+    const settings = {
+      signal,
+      withCredentials: true,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json",
+      },
+    };
+
+    // props.onCancel(false);
+    // dispatchStore(userActions.logout());
+    // dispatchStore(profileActions.allChange({}));
+    // dispatchStore(prefStoreActions.setAllPref({ userPreference: {} }));
+    // navigate(`/`, { replace: true });
+
+    const res = await axios.patch(url, body, settings).catch((err) => {
+      setSubmit(false);
+      dispatchStore(
+        loaderActions.setError({
+          title: err.response.data.title,
+          message: err.response.data.message,
+        })
+      );
+    });
+    if (res) {
+      props.onCancel(false);
+      dispatchStore(userActions.logout());
+      dispatchStore(profileActions.allChange({}));
+      dispatchStore(prefStoreActions.setAllPref({ userPreference: {} }));
+      navigate(`/`, { replace: true });
+    }
+    dispatchStore(loaderActions.doneLoading());
+  };
+
   useEffect(() => {
     const controller = new AbortController();
     if (submit && props.edit) editFlow(controller.signal);
@@ -189,26 +229,31 @@ const ProfileForm = (props) => {
   }, [userId]);
 
   return (
-    <ProfileModal edit={props.edit} onCancel={props.onCancel} onSubmit={handleSubmit}>
+    <ProfileModal
+      edit={props.edit}
+      onCancel={props.onCancel}
+      onSubmit={handleSubmit}
+      onDelete={handleDelete}
+    >
       <Form onSubmit={handleSubmit}>
-        {!props.edit && (
-          <Row className="d-flex flex-row justify-content-center align-content-center">
-            <Col sm={12}>
-              <Input
-                type="text"
-                value={username}
-                ref={usernameRef}
-                placeholder="username"
-                onChange={(e) => dispatchStore(userActions.usernameChange(e.target.value))}
-                required
-              />
-            </Col>
-            <Col sm={12}>
-              <Input type="password" ref={passwordRef} placeholder="password" required />
-            </Col>
-            <Col sm={12}></Col>
-          </Row>
-        )}
+        {/* {!props.edit && ( */}
+        <Row className="d-flex flex-row justify-content-center align-content-center">
+          <Col sm={12}>
+            <Input
+              type="text"
+              value={username}
+              ref={usernameRef}
+              placeholder="username"
+              onChange={(e) => dispatchStore(userActions.usernameChange(e.target.value))}
+              required
+            />
+          </Col>
+          <Col sm={12}>
+            <Input type="password" ref={passwordRef} placeholder="password" required />
+          </Col>
+          <Col sm={12}></Col>
+        </Row>
+        {/* )} */}
 
         <Row className="d-flex flex-row justify-content-center align-content-center">
           <Col sm={12}>

@@ -82,9 +82,7 @@ const Profile = () => {
       setTargetRating(averageTargetRating);
     } catch (error) {
       console.log(error);
-      dispatchStore(
-        loaderActions.setError({ title: error.name, message: error.message })
-      );
+      dispatchStore(loaderActions.setError({ title: error.name, message: error.message }));
     }
     dispatchStore(loaderActions.doneLoading());
   };
@@ -117,9 +115,7 @@ const Profile = () => {
       if (res.data) window.location.reload(false);
     } catch (error) {
       console.log(error);
-      dispatchStore(
-        loaderActions.setError({ title: error.name, message: error.message })
-      );
+      dispatchStore(loaderActions.setError({ title: error.name, message: error.message }));
     }
     dispatchStore(loaderActions.doneLoading());
   };
@@ -137,9 +133,7 @@ const Profile = () => {
   const [userRatingHistory, setuserRatingHistory] = useState(null);
   const checkRating = (array) => {
     // try {
-    const { targetRating } = array.find(
-      (item) => item.targetUsername === targetProfile.username
-    );
+    const { targetRating } = array.find((item) => item.targetUsername === targetProfile.username);
     // } catch (err) {}
     return targetRating;
   };
@@ -177,11 +171,7 @@ const Profile = () => {
       )}
       {isLoading && <LoadingSpinner show={isLoading} />}
       <div className="row mt-5">
-        <Stack
-          direction="row"
-          spacing={1}
-          className="row justify-content-center"
-        >
+        <Stack direction="row" spacing={1} className="row justify-content-center">
           <Avatar
             className="col-sm-6"
             alt={targetProfile.displayName}
@@ -196,13 +186,7 @@ const Profile = () => {
           }}
         >
           <Typography component="legend"></Typography>
-          <Rating
-            name="read-only"
-            value={targetRating}
-            precision={0.5}
-            size="large"
-            readOnly
-          />
+          <Rating name="read-only" value={targetRating} precision={0.5} size="large" readOnly />
         </Box>
 
         <h1>{targetProfile && targetProfile.displayName}</h1>
@@ -224,7 +208,7 @@ const Profile = () => {
             <Grid container columns={16} spacing={2}>
               <Grid
                 item
-                xs={8}
+                xs={10}
                 style={{
                   border: "2px solid transparent",
                   display: "flex",
@@ -250,7 +234,7 @@ const Profile = () => {
                   border: "2px solid transparent",
                 }}
               >
-                <DeleteProfileModal />
+                {/* <DeleteProfileModal /> */}
               </Grid>
             </Grid>
           )}
