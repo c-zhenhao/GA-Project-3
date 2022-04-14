@@ -67,11 +67,19 @@ router.post("/:id/rate", auth, async (req, res) => {
 router.delete("/", auth, async (req, res) => {
   try {
     const user = await Users.findById(req.session.userId);
-    console.log(req.body.password, user.username, user._id);
+    // console.log(req.body.password, user.username, user._id, user.id);
     const result = await bcrypt.compare(req.body.password, user.passwordHash);
     if (result) {
+      const targetList = await Users.find({
+        userInteracted: { $elemMatch: { targetUsername: req.session.currentUser } },
+      });
+      for (let target of targetList) {
+        let userInteracted = target.userInteracted.filter(
+          (ea) => ea.targetUsername !== req.session.currentUser
+        );
+        const check = await Users.findByIdAndUpdate(target.id, { userInteracted });
+      }
       const done = await Users.deleteOne({ _id: user._id });
-      console.log(done);
       if (done.deletedCount === 1) {
         res.json({ title: "OK", message: `profile deleted` });
       } else {
