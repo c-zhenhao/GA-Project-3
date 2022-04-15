@@ -44,11 +44,16 @@ Onlyfriends is a full MERN stack app which allows users to discover and match wi
 ## Planning & Development
 
 - API calls
+    - ![image](https://user-images.githubusercontent.com/16322250/163623987-2cb189a8-d496-4a46-9118-4aa320275de5.png)
+ 
 - DB Schema
+    - ![image](https://user-images.githubusercontent.com/16322250/163624017-7eef07da-0eab-4518-85c4-e707f36c0aaa.png)
+
 - Work partition
   - Backend user authentication, API calls, frontend and backend debugging, lead | @3luberry
   - Creation, edit of user & target Profile pages, rating feature | @yixinlee
   - Match and list views, matching and filtering user and targets | @c-zhenhao
+
 
 ## How is it developed? 🧑🏻‍💻
 
