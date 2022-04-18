@@ -1,98 +1,88 @@
-<p align="center"> <img src="https://generalassemb.ly/sites/default/files/styles/ga_unit_card_image/public/2022-02/GALogoForGreenhouse.png?itok=RjbjQG0L" border="0" /></p>
-
-#hello boss
-
 <h2 align="center">
 # GA-Projects -- Projects for General Assembly SEI course --
 </h2>
 <h3 align="center">
-Project #3:
+Project #3: OnlyFriends
 </h3>
 
-# What is ? 🤔
+Developed by [@3lueberry](https://github.com/3lueberry), [@yixinlee](https://github.com/yixinlee) and [@c-zhenhao](https://github.com/c-zhenhao)
 
-**P3**
+# What is `<`OnlyFriends`>` ? 🤔
 
-**_Currently availabe feature:_**
+Onlyfriends is a full MERN stack app which allows users to discover and match with other users and rate them. It takes inspiration from the popular Tinder
 
-```
-- Group Chat Channles
-```
-
-**_Future Features:_**
+**_Currently available features:_**
 
 ```
+- User creation, edit and delete
+- Matching users with other users
+- Filtering feature to allow users to narrow their matches
+- Profile rating
+```
+
+**_Future Features:_** 🏗
+
+```
+- Deployment
 - 1-to-1 chat
-- Profile page
-- Find people
-- Connect and Collab
-- Start-up founding
-- Tech hub to hang out
+- Feature to send "meeting" invites to users which have matched each other
+    - Ability to accept, decline
+- Better matching algorithm
+- Upload and store images
 ```
 
 ## User Stories
 
 ```
-1. Create profile (name, age, city, photo)
+1. Create profile (name, age, height, photo, )
+    1. Edit profile
 2. Match with other profiles
-3. Rate your matches with thumbs up or down
-4. Number of thumbs up and down with be reflected on profile
-5. Thumbs up and down linked to email or phone number. when you sign up with new account it still exists
+3. Rate your matches from 0 - 5
+    1. The user's rating is an average of all other user ratings, reflected on profile
 ```
 
 ## Planning & Development
 
-### How is it developed? 🧑🏻‍💻
+- API calls
+    - ![image](https://user-images.githubusercontent.com/16322250/163623987-2cb189a8-d496-4a46-9118-4aa320275de5.png)
+ 
+- DB Schema
+    - ![image](https://user-images.githubusercontent.com/16322250/163624017-7eef07da-0eab-4518-85c4-e707f36c0aaa.png)
+
+- Work partition
+  - Backend user authentication, API calls, frontend and backend debugging, lead | @3luberry
+  - Creation, edit of user & target Profile pages, rating feature | @yixinlee
+  - Match and list views, matching and filtering user and targets | @c-zhenhao
+
+
+## How is it developed? 🧑🏻‍💻
+
+### FrontEnd
 
 ```
 - React
-- Redux Toolkit
-- Redux Persist
-- React Bootstrap
 - React Router 6
+- React Redux
+- React Bootstrap
 - Styled Components
-- Firebase FireStore API
 - Axios AJAX
-- Modals: Error, Loading and Tooltips
+- Custom Modals: Error, Loading and Tooltips
+- Material UI
+- React-tinder-cards package
 ```
 
-### Wireframes
-
-### Problem Sovling
-
-### Unfinished Business 🏗
+### Backend
 
 ```
-- User Profile
-- Connect others
-- 1-to-1 messaging
-- End-to-end encription
-- Oauth aunthentication
-- And other features to be develop in the future
-```
-
-### API used
-
-**Firebase Firestore NoSQL DB**
-
-```
-Axios GET: Fetch rooms list and messages
-Axios POST: Create User and send new messages
-Axios PATCH: Record and Edit Pinned messages
-Axios Delete: Delete messages
+- Database: MongoDB
+- Express
+    - mongoose
+    - auth middleware + sessions + bcrypt
+    - router
 ```
 
 ### Difficulties 🚧
 
 ```
-- Firbase REST API does not allow push update
-- Setting right fetch timing from right place was tedious
-- Redux with LocalStorage wasn't very straight forward in the begining
-```
-
-**_Solution to implement_**
-
-```
-- Firebase SDK with live update
-- Redux persist
+- ?
 ```
