@@ -92,10 +92,10 @@ const Login = () => {
       signal,
       withCredentials: true,
       headers: {
-        "Access-Control-Allow-Origin": "*",
+        // "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
         "Access-Control-Allow-Credentials": true,
-        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH",
+        // "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH",
       },
     };
     const res = await axios.post(url, body, settings).catch((err) => {
