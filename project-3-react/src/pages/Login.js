@@ -94,6 +94,8 @@ const Login = () => {
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
+        "Access-Control-Allow-Credentials": true,
+        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH",
       },
     };
     const res = await axios.post(url, body, settings).catch((err) => {
@@ -109,7 +111,9 @@ const Login = () => {
     if (res) {
       dispatchStore(userActions.login(res.data.userId));
       dispatchStore(profileActions.allChange(res.data.profile));
-      dispatchStore(prefStoreActions.setAllPref(res.data.profile.userPreference));
+      dispatchStore(
+        prefStoreActions.setAllPref(res.data.profile.userPreference)
+      );
     }
     dispatchStore(loaderActions.doneLoading());
   };
@@ -142,7 +146,9 @@ const Login = () => {
               value={username}
               ref={usernameRef}
               placeholder="username"
-              onChange={(e) => dispatchStore(userActions.usernameChange(e.target.value))}
+              onChange={(e) =>
+                dispatchStore(userActions.usernameChange(e.target.value))
+              }
             />
           </Col>
           <Col sm={12}>
