@@ -18,19 +18,19 @@ Backend Repo: https://github.com/c-zhenhao/czhenhao-sei35-project3-expressonly
 # Demo
 
 - Match
-- ![OnlyFriends_demo_match](https://user-images.githubusercontent.com/16322250/175981093-c030bf3a-a880-48ad-8db0-0efd6d16b797.gif)
+- ![OnlyFriends_demo_match](https://user-images.githubusercontent.com/16322250/175983159-775d1467-a517-4984-9550-e67766857451.gif)
 
 - Rate
 - ![OnlyFriends_demo_rate](https://user-images.githubusercontent.com/16322250/175982610-e0203276-ff60-4aa5-9d84-806a13a0a422.gif)
 
 - Create Profile / Account
-- ![OnlyFriends_demo_createProfile](https://user-images.githubusercontent.com/16322250/175981204-02a5b8e5-8793-4ca2-aa2a-d431a988dda5.gif)
+- ![OnlyFriends_demo_createProfile](https://user-images.githubusercontent.com/16322250/175983334-8b2c51f9-3c12-4306-a79c-3284c2ad4041.gif)
 
 - Update Profile
-- ![OnlyFriends_demo_updateProfile](https://user-images.githubusercontent.com/16322250/175981289-a0b3606e-f828-43fc-b329-b3dea03201b6.gif)
+- ![OnlyFriends_demo_updateProfile](https://user-images.githubusercontent.com/16322250/175983973-5ae874ab-f93e-4ad8-b997-62b14cdc408b.gif)
 
 - Filter 
-- ![OnlyFriends_demo_filter_logout](https://user-images.githubusercontent.com/16322250/175981406-d335072d-38f1-4d58-93d4-5ab9268ce402.gif)
+- ![OnlyFriends_demo_filter_delete](https://user-images.githubusercontent.com/16322250/175983908-ceb2466b-ef9d-48df-b80e-4a8301598df3.gif)
 
 - Delete Account
 
