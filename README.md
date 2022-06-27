@@ -24,7 +24,7 @@ Backend Repo: https://github.com/c-zhenhao/czhenhao-sei35-project3-expressonly
 - ![OnlyFriends_demo_rate](https://user-images.githubusercontent.com/16322250/175982610-e0203276-ff60-4aa5-9d84-806a13a0a422.gif)
 
 - Create Profile / Account
-- ![Uploading OnlyFriends_demo_createProfile.gif…]()
+- ![OnlyFriends_demo_createProfile](https://user-images.githubusercontent.com/16322250/175986348-d85a9a88-ead4-4950-bc10-66040df630e0.gif)
 
 - Update Profile
 - ![OnlyFriends_demo_updateProfile](https://user-images.githubusercontent.com/16322250/175983973-5ae874ab-f93e-4ad8-b997-62b14cdc408b.gif)
