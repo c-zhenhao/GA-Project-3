@@ -17,7 +17,7 @@ Onlyfriends is a full MERN stack app which allows users to discover and match wi
 - ![OnlyFriends_demo_match](https://user-images.githubusercontent.com/16322250/175981093-c030bf3a-a880-48ad-8db0-0efd6d16b797.gif)
 
 - Rate
-- ![OnlyFriends_demo_rate](https://user-images.githubusercontent.com/16322250/175981797-9b018c67-95ed-4495-9476-77e7626a689c.gif)
+- ![OnlyFriends_demo_rate](https://user-images.githubusercontent.com/16322250/175982610-e0203276-ff60-4aa5-9d84-806a13a0a422.gif)
 
 - Create Profile / Account
 - ![OnlyFriends_demo_createProfile](https://user-images.githubusercontent.com/16322250/175981204-02a5b8e5-8793-4ca2-aa2a-d431a988dda5.gif)
