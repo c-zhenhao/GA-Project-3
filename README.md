@@ -14,19 +14,19 @@ Onlyfriends is a full MERN stack app which allows users to discover and match wi
 # Demo
 
 - Match
-![OnlyFriends_demo_match](https://user-images.githubusercontent.com/16322250/175981093-c030bf3a-a880-48ad-8db0-0efd6d16b797.gif)
+- ![OnlyFriends_demo_match](https://user-images.githubusercontent.com/16322250/175981093-c030bf3a-a880-48ad-8db0-0efd6d16b797.gif)
 
 - Rate
-![OnlyFriends_demo_rate](https://user-images.githubusercontent.com/16322250/175981151-6a630f05-4f03-482c-a2b0-c1ab5def959c.gif)
+- ![OnlyFriends_demo_rate](https://user-images.githubusercontent.com/16322250/175981151-6a630f05-4f03-482c-a2b0-c1ab5def959c.gif)
 
 - Create Profile / Account
-![OnlyFriends_demo_createProfile](https://user-images.githubusercontent.com/16322250/175981204-02a5b8e5-8793-4ca2-aa2a-d431a988dda5.gif)
+- ![OnlyFriends_demo_createProfile](https://user-images.githubusercontent.com/16322250/175981204-02a5b8e5-8793-4ca2-aa2a-d431a988dda5.gif)
 
 - Update Profile
-![OnlyFriends_demo_updateProfile](https://user-images.githubusercontent.com/16322250/175981289-a0b3606e-f828-43fc-b329-b3dea03201b6.gif)
+- ![OnlyFriends_demo_updateProfile](https://user-images.githubusercontent.com/16322250/175981289-a0b3606e-f828-43fc-b329-b3dea03201b6.gif)
 
 - Filter 
-![OnlyFriends_demo_filter_logout](https://user-images.githubusercontent.com/16322250/175981406-d335072d-38f1-4d58-93d4-5ab9268ce402.gif)
+- ![OnlyFriends_demo_filter_logout](https://user-images.githubusercontent.com/16322250/175981406-d335072d-38f1-4d58-93d4-5ab9268ce402.gif)
 
 - Delete Account
 
