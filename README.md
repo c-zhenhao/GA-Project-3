@@ -47,7 +47,7 @@ Deployed Front-end on Vercel, Back-end on Heroku
 **_Future Features:_** 🏗
 
 ```
-- ~Deployment~ done 27 Jun 2022
+- ~~Deployment~~ done 27 Jun 2022
 - 1-to-1 chat
 - Feature to send "meeting" invites to users which have matched each other
     - Ability to accept, decline
