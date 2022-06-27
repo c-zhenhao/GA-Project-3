@@ -24,7 +24,7 @@ Backend Repo: https://github.com/c-zhenhao/czhenhao-sei35-project3-expressonly
 - ![OnlyFriends_demo_rate](https://user-images.githubusercontent.com/16322250/175982610-e0203276-ff60-4aa5-9d84-806a13a0a422.gif)
 
 - Create Profile / Account
-- ![OnlyFriends_demo_createProfile](https://user-images.githubusercontent.com/16322250/175983334-8b2c51f9-3c12-4306-a79c-3284c2ad4041.gif)
+- ![Uploading OnlyFriends_demo_createProfile.gif…]()
 
 - Update Profile
 - ![OnlyFriends_demo_updateProfile](https://user-images.githubusercontent.com/16322250/175983973-5ae874ab-f93e-4ad8-b997-62b14cdc408b.gif)
@@ -47,7 +47,7 @@ Backend Repo: https://github.com/c-zhenhao/czhenhao-sei35-project3-expressonly
 **_Future Features:_** 🏗
 
 ```
-- Deployment
+- ~Deployment~ done 27 Jun 2022
 - 1-to-1 chat
 - Feature to send "meeting" invites to users which have matched each other
     - Ability to accept, decline
