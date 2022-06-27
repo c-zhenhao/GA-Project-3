@@ -11,6 +11,10 @@ Developed by [@3lueberry](https://github.com/3lueberry), [@yixinlee](https://git
 
 Onlyfriends is a full MERN stack app which allows users to discover and match with other users and rate them. It takes inspiration from the popular Tinder
 
+Deployed Front-end on Vercel, Back-end on Heroku
+Link: http://czhenhao-sei-35-project3.vercel.app/
+Backend Repo: https://github.com/c-zhenhao/czhenhao-sei35-project3-expressonly
+
 # Demo
 
 - Match
