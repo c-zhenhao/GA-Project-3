@@ -104,9 +104,3 @@ Deployed Front-end on Vercel, Back-end on Heroku
     - auth middleware + sessions + bcrypt
     - router
 ```
-
-### Difficulties 🚧
-
-```
-- ?
-```
